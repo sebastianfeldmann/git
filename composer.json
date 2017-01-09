@@ -1,0 +1,27 @@
+{
+  "name": "sebastianfeldmann/git",
+  "description": "PHP git wrapper",
+  "type": "library",
+  "keywords": ["git"],
+  "homepage": "https://github.com/sebastianfeldmann/git",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sebastian Feldmann",
+      "email": "sf@sebastian-feldmann.info"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/sebastianfeldmann/git/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "SebastianFeldmann\\Git\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.9.x-dev"
+    }
+  }
+}
