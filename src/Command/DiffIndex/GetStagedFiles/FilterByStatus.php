@@ -9,7 +9,7 @@
  */
 namespace SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 
-use SebastianFeldmann\Git\Command\OutputFormatter;
+use SebastianFeldmann\Cli\Command\OutputFormatter;
 
 class FilterByStatus implements OutputFormatter
 {
