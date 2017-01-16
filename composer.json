@@ -19,6 +19,9 @@
       "SebastianFeldmann\\Git\\": "src/"
     }
   },
+  "require": {
+    "sebastianfeldmann/cli": "dev-master"
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "0.9.x-dev"
