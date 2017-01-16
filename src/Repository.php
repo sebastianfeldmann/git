@@ -2,15 +2,14 @@
 /**
  * This file is part of SebastianFeldmann\Git.
  *
- * (c) Sebastian Feldmann <sf@sebastian.feldmann.info>
+ * (c) Sebastian Feldmann <sf@sebastian-feldmann.info>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 namespace SebastianFeldmann\Git;
 
-use SebastianFeldmann\Git\Command\DefaultFactory;
-use SebastianFeldmann\Git\Command\Factory;
+use SebastianFeldmann\Cli\Command\Runner;
 
 /**
  * Class Repository
@@ -44,26 +43,33 @@ class Repository
     private $commitMsg;
 
     /**
-     * @var \SebastianFeldmann\Git\Command\Factory
+     * @var \SebastianFeldmann\Cli\Command\Runner
      */
-    private $cmdFactory;
+    private $runner;
+
+    /**
+     * Map of Resolver
+     *
+     * @var array
+     */
+    private $resolver = [];
 
     /**
      * Repository constructor.
      *
-     * @param string                                 $root
-     * @param \SebastianFeldmann\Git\Command\Factory $factory
+     * @param string                                $root
+     * @param \SebastianFeldmann\Cli\Command\Runner $runner
      */
-    public function __construct(string $root = '', Factory $factory = null)
+    public function __construct(string $root = '', Runner $runner = null)
     {
         $path = empty($root) ? getcwd() : realpath($root);
         // check for existing .git dir
         if (!is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
             throw new \RuntimeException(sprintf('Invalid git repository: %s', $root));
         }
-        $this->root       = $path;
-        $this->dotGitDir  = $this->root . DIRECTORY_SEPARATOR . '.git';
-        $this->cmdFactory = null == $factory ? new DefaultFactory($this->root) : $factory;
+        $this->root      = $path;
+        $this->dotGitDir = $this->root . DIRECTORY_SEPARATOR . '.git';
+        $this->runner    = null == $runner ? new Runner\Exec() : $runner;
     }
 
     /**
@@ -120,22 +126,28 @@ class Repository
         return $this->commitMsg;
     }
 
-    public function checkout(string $revision)
+    /**
+     * Get changed file resolver.
+     *
+     * @return \SebastianFeldmann\Git\Resolver\StagedFiles
+     */
+    public function getStagedFilesResolver()
     {
-    }
-
-    public function log(string $from, string $to)
-    {
+        return $this->getResolver('StagedFiles');
     }
 
     /**
-     * Create and return git commands.
+     * Return requested resolver.
      *
      * @param  string $name
      * @return mixed
      */
-    private function getCommand(string $name)
+    private function getResolver(string $name)
     {
-        return $this->cmdFactory->getCommand($name);
+        if (!isset($this->resolver[$name])) {
+            $class                 = '\\SebastianFeldmann\\Git\\Resolver\\' . $name;
+            $this->resolver[$name] = new $class($this->runner, $this);
+        }
+        return $this->resolver[$name];
     }
 }
