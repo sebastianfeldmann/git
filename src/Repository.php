@@ -9,7 +9,7 @@
  */
 namespace SebastianFeldmann\Git;
 
-use SebastianFeldmann\Cli\Command\Runner;
+use SebastianFeldmann\Cli\Process\Runner;
 
 /**
  * Class Repository
@@ -48,17 +48,17 @@ class Repository
     private $runner;
 
     /**
-     * Map of Resolver
+     * Map of operators
      *
      * @var array
      */
-    private $resolver = [];
+    private $operator = [];
 
     /**
      * Repository constructor.
      *
      * @param string                                $root
-     * @param \SebastianFeldmann\Cli\Command\Runner $runner
+     * @param \SebastianFeldmann\Cli\Process\Runner $runner
      */
     public function __construct(string $root = '', Runner $runner = null)
     {
@@ -69,7 +69,7 @@ class Repository
         }
         $this->root      = $path;
         $this->dotGitDir = $this->root . DIRECTORY_SEPARATOR . '.git';
-        $this->runner    = null == $runner ? new Runner\Exec() : $runner;
+        $this->runner    = null == $runner ? new Runner\Simple() : $runner;
     }
 
     /**
@@ -129,25 +129,25 @@ class Repository
     /**
      * Get changed file resolver.
      *
-     * @return \SebastianFeldmann\Git\Resolver\StagedFiles
+     * @return \SebastianFeldmann\Git\Operator\Index
      */
-    public function getStagedFilesResolver()
+    public function getIndexOperator()
     {
-        return $this->getResolver('StagedFiles');
+        return $this->getOperator('Index');
     }
 
     /**
-     * Return requested resolver.
+     * Return requested operator.
      *
      * @param  string $name
      * @return mixed
      */
-    private function getResolver(string $name)
+    private function getOperator(string $name)
     {
-        if (!isset($this->resolver[$name])) {
-            $class                 = '\\SebastianFeldmann\\Git\\Resolver\\' . $name;
-            $this->resolver[$name] = new $class($this->runner, $this);
+        if (!isset($this->operator[$name])) {
+            $class                 = '\\SebastianFeldmann\\Git\\Operator\\' . $name;
+            $this->operator[$name] = new $class($this->runner, $this);
         }
-        return $this->resolver[$name];
+        return $this->operator[$name];
     }
 }

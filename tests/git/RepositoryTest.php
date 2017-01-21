@@ -43,10 +43,22 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Exception
      */
-    public function _testInvalidRepository()
+    public function testInvalidRepository()
     {
         $repository = new Repository('invalidGitRepo');
         $this->assertFalse(is_a($repository, '\\SebastianFeldmann\\Git\\Repository'));
+    }
+
+    /**
+     * Tests Repository::getCommitMessage
+     */
+    public function testGetCommitMessage()
+    {
+        $message = new CommitMessage('Foo bar baz');
+        $repo    = new Repository();
+        $repo->setCommitMsg($message);
+
+        $this->assertEquals($message, $repo->getCommitMsg());
     }
 
     /**
@@ -56,12 +68,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $repository = new Repository($this->repo->getPath());
         $this->assertEquals($this->repo->getPath() . '/.git/hooks', $repository->getHooksDir());
+        $this->assertEquals($this->repo->getPath(), $repository->getRoot());
     }
 
     /**
      * Tests Repository::hookExists
      */
-    public function _testHookExists()
+    public function testHookExists()
     {
         $this->repo->touchHook('pre-commit');
 
@@ -76,9 +89,20 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Exception
      */
-    public function _testGetCommitMessageFail()
+    public function testGetCommitMessageFail()
     {
         $repository = new Repository($this->repo->getPath());
         $repository->getCommitMsg();
+    }
+
+    /**
+     * Tests Repository::getIndexOperator
+     */
+    public function testGetIndexOperator()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $resolver   = $repository->getIndexOperator();
+
+        $this->assertTrue(is_a($resolver, '\\SebastianFeldmann\\Git\\Operator\\Index'));
     }
 }

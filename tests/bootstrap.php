@@ -13,4 +13,5 @@ define('SF_GIT_PATH_FILES', realpath(__DIR__ . '/files'));
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/git/DummyRepo.php';
+require __DIR__ . '/git/Operator/OperatorTest.php';
 

@@ -86,6 +86,17 @@ abstract class Base implements Command
     }
 
     /**
+     * Static factory method.
+     *
+     * @param  string $root
+     * @return static
+     */
+    public static function create(string $root = '')
+    {
+        return new static($root);
+    }
+
+    /**
      * Auto cast method.
      *
      * @return string

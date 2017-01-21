@@ -107,8 +107,17 @@ class CommitMessageTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Exception
      */
-    public function testCreateFromFile()
+    public function testCreateFromFileFail()
     {
         CommitMessage::createFromFile('iDoNotExist.txt');
+    }
+
+    /**
+     * Tests CommitMessage::createFromFile
+     */
+    public function testCreateFromFileOk()
+    {
+        $message = CommitMessage::createFromFile(SF_GIT_PATH_FILES . '/git/message/valid.txt');
+        $this->assertEquals('This is a valid dummy commit Message', $message->getSubject());
     }
 }

@@ -24,6 +24,6 @@ class ChangedFilesSince extends Log
      */
     protected function getGitCommand(): string
     {
-        return 'log --format=\'\'' . $this->merges . $this->since;
+        return 'log --format=\'\' --name-only' . $this->merges . $this->since;
     }
 }

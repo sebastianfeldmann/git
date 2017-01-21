@@ -36,7 +36,6 @@ class GetCommitHash extends Base
      * Return the command to execute.
      *
      * @return string
-     * @throws \RuntimeException
      */
     protected function getGitCommand(): string
     {
