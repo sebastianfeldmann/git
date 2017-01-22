@@ -23,6 +23,6 @@ use SebastianFeldmann\Git\Repository;
 $pathToRepo = '/path/to/repo';
 $repository = new Respository($pathToRepo);
 $index      = $repo->getIndexOperator();
-$files      = $operator->getStagedFiles();
+$files      = $index->getStagedFiles();
 
 ```
