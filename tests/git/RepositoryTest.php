@@ -96,6 +96,25 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests Repository::isMerging
+     */
+    public function testIsMergingNegative()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $this->assertFalse($repository->isMerging());
+    }
+
+    /**
+     * Tests Repository::isMerging
+     */
+    public function testIsMergingPositive()
+    {
+        $this->repo->merge();
+        $repository = new Repository($this->repo->getPath());
+        $this->assertTrue($repository->isMerging());
+    }
+
+    /**
      * Tests Repository::getIndexOperator
      */
     public function testGetIndexOperator()

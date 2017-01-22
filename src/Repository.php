@@ -127,6 +127,21 @@ class Repository
     }
 
     /**
+     * Is there a merge in progress.
+     *
+     * @return bool
+     */
+    public function isMerging() : bool
+    {
+        foreach (['MERGE_MSG', 'MERGE_HEAD', 'MERGE_MODE'] as $fileName) {
+            if (file_exists($this->dotGitDir . DIRECTORY_SEPARATOR . $fileName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get changed file resolver.
      *
      * @return \SebastianFeldmann\Git\Operator\Index
