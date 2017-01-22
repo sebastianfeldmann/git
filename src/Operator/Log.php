@@ -25,7 +25,7 @@ class Log extends Base
         $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRevision($revision);
         $result = $this->runner->run($cmd);
 
-        return $result->getOutput();
+        return $result->getBufferedOutput();
     }
 
     /**

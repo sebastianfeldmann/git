@@ -9,7 +9,7 @@
  */
 namespace SebastianFeldmann\Git;
 
-use SebastianFeldmann\Cli\Process\Runner;
+use SebastianFeldmann\Cli\Command\Runner;
 
 /**
  * Class Repository
@@ -58,7 +58,7 @@ class Repository
      * Repository constructor.
      *
      * @param string                                $root
-     * @param \SebastianFeldmann\Cli\Process\Runner $runner
+     * @param \SebastianFeldmann\Cli\Command\Runner $runner
      */
     public function __construct(string $root = '', Runner $runner = null)
     {

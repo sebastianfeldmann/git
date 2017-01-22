@@ -10,7 +10,7 @@
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
-use SebastianFeldmann\Cli\Process\Runner\Result as RunnerResult;
+use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Log\Commits;
 use SebastianFeldmann\Git\Command\Log\Commits\Jsonized;
 

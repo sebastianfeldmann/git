@@ -11,11 +11,10 @@ namespace SebastianFeldmann\Git\Operator;
 
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
-use SebastianFeldmann\Cli\Process\Runner\Result as RunnerResult;
+use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
-use SebastianFeldmann\Git\Repository;
 
 /**
  * Class StagedFilesTest
@@ -29,8 +28,6 @@ class IndexTest extends OperatorTest
      */
     public function testGetStagedFiles()
     {
-        $gitCommand1 = 'git rev-parse --verify HEAD';
-        $gitCommand2 = 'git diff-index --cached --name-status HEAD';
         $out = [
             '/foo/bar.txt',
             '/fiz/baz.txt',

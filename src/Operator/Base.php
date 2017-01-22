@@ -9,7 +9,7 @@
  */
 namespace SebastianFeldmann\Git\Operator;
 
-use SebastianFeldmann\Cli\Process\Runner;
+use SebastianFeldmann\Cli\Command\Runner;
 use SebastianFeldmann\Git\Repository;
 
 abstract class Base
@@ -27,7 +27,7 @@ abstract class Base
     /**
      * Base constructor.
      *
-     * @param \SebastianFeldmann\Cli\Process\Runner $runner
+     * @param \SebastianFeldmann\Cli\Command\Runner $runner
      * @param \SebastianFeldmann\Git\Repository     $repo
      */
     public function __construct(Runner $runner, Repository $repo)

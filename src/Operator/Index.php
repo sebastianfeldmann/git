@@ -112,7 +112,7 @@ class Index extends Base
         try {
             $cmd    = new GetCommitHash($this->repo->getRoot());
             $result = $this->runner->run($cmd);
-            return $result->wasSuccessful();
+            return $result->isSuccessful();
         } catch (RuntimeException $e) {
             return false;
         }

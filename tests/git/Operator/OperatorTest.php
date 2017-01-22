@@ -37,7 +37,7 @@ abstract class OperatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function getRunnerMock()
     {
-        $runner = $this->getMockBuilder('\\SebastianFeldmann\\Cli\\Process\\Runner')
+        $runner = $this->getMockBuilder('\\SebastianFeldmann\\Cli\\Command\\Runner')
                        ->disableOriginalConstructor()
                        ->getMock();
 
