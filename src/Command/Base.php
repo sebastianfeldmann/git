@@ -36,18 +36,6 @@ abstract class Base implements Command
     }
 
     /**
-     * Get from to git diff snippet.
-     *
-     * @param  string $from
-     * @param  string $to
-     * @return string
-     */
-    protected function getFromToSnippet(string $from, string $to) : string
-    {
-        return $from . (empty($to) ? '' : ' ' . $to);
-    }
-
-    /**
      * Return cli command to execute.
      *
      * @return string
@@ -83,17 +71,6 @@ abstract class Base implements Command
 
         }
         return $option;
-    }
-
-    /**
-     * Static factory method.
-     *
-     * @param  string $root
-     * @return static
-     */
-    public static function create(string $root = '')
-    {
-        return new static($root);
     }
 
     /**
