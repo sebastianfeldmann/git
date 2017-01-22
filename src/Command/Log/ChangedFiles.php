@@ -14,7 +14,7 @@ namespace SebastianFeldmann\Git\Command\Log;
  *
  * @package SebastianFeldmann\Git
  */
-class ChangedFilesSince extends Log
+class ChangedFiles extends Log
 {
     /**
      * Return the command to execute.
@@ -24,6 +24,6 @@ class ChangedFilesSince extends Log
      */
     protected function getGitCommand(): string
     {
-        return 'log --format=\'\' --name-only' . $this->merges . $this->since;
+        return 'log --format=\'\' --name-only' . $this->author . $this->merges . $this->since;
     }
 }

@@ -10,11 +10,11 @@
 namespace SebastianFeldmann\Git\Command\Log;
 
 /**
- * Class CommitsSince
+ * Class Commits
  *
  * @package SebastianFeldmann\Git
  */
-class CommitsSince extends Log
+class Commits extends Log
 {
     /**
      * Return the command to execute.
@@ -24,7 +24,9 @@ class CommitsSince extends Log
      */
     protected function getGitCommand(): string
     {
-        return 'log --pretty=format:\'' .  $this->format . '\' --abbrev-commit'
+        return 'log --pretty=format:' .  escapeshellarg($this->format)
+               . $this->abbrev
+               . $this->author
                . $this->merges
                . $this->since;
     }

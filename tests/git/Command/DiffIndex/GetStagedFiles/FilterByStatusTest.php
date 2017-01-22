@@ -27,7 +27,7 @@ A	src/Command/Log/ChangedFilesSince.php
 A	src/Command/Runner/Cli.php
 D	src/Output/Formatter.php
 A	src/Operator/Base.php
-M	tests/git/Command/Log/Log.php';
+M	tests/git/Command/Log/LogTest.php';
 
         $output    = explode("\n", $string);
         $formatter = new FilterByStatus(['A', 'M']);

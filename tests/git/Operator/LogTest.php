@@ -11,7 +11,8 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Process\Runner\Result as RunnerResult;
-use SebastianFeldmann\Git\Command\Log\CommitsSince\Jsonized;
+use SebastianFeldmann\Git\Command\Log\Commits;
+use SebastianFeldmann\Git\Command\Log\Commits\Jsonized;
 
 /**
  * Class LogTest
@@ -45,31 +46,31 @@ class LogTest extends OperatorTest
      */
     public function testGetCommitsSince()
     {
-        $gitCommand = 'git log --pretty=format:\'{"hash": "%h", "name": "%d", "description": "%s", "date": "%ci", ' .
-                      '"author": "%an"}\' --abbrev-commit --no-merges \'b1ef1997291\'..';
-        $out        = [
+        $root = realpath(__FILE__ . '/../../..');
+        $out  = [
             (object)[
                 'hash'        => 'a9d9ac5',
                 'name'        => ' (HEAD -> master, origin/master, origin/HEAD)',
                 'description' => 'Fix case in path',
-                'date'        => '2017-01-16 02=>16=>13 +0100',
+                'date'        => '2017-01-16 02:16:13 +0100',
                 'author'      => 'Sebastian Feldmann'
             ]
         ];
 
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
-        $cmd    = new CommandResult('git ...', 0);
-        $result = new RunnerResult($cmd, $out);
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, $out);
+        $gitCmd = (new Commits($root))->byRevision('b1ef1997291')->prettyFormat(Commits\Jsonized::FORMAT);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
                ->method('run')
                ->with(
-                   $this->equalTo($gitCommand),
+                   $this->equalTo($gitCmd),
                    $this->equalTo(new Jsonized())
                )
-               ->willReturn($result);
+               ->willReturn($runRes);
 
         $log     = new Log($runner, $repo);
         $commits = $log->getCommitsSince('b1ef1997291');

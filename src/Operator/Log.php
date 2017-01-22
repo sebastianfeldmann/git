@@ -9,8 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Operator;
 
-use SebastianFeldmann\Git\Command\Log\ChangedFilesSince;
-use SebastianFeldmann\Git\Command\Log\CommitsSince;
+use SebastianFeldmann\Git\Command\Log\ChangedFiles;
+use SebastianFeldmann\Git\Command\Log\Commits;
 
 class Log extends Base
 {
@@ -22,7 +22,7 @@ class Log extends Base
      */
     public function getChangedFilesSince(string $revision) : array
     {
-        $cmd    = ChangedFilesSince::create($this->repo->getRoot())->revision($revision);
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRevision($revision);
         $result = $this->runner->run($cmd);
 
         return $result->getOutput();
@@ -36,10 +36,9 @@ class Log extends Base
      */
     public function getCommitsSince(string $revision) : array
     {
-        $cmd       = CommitsSince::create($this->repo->getRoot())
-                                 ->revision($revision)
-                                 ->prettyFormat(CommitsSince\Jsonized::FORMAT);
-        $formatter = new CommitsSince\Jsonized();
+        $cmd       = (new Commits($this->repo->getRoot()))->byRevision($revision)
+                                                          ->prettyFormat(Commits\Jsonized::FORMAT);
+        $formatter = new Commits\Jsonized();
         $result    = $this->runner->run($cmd, $formatter);
 
         return $result->getFormattedOutput();

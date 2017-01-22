@@ -20,20 +20,23 @@ abstract class Log extends Base
 {
     /**
      * Pretty log format.
+     * --pretty
      *
      * @var string
      */
     protected $format = '%h -%d %s (%ci) <%an>';
 
     /**
-     * Include merge commits.
+     * Include or hide merge commits.
+     * --no-merges
      *
      * @var string
      */
     protected $merges = ' --no-merges';
 
     /**
-     * Use --abbrev-commit.
+     * Shorten commit hashes.
+     * --abbrev-commit
      *
      * @var bool
      */
@@ -41,10 +44,22 @@ abstract class Log extends Base
 
     /**
      * Can be revision or date query.
+     *  1.0.0..
+     *  0.9.0..1.2.0
+     *  --after='2016-12-31'
+     *  --after='2016-12-31' --before='2017-01-31'
      *
      * @var string
      */
     protected $since;
+
+    /**
+     * Filter log by author.
+     * --author
+     *
+     * @var string
+     */
+    protected $author;
 
     /**
      * Define the pretty log format.
@@ -83,26 +98,42 @@ abstract class Log extends Base
     }
 
     /**
-     * Set start revision.
+     * Set revision range.
      *
-     * @param  string $since
+     * @param  string $from
+     * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function revision(string $since) : Log
+    public function byRevision(string $from, string $to = '') : Log
     {
-        $this->since = ' ' . escapeshellarg($since) . '..';
+        $this->since = ' ' . escapeshellarg($from) . '..'
+                     . (empty($to) ? '' : escapeshellarg($to));
         return $this;
     }
 
     /**
-     * Set start date.
+     * Set author filter.
      *
-     * @param  string $date
+     * @param  string $author
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function date(string $date) : Log
+    public function authoredBy(string $author) : Log
     {
-        $this->since = ' --since=' . escapeshellarg($date);
+        $this->author = ' --author=' . escapeshellarg($author);
+        return $this;
+    }
+
+    /**
+     * Set date range.
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return \SebastianFeldmann\Git\Command\Log\Log
+     */
+    public function byDate(string $from, string $to = '') : Log
+    {
+        $this->since = ' --after=' . escapeshellarg($from)
+                     . (empty($to) ? '' : ' --before=' . escapeshellarg($to));
         return $this;
     }
 }

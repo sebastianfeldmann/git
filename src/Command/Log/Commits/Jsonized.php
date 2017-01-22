@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace SebastianFeldmann\Git\Command\Log\CommitsSince;
+namespace SebastianFeldmann\Git\Command\Log\Commits;
 
 use SebastianFeldmann\Cli\Command\OutputFormatter;
 

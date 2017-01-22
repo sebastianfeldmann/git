@@ -9,18 +9,18 @@
  */
 namespace SebastianFeldmann\Git\Command\Log;
 
-class CommitsSinceTest extends \PHPUnit_Framework_TestCase
+class ChangedFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests CommitsSince::getCommand
+     * Tests Commits::getCommand
      */
     public function testDefault()
     {
-        $cmd    = new CommitsSince();
+        $cmd    = new ChangedFiles();
         $exe    = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges',
+            'git log --format=\'\' --name-only --no-merges',
             $exe
         );
     }
