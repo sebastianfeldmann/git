@@ -20,7 +20,7 @@
     }
   },
   "require": {
-    "sebastianfeldmann/cli": "dev-master"
+    "sebastianfeldmann/cli": "^1.0.0"
   },
   "extra": {
     "branch-alias": {
