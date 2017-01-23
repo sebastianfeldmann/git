@@ -7,14 +7,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 
-Currently in pre alpha status.
-
-Some command ideas:
-
-    git diff --stat $oldTag
-    git log --no-merge $oldTag..  
-    git log --pretty=format:'%h -%d %s (%ci) <%an>' --abbrev-commit --no-merges $oldTag..
-
 ## Usage Example
 
 ```php
