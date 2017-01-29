@@ -11,6 +11,14 @@ namespace SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 
 use SebastianFeldmann\Cli\Command\OutputFormatter;
 
+/**
+ * Class FilterByStatus
+ *
+ * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
+ */
 class FilterByStatus implements OutputFormatter
 {
     /**

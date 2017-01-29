@@ -12,6 +12,14 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Git\Command\Log\ChangedFiles;
 use SebastianFeldmann\Git\Command\Log\Commits;
 
+/**
+ * Class Log
+ *
+ * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
+ */
 class Log extends Base
 {
     /**

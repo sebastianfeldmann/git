@@ -12,14 +12,26 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Cli\Command\Runner;
 use SebastianFeldmann\Git\Repository;
 
+/**
+ * Class Base
+ *
+ * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
+ */
 abstract class Base
 {
     /**
+     * Runner to execute git system calls.
+     *
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
     protected $runner;
 
     /**
+     * Git repository to use.
+     *
      * @var \SebastianFeldmann\Git\Repository
      */
     protected $repo;

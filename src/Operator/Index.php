@@ -14,6 +14,14 @@ use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 
+/**
+ * Index CommitMessage
+ *
+ * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
+ */
 class Index extends Base
 {
     /**

@@ -15,11 +15,14 @@ use SebastianFeldmann\Cli\Command;
  * Class Base
  *
  * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
  */
 abstract class Base implements Command
 {
     /**
-     * Repository root directory
+     * Repository root directory.
      *
      * @var string
      */
@@ -46,11 +49,6 @@ abstract class Base implements Command
                  . $this->getRootOption()
                  . ' '
                  . $this->getGitCommand();
-        /*
-        if (DIRECTORY_SEPARATOR == '/') {
-            $command = 'LC_ALL=en_US.UTF-8 ' . $command;
-        }
-        */
         return $command;
     }
 

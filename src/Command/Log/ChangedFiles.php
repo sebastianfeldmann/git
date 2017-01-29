@@ -10,9 +10,12 @@
 namespace SebastianFeldmann\Git\Command\Log;
 
 /**
- * Class Log
+ * Class ChangedFiles
  *
  * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
  */
 class ChangedFiles extends Log
 {

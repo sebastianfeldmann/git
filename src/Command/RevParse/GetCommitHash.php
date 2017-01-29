@@ -11,6 +11,14 @@ namespace SebastianFeldmann\Git\Command\RevParse;
 
 use SebastianFeldmann\Git\Command\Base;
 
+/**
+ * Class GetCommitHash
+ *
+ * @package SebastianFeldmann\Git
+ * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
+ * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 0.9.0
+ */
 class GetCommitHash extends Base
 {
     /**
