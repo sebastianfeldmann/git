@@ -9,6 +9,18 @@
 
 ## Usage Example
 
+Access some basic logs.
+```php
+use SebastianFeldmann\Git\Repository;
+
+$pathToRepo = '/path/to/repo';
+$repository = new Respository($pathToRepo);
+$log        = $repo->getLogOperator();
+$files      = $log->getChangedFilesSince('1.0.0');
+$commits    = $log->getCommitsSince('1.0.0');
+```
+
+To get some info about the current index state.
 ```php
 use SebastianFeldmann\Git\Repository;
 
@@ -16,5 +28,4 @@ $pathToRepo = '/path/to/repo';
 $repository = new Respository($pathToRepo);
 $index      = $repo->getIndexOperator();
 $files      = $index->getStagedFiles();
-
 ```

@@ -142,13 +142,23 @@ class Repository
     }
 
     /**
-     * Get changed file resolver.
+     * Get index operator.
      *
      * @return \SebastianFeldmann\Git\Operator\Index
      */
-    public function getIndexOperator()
+    public function getIndexOperator() : Operator\Index
     {
         return $this->getOperator('Index');
+    }
+
+    /**
+     * Get log operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Log
+     */
+    public function getLogOperator() : Operator\Log
+    {
+        return $this->getOperator('Log');
     }
 
     /**

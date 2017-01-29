@@ -123,8 +123,19 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexOperator()
     {
         $repository = new Repository($this->repo->getPath());
-        $resolver   = $repository->getIndexOperator();
+        $operator   = $repository->getIndexOperator();
 
-        $this->assertTrue(is_a($resolver, '\\SebastianFeldmann\\Git\\Operator\\Index'));
+        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Index'));
+    }
+
+    /**
+     * Tests Repository::getLogOperator
+     */
+    public function testGetLopOperator()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $operator   = $repository->getLogOperator();
+
+        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Log'));
     }
 }
