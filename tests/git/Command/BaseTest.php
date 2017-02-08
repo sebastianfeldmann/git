@@ -19,7 +19,7 @@ use SebastianFeldmann\Git\Command\Log\ChangedFiles;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class BaseTest extends \PHPUnit_Framework_TestCase
+class BaseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests Base::__toString

@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Command\RevParse;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class GetCommitHashTest extends \PHPUnit_Framework_TestCase
+class GetCommitHashTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests GetCommitHash::getGitCommand

@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Command\Log;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class LogTest extends \PHPUnit_Framework_TestCase
+class LogTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests Commits::withMerges

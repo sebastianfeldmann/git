@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class FilterByStatusTest extends \PHPUnit_Framework_TestCase
+class FilterByStatusTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests FilterByStatus::format

@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class CommitMessageTest extends \PHPUnit_Framework_TestCase
+class CommitMessageTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests CommitMessage::isEmpty

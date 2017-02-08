@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class RepositoryTest extends \PHPUnit_Framework_TestCase
+class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var \SebastianFeldmann\Git\DummyRepo

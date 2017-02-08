@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Command\DiffIndex;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class GetStagedFilesTest extends \PHPUnit_Framework_TestCase
+class GetStagedFilesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests GetStagedFiles::getGitCommand

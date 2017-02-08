@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Operator;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-abstract class OperatorTest extends \PHPUnit_Framework_TestCase
+abstract class OperatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Return repository mock.

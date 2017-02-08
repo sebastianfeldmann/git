@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Command\Log\Commits;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class JsonizedTest extends \PHPUnit_Framework_TestCase
+class JsonizedTest extends \PHPUnit\Framework\TestCase
 {
     public function testFormat()
     {
