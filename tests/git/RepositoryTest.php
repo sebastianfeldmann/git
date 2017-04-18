@@ -138,4 +138,15 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Log'));
     }
+
+    /**
+     * Tests Repository::getConfigOperator
+     */
+    public function testGetConfigOperator()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $operator   = $repository->getConfigOperator();
+
+        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Config'));
+    }
 }

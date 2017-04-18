@@ -162,6 +162,16 @@ class Repository
     }
 
     /**
+     * Get config operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Config
+     */
+    public function getConfigOperator() : Operator\Config
+    {
+        return $this->getOperator('Config');
+    }
+
+    /**
      * Return requested operator.
      *
      * @param  string $name
