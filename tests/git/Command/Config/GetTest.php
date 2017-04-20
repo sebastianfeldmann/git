@@ -17,6 +17,7 @@ use SebastianFeldmann\Git\Command\Config\Get;
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 1.0.2
  */
 class GetTest extends \PHPUnit\Framework\TestCase
 {

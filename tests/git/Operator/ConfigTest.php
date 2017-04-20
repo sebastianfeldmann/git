@@ -18,6 +18,7 @@ use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 1.0.2
  */
 class ConfigTest extends OperatorTest
 {
@@ -26,9 +27,9 @@ class ConfigTest extends OperatorTest
      */
     public function testHas()
     {
-        $repo = $this->getRepoMock();
+        $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
-        $cmd = new CommandResult('git ...', 0, '#');
+        $cmd    = new CommandResult('git ...', 0, '#');
         $result = new RunnerResult($cmd);
 
         $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));

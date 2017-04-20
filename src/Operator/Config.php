@@ -18,6 +18,7 @@ use SebastianFeldmann\Git\Command\Config\Get;
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
+ * @since   Class available since Release 1.0.2
  */
 class Config extends Base
 {
@@ -33,7 +34,6 @@ class Config extends Base
 
         return $result->isSuccessful();
     }
-
 
     /**
      * Get a configuration key value
@@ -51,7 +51,7 @@ class Config extends Base
     /**
      * Run the get config command
      *
-     * @param string $name
+     * @param  string $name
      * @return \SebastianFeldmann\Cli\Command\Runner\Result
      */
     private function configCommand(string $name) : Result
