@@ -22,7 +22,7 @@ class CommitMessage
     /**
      * Commit Message content
      *
-     * This includes lines that are comments
+     * This includes lines that are comments.
      *
      * @var string
      */
@@ -31,7 +31,7 @@ class CommitMessage
     /**
      * Content split lines
      *
-     * This includes lines that are comments
+     * This includes lines that are comments.
      *
      * @var string[]
      */
@@ -60,46 +60,45 @@ class CommitMessage
     /**
      * Get the lines
      *
-     * This excludes the lines which are comments
+     * This excludes the lines which are comments.
      *
      * @var string[]
      */
-    private $lines;
+    private $contentLines;
 
     /**
      * Get the number of lines
      *
-     * This excludes lines which are comments
+     * This excludes lines which are comments.
      *
      * @var int
      */
-    private $lineCount;
+    private $contentLineCount;
 
     /**
      * Commit Message content
      *
-     * This excludes lines that are comments
+     * This excludes lines that are comments.
      *
      * @var string
      */
     private $content;
 
     /**
-     * CommitMessage constructor.
+     * CommitMessage constructor
      *
      * @param string      $content
      * @param string|null $commentCharacter
      */
     public function __construct(string $content, string $commentCharacter = null)
     {
-        $this->rawContent   = $content;
-        $this->rawLines     = empty($content) ? [] : preg_split("/\\r\\n|\\r|\\n/", $content);
-        $this->rawLineCount = count($this->rawLines);
-
+        $this->rawContent       = $content;
+        $this->rawLines         = empty($content) ? [] : preg_split("/\\r\\n|\\r|\\n/", $content);
+        $this->rawLineCount     = count($this->rawLines);
         $this->commentCharacter = $commentCharacter;
-        $this->lines = $this->getContentLines($this->rawLines, $commentCharacter);
-        $this->lineCount = count($this->lines);
-        $this->content = implode(PHP_EOL, $this->lines);
+        $this->contentLines     = $this->getContentLines($this->rawLines, $commentCharacter);
+        $this->contentLineCount = count($this->contentLines);
+        $this->content          = implode(PHP_EOL, $this->contentLines);
     }
 
     /**
@@ -113,9 +112,9 @@ class CommitMessage
     }
 
     /**
-     * Get complete commit message content.
+     * Get complete commit message content
      *
-     * This includes lines that are comments
+     * This includes lines that are comments.
      *
      * @return string
      */
@@ -125,9 +124,9 @@ class CommitMessage
     }
 
     /**
-     * Return all lines.
+     * Return all lines
      *
-     * This includes lines that are comments
+     * This includes lines that are comments.
      *
      * @return array
      */
@@ -137,9 +136,9 @@ class CommitMessage
     }
 
     /**
-     * Return line count.
+     * Return line count
      *
-     * This includes lines that are comments
+     * This includes lines that are comments.
      *
      * @return int
      */
@@ -149,7 +148,7 @@ class CommitMessage
     }
 
     /**
-     * Get a specific line.
+     * Get a specific line
      *
      * @param  int $index
      * @return string
@@ -160,17 +159,17 @@ class CommitMessage
     }
 
     /**
-     * Return first line.
+     * Return first line
      *
      * @return string
      */
     public function getSubject() : string
     {
-        return $this->lines[0];
+        return $this->contentLines[0];
     }
 
     /**
-     * Return content from line nr. 3 to the last line.
+     * Return content from line nr. 3 to the last line
      *
      * @return string
      */
@@ -180,13 +179,13 @@ class CommitMessage
     }
 
     /**
-     * Return lines from line nr. 3 to the last line.
+     * Return lines from line nr. 3 to the last line
      *
      * @return array
      */
     public function getBodyLines() : array
     {
-        return $this->lineCount < 3 ? [] : array_slice($this->lines, 2);
+        return $this->contentLineCount < 3 ? [] : array_slice($this->contentLines, 2);
     }
 
     /**
@@ -211,7 +210,8 @@ class CommitMessage
      * @param  string|null $commentCharacter
      * @return string[]
      */
-    private function getContentLines(array $rawLines, string $commentCharacter = null) : array {
+    private function getContentLines(array $rawLines, string $commentCharacter = null) : array
+    {
         $lines = [];
 
         foreach($rawLines as $line) {
@@ -224,7 +224,7 @@ class CommitMessage
     }
 
     /**
-     * Create CommitMessage from file.
+     * Create CommitMessage from file
      *
      * @param  string $path
      * @param  string|null $commentCharacter
