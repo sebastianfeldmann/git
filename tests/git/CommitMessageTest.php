@@ -37,6 +37,9 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($msg->isEmpty());
     }
 
+    /**
+     * Tests CommitMessage::getContent
+     */
     public function testGetContent()
     {
         $content = 'Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz';
@@ -44,11 +47,25 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($content, $msg->getContent());
     }
 
-    public function testGetContentIncludesComments()
+
+    /**
+     * Tests CommitMessage::getContent
+     */
+    public function testGetContentExcludesComments()
+    {
+        $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz';
+        $msg = new CommitMessage($content, '#');
+        $this->assertEquals('Foo' . PHP_EOL . 'Baz', $msg->getContent());
+    }
+
+    /**
+     * Tests CommitMessage::getRawContent
+     */
+    public function testGetRawContentIncludesComments()
     {
         $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz';
         $msg = new CommitMessage($content,'#');
-        $this->assertEquals($content, $msg->getContent());
+        $this->assertEquals($content, $msg->getRawContent());
     }
 
     /**

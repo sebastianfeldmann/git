@@ -111,6 +111,19 @@ class CommitMessage
         return empty($this->content);
     }
 
+
+    /**
+     * Get commit message content
+     *
+     * This excludes lines that are comments.
+     *
+     * @return string
+     */
+    public function getContent() : string
+    {
+        return $this->content;
+    }
+
     /**
      * Get complete commit message content
      *
@@ -118,7 +131,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getContent() : string
+    public function getRawContent() : string
     {
         return $this->rawContent;
     }
