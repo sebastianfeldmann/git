@@ -1,0 +1,18 @@
+This is a valid dummy commit Message
+
+It contains a subject line and some body lines.
+Subject and body are separated by a blank line.
+No body line is longer than 72 characters.
+Subject starts with a capital letter and doesn't end
+with a period.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#	new file:   gs
+#	new file:   rgfar
+#	new file:   tgberyherbt
+#	new file:   w
+#	new file:   src/somefilename/somefilename/somefilename/somefilename/somefilename/somefilename/somefilename/somefilename/changed file.txt
+#
