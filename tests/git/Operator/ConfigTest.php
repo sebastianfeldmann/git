@@ -9,6 +9,7 @@
  */
 namespace SebastianFeldmann\Git\Operator;
 
+use RuntimeException;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 
@@ -39,6 +40,30 @@ class ConfigTest extends OperatorTest
         $hasKey = $config->has('core.commentchar');
 
         $this->assertEquals(true, $hasKey);
+    }
+
+    /**
+     * Tests Config::has
+     */
+    public function testHasNot()
+    {
+        $repo      = $this->getRepoMock();
+        $runner    = $this->getRunnerMock();
+        $exception = new RuntimeException(
+            'Command failed: git config \'core.commentchar\'' . PHP_EOL
+            . '  exit-code: 1' . PHP_EOL
+            . '  message:   ' . PHP_EOL,
+            1
+        );
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')
+               ->will($this->throwException($exception));
+
+        $config = new Config($runner, $repo);
+        $hasKey = $config->has('core.commentchar');
+
+        $this->assertEquals(false, $hasKey);
     }
 
     /**

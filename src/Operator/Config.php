@@ -9,6 +9,7 @@
  */
 namespace SebastianFeldmann\Git\Operator;
 
+use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner\Result;
 use SebastianFeldmann\Git\Command\Config\Get;
 
@@ -30,7 +31,11 @@ class Config extends Base
      */
     public function has(string $name) : bool
     {
-        $result = $this->configCommand($name);
+        try {
+            $result = $this->configCommand($name);
+        } catch (RuntimeException $exception) {
+            return false;
+        }
 
         return $result->isSuccessful();
     }
