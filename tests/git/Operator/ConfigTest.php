@@ -84,4 +84,48 @@ class ConfigTest extends OperatorTest
 
         $this->assertEquals('#', $value);
     }
+
+
+    /**
+     * Tests Config::getSafely
+     */
+    public function testGetSafelyNotSet()
+    {
+        $repo      = $this->getRepoMock();
+        $runner    = $this->getRunnerMock();
+        $exception = new RuntimeException(
+            'Command failed: git config \'core.commentchar\'' . PHP_EOL
+            . '  exit-code: 1' . PHP_EOL
+            . '  message:   ' . PHP_EOL,
+            1
+        );
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')
+               ->will($this->throwException($exception));
+
+        $config = new Config($runner, $repo);
+        $getKey = $config->getSafely('core.invalid', 'valid');
+
+        $this->assertEquals('valid', $getKey);
+    }
+
+    /**
+     * Tests Config::getSafely
+     */
+    public function testGetSafelySet()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0, '#');
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config = new Config($runner, $repo);
+        $getKey = $config->getSafely('core.commentchar', '#');
+
+        $this->assertEquals('#', $getKey);
+    }
 }

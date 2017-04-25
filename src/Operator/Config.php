@@ -54,6 +54,21 @@ class Config extends Base
     }
 
     /**
+     * Get config values without throwing exceptions
+     *
+     * You can provide a default value to return.
+     * By default the return value on unset config values is the empty string.
+     *
+     * @param  string $name    Name of the config value to retrieve
+     * @param  string $default Value to return if config value is not set, empty string by default
+     * @return string
+     */
+    public function getSafely(string $name, string $default = '')
+    {
+        return $this->has($name) ? $this->get($name) : $default;
+    }
+
+    /**
      * Run the get config command
      *
      * @param  string $name
