@@ -38,4 +38,21 @@ M	tests/git/Command/Log/LogTest.php';
 
         $this->assertEquals(6, count($formatted));
     }
+
+    /**
+     * Tests FilterByStatus::format path extraction
+     *
+     * @covers \SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus
+     */
+    public function testExtractionOfPaths()
+    {
+        $string = "A\t.gitignore\nM\tsrc/Operator/Base.php";
+
+        $output = explode("\n", $string);
+        $expected = ['.gitignore', 'src/Operator/Base.php'];
+
+        $formatter = new FilterByStatus(['A', 'M']);
+        $actual = $formatter->format($output);
+        $this->assertEquals($expected, $actual);
+    }
 }
