@@ -47,9 +47,10 @@ class FilterByStatus implements OutputFormatter
     public function format(array $output)
     {
         $formatted = [];
+        $pattern = sprintf('#^(?:%s)\t(.+)$#i', implode('|', $this->status));
         foreach ($output as $row) {
             $matches = [];
-            if (preg_match('#[' . implode('|', $this->status) . ']\W+(\S+)#i', $row, $matches)) {
+            if (preg_match($pattern, $row, $matches)) {
                 $formatted[] = $matches[1];
             }
         }
