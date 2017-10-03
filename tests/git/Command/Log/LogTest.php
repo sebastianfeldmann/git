@@ -34,6 +34,17 @@ class LogTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests Commits::withMerges
+     */
+    public function testExitCodes()
+    {
+        $cmd = new Commits();
+        $cmd->withMerges();
+
+        $this->assertEquals([0], $cmd->getAcceptableExitCodes());
+    }
+
+    /**
      * Tests Commits::authoredBy
      */
     public function testByAuthor()

@@ -53,6 +53,16 @@ abstract class Base implements Command
     }
 
     /**
+     * Return list of acceptable exit codes.
+     *
+     * @return array
+     */
+    public function getAcceptableExitCodes() : array
+    {
+        return [0];
+    }
+
+    /**
      * Do we need the -C option.
      *
      * @return string
