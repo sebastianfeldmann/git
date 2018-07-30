@@ -129,6 +129,17 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests Repository::getInfoOperator
+     */
+    public function testGetInfoOperator()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $operator   = $repository->getInfoOperator();
+
+        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Info'));
+    }
+
+    /**
      * Tests Repository::getLogOperator
      */
     public function testGetLopOperator()

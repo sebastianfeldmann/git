@@ -43,6 +43,8 @@ class Repository
     private $commitMsg;
 
     /**
+     * Executes cli commands.
+     *
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
     private $runner;
@@ -149,6 +151,16 @@ class Repository
     public function getIndexOperator() : Operator\Index
     {
         return $this->getOperator('Index');
+    }
+
+    /**
+     * Get info operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Info
+     */
+    public function getInfoOperator() : Operator\Info
+    {
+        return $this->getOperator('Info');
     }
 
     /**
