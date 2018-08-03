@@ -12,6 +12,7 @@ namespace SebastianFeldmann\Git\Operator;
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner\Result;
 use SebastianFeldmann\Git\Command\Config\Get;
+use SebastianFeldmann\Git\Command\Config\ListSettings;
 
 /**
  * Class Config
@@ -24,7 +25,7 @@ use SebastianFeldmann\Git\Command\Config\Get;
 class Config extends Base
 {
     /**
-     * Does git have a configuration key
+     * Does git have a configuration key.
      *
      * @param  string $name
      * @return boolean
@@ -41,7 +42,7 @@ class Config extends Base
     }
 
     /**
-     * Get a configuration key value
+     * Get a configuration key value.
      *
      * @param  string $name
      * @return string
@@ -54,7 +55,7 @@ class Config extends Base
     }
 
     /**
-     * Get config values without throwing exceptions
+     * Get config values without throwing exceptions.
      *
      * You can provide a default value to return.
      * By default the return value on unset config values is the empty string.
@@ -69,7 +70,22 @@ class Config extends Base
     }
 
     /**
-     * Run the get config command
+     * Return a map of all configuration settings.
+     *
+     * For example: ['color.branch' => 'auto', 'color.diff' => 'auto]
+     *
+     * @return array
+     */
+    public function getSettings() : array
+    {
+        $cmd = new ListSettings($this->repo->getRoot());
+        $res = $this->runner->run($cmd, new ListSettings\MapSettings());
+
+        return $res->getFormattedOutput();
+    }
+
+    /**
+     * Run the get config command.
      *
      * @param  string $name
      * @return \SebastianFeldmann\Cli\Command\Runner\Result
@@ -79,8 +95,6 @@ class Config extends Base
         $cmd = (new Get($this->repo->getRoot()));
         $cmd->name($name);
 
-        $result = $this->runner->run($cmd);
-
-        return $result;
+        return $this->runner->run($cmd);
     }
 }

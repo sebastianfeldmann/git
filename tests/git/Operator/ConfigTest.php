@@ -128,4 +128,26 @@ class ConfigTest extends OperatorTest
 
         $this->assertEquals('#', $getKey);
     }
+
+    /**
+     * Tests Config::getSettings
+     */
+    public function testGetSettings()
+    {
+        $out    = ['core.autocrlf' => 'false', 'color.branch' => 'auto', 'color.diff' => 'auto'];
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git config --list', 0, '');
+        $result = new RunnerResult($cmd, $out);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config   = new Config($runner, $repo);
+        $settings = $config->getSettings();
+
+        $this->assertEquals('false', $settings['core.autocrlf']);
+        $this->assertEquals('auto', $settings['color.branch']);
+        $this->assertEquals('auto', $settings['color.diff']);
+    }
 }

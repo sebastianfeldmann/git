@@ -10,23 +10,23 @@
 namespace SebastianFeldmann\Git\Command\Config;
 
 /**
- * Class GetTest
+ * Class ListSettingsTest
  *
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
- * @since   Class available since Release 1.0.2
+ * @since   Class available since Release 1.0.8
  */
-class GetTest extends \PHPUnit\Framework\TestCase
+class ListSettingsTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Tests Get::getGitCommand
+     * Tests ListSettings::getGitCommand
      */
     public function testDefault()
     {
-        $cmd = new Get();
-        $exe = $cmd->name('user.name')->getCommand();
+        $cmd = new ListSettings();
+        $exe = $cmd->getCommand();
 
-        $this->assertEquals("git config --get 'user.name'", $exe);
+        $this->assertEquals("git config --list", $exe);
     }
 }

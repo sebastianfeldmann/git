@@ -9,24 +9,25 @@
  */
 namespace SebastianFeldmann\Git\Command\Config;
 
+use SebastianFeldmann\Git\Command\Base;
+
 /**
- * Class GetTest
+ * Class ListSettings
  *
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
- * @since   Class available since Release 1.0.2
+ * @since   Class available since Release 1.0.8
  */
-class GetTest extends \PHPUnit\Framework\TestCase
+class ListSettings extends Base
 {
     /**
-     * Tests Get::getGitCommand
+     * Return the command to execute.
+     *
+     * @return string
      */
-    public function testDefault()
+    protected function getGitCommand() : string
     {
-        $cmd = new Get();
-        $exe = $cmd->name('user.name')->getCommand();
-
-        $this->assertEquals("git config --get 'user.name'", $exe);
+        return 'config --list';
     }
 }
