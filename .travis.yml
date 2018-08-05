@@ -7,7 +7,7 @@ php:
 before_script:
   - composer self-update
   - composer install --no-interaction --prefer-source
-  - wget https://phar.phpunit.de/phpunit.phar
+  - wget https://phar.phpunit.de/phpunit-6.5.9.phar
 
 script:
   - php phpunit.phar
