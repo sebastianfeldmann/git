@@ -7,25 +7,59 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 
+This lib is used to execute `git` commands via a easy php api. 
+All you have to do is setup a `Repository` object retrieve a command `Operator`
+and fire away. Each git command like git _config_ or git _log_ is handled
+by an `Operator`. Follow the next steps to give it a try.
+
+Setup the `Repository`
+```php
+$repoRootPath  = '/var/www/my-project;
+$gitRepository = new Git\Respository($repoRootPath);
+```
+
+Retrieve the needed `Operator`
+```php
+$log = $repo->getLogOperator();
+```
+
+Get files and commits since some tag
+```php
+$files   = $log->getChangedFilesSince('1.0.0');
+$commits = $log->getCommitsSince('1.0.0');
+```
 ## Usage Example
 
-Access some basic logs.
 ```php
-use SebastianFeldmann\Git\Repository;
+use SebastianFeldmann\Git;
 
-$pathToRepo = '/path/to/repo';
-$repository = new Respository($pathToRepo);
-$log        = $repo->getLogOperator();
-$files      = $log->getChangedFilesSince('1.0.0');
-$commits    = $log->getCommitsSince('1.0.0');
+$repoRootPath  = '/path/to/repo';
+$gitRepository = new Git\Respository($repoRootPath);
+
+// get files and commits since hash or tag
+$log     = $repo->getLogOperator();
+$files   = $log->getChangedFilesSince('1.0.0');
+$commits = $log->getCommitsSince('1.0.0');
+
+// check the index status
+$index = $repo->getIndexOperator();
+$files = $index->getStagedFiles();
 ```
 
-To get some info about the current index state.
-```php
-use SebastianFeldmann\Git\Repository;
+##Example commands
 
-$pathToRepo = '/path/to/repo';
-$repository = new Respository($pathToRepo);
-$index      = $repo->getIndexOperator();
-$files      = $index->getStagedFiles();
-```
+Get the current tag.
+
+    git descibe --tag
+    
+Get a list of staged files.
+
+    git diff-index --cached --name-status HEAD
+    
+Get all current git settings.
+
+    git config --list
+    
+Get all changes files since a given commit ot tag
+
+    git log --format='' --name-only $HASH
