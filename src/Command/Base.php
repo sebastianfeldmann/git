@@ -82,6 +82,19 @@ abstract class Base implements Command
     }
 
     /**
+     * Should a option be used or not.
+     *
+     * @param  string $option
+     * @param  bool   $switch
+     * @return string
+     */
+    protected function useOption(string $option, bool $switch) : string
+    {
+        return ($switch ? ' ' . $option : '');
+    }
+
+
+    /**
      * Auto cast method.
      *
      * @return string
