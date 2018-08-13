@@ -46,7 +46,7 @@ $index = $repo->getIndexOperator();
 $files = $index->getStagedFiles();
 ```
 
-##Example commands
+## Example commands
 
 Get the current tag:
 
