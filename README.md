@@ -28,11 +28,14 @@ Get files and commits since some tag
 $files   = $log->getChangedFilesSince('1.0.0');
 $commits = $log->getCommitsSince('1.0.0');
 ```
-## Usage Example
+## Copy Paste Example
 
 ```php
 use SebastianFeldmann\Git;
 
+require __DIR__ . '/../vendor/autoload.php';
+
+// path to repository without .git
 $repoRootPath  = '/path/to/repo';
 $gitRepository = new Git\Repository($repoRootPath);
 
@@ -50,16 +53,20 @@ $files = $index->getStagedFiles();
 
 Get the current tag:
 
-    git describe --tag
+    $infoOperator->getCurrentTag(); // git describe --tag
     
 Get a list of staged files:
 
-    git diff-index --cached --name-status HEAD
+    $idexOperator->getStagedFiles(); // git diff-index --cached --name-status HEAD
     
 Get all current git settings:
 
-    git config --list
+    $configOperator->getSettings(); // git config --list
     
 Get all changed files since a given commit or tag:
 
-    git log --format='' --name-only $HASH
+    $logOperator->changedFilesSince('1.0.0'); // git log --format='' --name-only $HASH
+
+Get differences between two versions
+
+    $diffOperator->compare('1.0.0', '1.1.0'); // git diff '1.0.0' '1.1.0'
