@@ -1,4 +1,6 @@
 build:
+    environment:
+        php: 7.2.0
     nodes:
         coverage:
           dependencies:
@@ -8,9 +10,6 @@ build:
           tests:
             override:
               - php-scrutinizer-run
-        environment:
-            php: 7.2.0
-
 tools:
   external_code_coverage: true
 
