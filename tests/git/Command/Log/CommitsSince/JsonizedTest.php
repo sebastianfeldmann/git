@@ -23,13 +23,14 @@ class JsonizedTest extends \PHPUnit\Framework\TestCase
     {
         $formatter = new Jsonized();
         $result    = $formatter->format([
-           '{"hash": "a9d9ac5", "name": " (HEAD -> master, origin/master, origin/HEAD)", ' .
+           '{"hash": "a9d9ac5", "names": " (HEAD -> master, origin/master, origin/HEAD)", ' .
            '"description": "Fix case in path", "date": "2017-01-16 02:16:13 +0100", "author": "Sebastian Feldmann"}',
         ]);
 
         $this->assertEquals(1, count($result));
-        $this->assertTrue(is_a($result[0], '\\stdClass'));
-        $this->assertEquals('a9d9ac5', $result[0]->hash);
-        $this->assertEquals('Sebastian Feldmann', $result[0]->author);
+        $this->assertTrue($result[0]->hasNames());
+        $this->assertTrue(is_a($result[0], '\\SebastianFeldmann\\Git\\Log\\Commit'));
+        $this->assertEquals('a9d9ac5', $result[0]->getHash());
+        $this->assertEquals('Sebastian Feldmann', $result[0]->getAuthor());
     }
 }

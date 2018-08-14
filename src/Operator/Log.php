@@ -44,11 +44,26 @@ class Log extends Base
      */
     public function getCommitsSince(string $revision) : array
     {
-        $cmd       = (new Commits($this->repo->getRoot()))->byRevision($revision)
-                                                          ->prettyFormat(Commits\Jsonized::FORMAT);
-        $formatter = new Commits\Jsonized();
-        $result    = $this->runner->run($cmd, $formatter);
+        $cmd = (new Commits($this->repo->getRoot()))->byRevision($revision)
+                                                    ->prettyFormat(Commits\Jsonized::FORMAT);
 
+        $result = $this->runner->run($cmd, new Commits\Jsonized());
+        return $result->getFormattedOutput();
+    }
+
+    /**
+     * Get list of commits between to given revisions.
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return array
+     */
+    public function getCommitsBetween(string $from, string $to) : array
+    {
+        $cmd = (new Commits($this->repo->getRoot()))->byRevision($from, $to)
+                                                    ->prettyFormat(Commits\Jsonized::FORMAT);
+
+        $result = $this->runner->run($cmd, new Commits\Jsonized());
         return $result->getFormattedOutput();
     }
 }

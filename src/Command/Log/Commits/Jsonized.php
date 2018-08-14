@@ -10,6 +10,7 @@
 namespace SebastianFeldmann\Git\Command\Log\Commits;
 
 use SebastianFeldmann\Cli\Command\OutputFormatter;
+use SebastianFeldmann\Git\Log\Commit;
 
 /**
  * Class Jsonized
@@ -26,20 +27,37 @@ class Jsonized implements OutputFormatter
      *
      * @var string
      */
-    const FORMAT = '{"hash": "%h", "name": "%d", "description": "%s", "date": "%ci", "author": "%an"}';
+    const FORMAT = '{"hash": "%h", "names": "%d", "description": "%s", "date": "%ci", "author": "%an"}';
 
     /**
      * Format the output.
      *
      * @param  array $output
      * @return iterable
+     * @throws \Exception
      */
     public function format(array $output)
     {
         $formatted = [];
         foreach ($output as $row) {
-            $formatted[] = json_decode($row);
+            $formatted[] = $this->createCommit($row);
         }
         return $formatted;
+    }
+
+    /**
+     * Create a log commit object.
+     *
+     * @param  string $row
+     * @return \SebastianFeldmann\Git\Log\Commit
+     * @throws \Exception
+     */
+    private function createCommit(string $row): Commit
+    {
+        $std   = json_decode($row);
+        $date  = new \DateTimeImmutable($std->date);
+        $names = array_map('trim', explode(',', str_replace(['(', ')'], '', $std->names)));
+
+        return new Commit($std->hash, $names, $std->description, $date, $std->author);
     }
 }
