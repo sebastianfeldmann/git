@@ -57,7 +57,7 @@ Get the current tag:
     
 Get a list of staged files:
 
-    $idexOperator->getStagedFiles(); // git diff-index --cached --name-status HEAD
+    $indexOperator->getStagedFiles(); // git diff-index --cached --name-status HEAD
     
 Get all current git settings:
 
