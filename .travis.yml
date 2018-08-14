@@ -10,7 +10,7 @@ before_script:
   - wget https://phar.phpunit.de/phpunit-6.5.9.phar
 
 script:
-  - php phpunit.phar
+  - php phpunit-6.5.9.phar
 
 after_success:
   - wget https://scrutinizer-ci.com/ocular.phar
