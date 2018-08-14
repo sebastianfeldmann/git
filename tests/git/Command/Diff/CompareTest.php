@@ -66,4 +66,17 @@ class CompareTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('git diff -w \'1.0.0\' \'1.1.0\'', $compare->getCommand());
     }
+
+    /**
+     * Tests Compare::ignoreWhitespaces
+     */
+    public function testIgnoreWhitespacesAndEOL()
+    {
+        $compare = new Compare();
+        $compare->revisions('1.0.0', '1.1.0')
+                ->ignoreWhitespacesAtEndOfLine()
+                ->ignoreWhitespaces();
+
+        $this->assertEquals('git diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+    }
 }
