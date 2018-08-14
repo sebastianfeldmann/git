@@ -7,15 +7,15 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 
-This lib is used to execute `git` commands via a easy php api. 
-All you have to do is setup a `Repository` object retrieve a command `Operator`
+This lib is used to execute `git` commands via an easy PHP api. 
+All you have to do is setup a `Repository` object, retrieve a command `Operator`
 and fire away. Each git command like git _config_ or git _log_ is handled
 by an `Operator`. Follow the next steps to give it a try.
 
 Setup the `Repository`
 ```php
-$repoRootPath  = '/var/www/my-project;
-$gitRepository = new Git\Respository($repoRootPath);
+$repoRootPath  = '/var/www/my-project';
+$gitRepository = new Git\Repository($repoRootPath);
 ```
 
 Retrieve the needed `Operator`
@@ -34,7 +34,7 @@ $commits = $log->getCommitsSince('1.0.0');
 use SebastianFeldmann\Git;
 
 $repoRootPath  = '/path/to/repo';
-$gitRepository = new Git\Respository($repoRootPath);
+$gitRepository = new Git\Repository($repoRootPath);
 
 // get files and commits since hash or tag
 $log     = $repo->getLogOperator();
@@ -48,18 +48,18 @@ $files = $index->getStagedFiles();
 
 ##Example commands
 
-Get the current tag.
+Get the current tag:
 
-    git descibe --tag
+    git describe --tag
     
-Get a list of staged files.
+Get a list of staged files:
 
     git diff-index --cached --name-status HEAD
     
-Get all current git settings.
+Get all current git settings:
 
     git config --list
     
-Get all changes files since a given commit ot tag
+Get all changed files since a given commit or tag:
 
     git log --format='' --name-only $HASH
