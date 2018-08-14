@@ -1,5 +1,9 @@
 build:
     nodes:
+        coverage:
+          dependencies:
+            after:
+              - wget -O phpunit https://phar.phpunit.de/phpunit-6.5.9.phar
         analysis:
           tests:
             override:
