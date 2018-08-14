@@ -31,7 +31,7 @@ class Compare extends Base
     /**
      * Ignore line endings.
      *
-     * @var bool
+     * @var string
      */
     protected $ignoreEOL = '';
 
@@ -41,6 +41,13 @@ class Compare extends Base
      * @var string
      */
     protected $stats = '';
+
+    /**
+     * Ignore all whitespaces.
+     *
+     * @var string
+     */
+    private $ignoreWhitespaces = '';
 
     /**
      * Compare two given revisions.
@@ -87,7 +94,7 @@ class Compare extends Base
      */
     public function ignoreWhitespaces(bool $bool = true) : Compare
     {
-        $this->ignoreEOL = $this->useOption('-w', $bool);
+        $this->ignoreWhitespaces = $this->useOption('-w', $bool);
         return $this;
     }
 
@@ -99,6 +106,6 @@ class Compare extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff' . $this->ignoreEOL . $this->stats . ' ' . $this->compare;
+        return 'diff' . $this->ignoreWhitespaces . $this->ignoreEOL . $this->stats . ' ' . $this->compare;
     }
 }
