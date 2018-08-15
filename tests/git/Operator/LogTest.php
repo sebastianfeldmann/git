@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of SebastianFeldmann\Cli.
+ * This file is part of SebastianFeldmann\Git.
  *
  * (c) Sebastian Feldmann <sf@sebastian-feldmann.info>
  *
