@@ -1,22 +1,25 @@
 build:
-    environment:
-        php: 7.2.0
-    nodes:
-        coverage:
-          dependencies:
-            after:
-              - wget -O phpunit https://phar.phpunit.de/phpunit-6.5.9.phar
-        analysis:
-          tests:
-            override:
-              - php-scrutinizer-run
+  environment:
+    php: 7.2.0
+  nodes:
+    coverage:
+      dependencies:
+        after:
+          - wget -O phpunit.phar https://phar.phpunit.de/phpunit-6.5.9.phar
+      tests:
+        override:
+          - php phpunit.phar
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
 tools:
   external_code_coverage: true
 
 checks:
-    php:
-        code_rating: true
-        duplication: true
+  php:
+    code_rating: true
+    duplication: true
 
 filter:
-    paths: ["src/*"]
+  paths: ["src/*"]
