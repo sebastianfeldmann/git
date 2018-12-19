@@ -49,18 +49,12 @@ class CommitMessage
     /**
      * The comment character
      *
-     * Null would indicate the comment character is not set for this commit. A comment character might be null if this
-     * commit came from a message stored in the repository, it would be populated if it came from a commit-msg hook,
-     * where the commit message can still contain comments.
-     *
-     * @var string|null
+     * @var string
      */
     private $commentCharacter;
 
     /**
-     * Get the lines
-     *
-     * This excludes the lines which are comments.
+     * All non comment lines
      *
      * @var string[]
      */
@@ -87,10 +81,10 @@ class CommitMessage
     /**
      * CommitMessage constructor
      *
-     * @param string      $content
-     * @param string|null $commentCharacter
+     * @param string $content
+     * @param string $commentCharacter
      */
-    public function __construct(string $content, string $commentCharacter = null)
+    public function __construct(string $content, string $commentCharacter = '#')
     {
         $this->rawContent       = $content;
         $this->rawLines         = empty($content) ? [] : preg_split("/\\r\\n|\\r|\\n/", $content);
@@ -204,12 +198,11 @@ class CommitMessage
     /**
      * Get the comment character
      *
-     * Null would indicate the comment character is not set for this commit. A comment character might be null if this
-     * commit came from a message stored in the repository, it would be populated if it came from a commit-msg hook.
+     * Comment character defaults to '#'.
      *
-     * @return null|string
+     * @return string
      */
-    public function getCommentCharacter()
+    public function getCommentCharacter() : string
     {
         return $this->commentCharacter;
     }
@@ -217,13 +210,11 @@ class CommitMessage
     /**
      * Get the lines that are not comments
      *
-     * Null comment character indicates no comment character.
-     *
-     * @param  array       $rawLines
-     * @param  string|null $commentCharacter
+     * @param  array  $rawLines
+     * @param  string $commentCharacter
      * @return string[]
      */
-    private function getContentLines(array $rawLines, string $commentCharacter = null) : array
+    private function getContentLines(array $rawLines, string $commentCharacter) : array
     {
         $lines = [];
 
@@ -240,7 +231,7 @@ class CommitMessage
      * Create CommitMessage from file
      *
      * @param  string $path
-     * @param  string|null $commentCharacter
+     * @param  string $commentCharacter
      * @return \SebastianFeldmann\Git\CommitMessage
      */
     public static function createFromFile(string $path, $commentCharacter = '#') : CommitMessage
