@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\Config\ListSettings;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class MapSettingsTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\Config\ListSettings;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.8
  */
-class MapSettingsTest extends \PHPUnit\Framework\TestCase
+class MapSettingsTest extends TestCase
 {
     /**
      * Tests MapSettings::format

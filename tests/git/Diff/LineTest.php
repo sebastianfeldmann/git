@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Diff;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class LineTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Diff;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.2.0
  */
-class LineTest extends \PHPUnit\Framework\TestCase
+class LineTest extends TestCase
 {
     /**
      * Tests Line::__construct

@@ -11,6 +11,7 @@ namespace SebastianFeldmann\Git\Command\Diff\Compare;
 
 use SebastianFeldmann\Git\Diff\File;
 use SebastianFeldmann\Git\Diff\Line;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class FullDiffListTest
@@ -19,7 +20,7 @@ use SebastianFeldmann\Git\Diff\Line;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.2.0
  */
-class FullDiffListTest extends \PHPUnit\Framework\TestCase
+class FullDiffListTest extends TestCase
 {
     /**
      * Tests FullDiffList::format
@@ -42,9 +43,9 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('created', $files[0]->getOperation());
-        $this->assertEquals(4, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(4, $files[0]->getChanges()[0]->getLines());
         $this->assertEquals(Line::ADDED, $files[0]->getChanges()[0]->getLines()[0]->getOperation());
     }
 
@@ -73,9 +74,9 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('created', $files[0]->getOperation());
-        $this->assertEquals(5, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(5, $files[0]->getChanges()[0]->getLines());
         $this->assertEquals(Line::ADDED, $files[0]->getChanges()[0]->getLines()[0]->getOperation());
     }
 
@@ -100,9 +101,9 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('deleted', $files[0]->getOperation());
-        $this->assertEquals(4, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(4, $files[0]->getChanges()[0]->getLines());
     }
 
     /**
@@ -128,9 +129,9 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('renamed', $files[0]->getOperation());
-        $this->assertEquals(4, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(4, $files[0]->getChanges()[0]->getLines());
     }
 
     /**
@@ -153,9 +154,9 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('modified', $files[0]->getOperation());
-        $this->assertEquals(4, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(4, $files[0]->getChanges()[0]->getLines());
     }
 
     /**
@@ -180,11 +181,11 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('modified', $files[0]->getOperation());
-        $this->assertEquals(2, count($files[0]->getChanges()));
-        $this->assertEquals(3, count($files[0]->getChanges()[0]->getLines()));
-        $this->assertEquals(2, count($files[0]->getChanges()[1]->getLines()));
+        $this->assertCount(2, $files[0]->getChanges());
+        $this->assertCount(3, $files[0]->getChanges()[0]->getLines());
+        $this->assertCount(2, $files[0]->getChanges()[1]->getLines());
     }
 
     /**
@@ -218,10 +219,10 @@ class FullDiffListTest extends \PHPUnit\Framework\TestCase
         $formatter = new FullDiffList();
         $files     = $formatter->format($output);
 
-        $this->assertEquals(2, count($files));
+        $this->assertCount(2, $files);
         $this->assertEquals('modified', $files[0]->getOperation());
-        $this->assertEquals(4, count($files[0]->getChanges()[0]->getLines()));
+        $this->assertCount(4, $files[0]->getChanges()[0]->getLines());
         $this->assertEquals('created', $files[1]->getOperation());
-        $this->assertEquals(5, count($files[1]->getChanges()[0]->getLines()));
+        $this->assertCount(5, $files[1]->getChanges()[0]->getLines());
     }
 }

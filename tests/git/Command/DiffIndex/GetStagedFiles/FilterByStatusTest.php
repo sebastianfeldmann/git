@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class FilterByStatusTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class FilterByStatusTest extends \PHPUnit\Framework\TestCase
+class FilterByStatusTest extends TestCase
 {
     /**
      * Tests FilterByStatus::format
@@ -36,7 +38,7 @@ M	tests/git/Command/Log/LogTest.php';
         $formatter = new FilterByStatus(['A', 'M']);
         $formatted = $formatter->format($output);
 
-        $this->assertEquals(6, count($formatted));
+        $this->assertCount(6, $formatted);
     }
 
     /**

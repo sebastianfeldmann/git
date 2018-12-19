@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\Config;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class GetTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\Config;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.2
  */
-class GetTest extends \PHPUnit\Framework\TestCase
+class GetTest extends TestCase
 {
     /**
      * Tests Get::getGitCommand

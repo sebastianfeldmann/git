@@ -41,7 +41,7 @@ class LogTest extends OperatorTest
         $log   = new Log($runner, $repo);
         $files = $log->getChangedFilesSince('b1ef1997291');
 
-        $this->assertEquals(1, count($files));
+        $this->assertCount(1, $files);
         $this->assertEquals('tests/bootstrap.php', $files[0]);
     }
 
@@ -79,7 +79,7 @@ class LogTest extends OperatorTest
         $log     = new Log($runner, $repo);
         $commits = $log->getCommitsSince('b1ef1997291');
 
-        $this->assertTrue(is_array($commits));
+        $this->assertInternalType('array', $commits);
         $this->assertEquals('Sebastian Feldmann', $commits[0]->getAuthor());
     }
 
@@ -117,7 +117,7 @@ class LogTest extends OperatorTest
         $log     = new Log($runner, $repo);
         $commits = $log->getCommitsBetween('b1ef1997291', 'a1ef1577fe1');
 
-        $this->assertTrue(is_array($commits));
+        $this->assertInternalType('array', $commits);
         $this->assertEquals('Sebastian Feldmann', $commits[0]->getAuthor());
     }
 }

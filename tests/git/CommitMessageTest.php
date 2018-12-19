@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class CommitMessageTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class CommitMessageTest extends \PHPUnit\Framework\TestCase
+class CommitMessageTest extends TestCase
 {
     /**
      * Tests CommitMessage::isEmpty
@@ -25,6 +27,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testIsEmpty()
     {
         $msg = new CommitMessage('');
+
         $this->assertTrue($msg->isEmpty());
     }
 
@@ -34,6 +37,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testIsEmptyDoesNotIncludeComments()
     {
         $msg = new CommitMessage('# Testing', '#');
+
         $this->assertTrue($msg->isEmpty());
     }
 
@@ -44,6 +48,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $content = 'Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz';
         $msg = new CommitMessage($content);
+
         $this->assertEquals($content, $msg->getContent());
     }
 
@@ -55,6 +60,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz';
         $msg = new CommitMessage($content, '#');
+
         $this->assertEquals('Foo' . PHP_EOL . 'Baz', $msg->getContent());
     }
 
@@ -65,6 +71,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz';
         $msg = new CommitMessage($content,'#');
+
         $this->assertEquals($content, $msg->getRawContent());
     }
 
@@ -75,8 +82,9 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $msg   = new CommitMessage('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
         $lines = $msg->getLines();
-        $this->assertTrue(is_array($lines));
-        $this->assertEquals(3, count($lines));
+
+        $this->assertInternalType('array', $lines);
+        $this->assertCount(3, $lines);
     }
 
     /**
@@ -86,8 +94,9 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $msg   = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
         $lines = $msg->getLines();
-        $this->assertTrue(is_array($lines));
-        $this->assertEquals(3, count($lines));
+
+        $this->assertInternalType('array', $lines);
+        $this->assertCount(3, $lines);
     }
 
     /**
@@ -96,6 +105,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testLineCodeOnEmptyMessage()
     {
         $msg = new CommitMessage('');
+
         $this->assertEquals(0, $msg->getLineCount());
     }
 
@@ -105,6 +115,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testLineCount()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
+
         $this->assertEquals(3, $msg->getLineCount());
     }
     /**
@@ -113,6 +124,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testLineCountIncludesComments()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
+
         $this->assertEquals(3, $msg->getLineCount());
     }
 
@@ -122,6 +134,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetSubject()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
+
         $this->assertEquals('Foo', $msg->getSubject());
     }
 
@@ -131,6 +144,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetSubjectDoesNotIncludeComments()
     {
         $msg = new CommitMessage('# Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz', '#');
+
         $this->assertEquals('Bar', $msg->getSubject());
     }
 
@@ -140,6 +154,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetBody()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
+
         $this->assertEquals('Bar' . PHP_EOL . 'Baz', $msg->getBody());
     }
 
@@ -149,6 +164,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetBodyDoesNotIncludeComments()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
+
         $this->assertEquals('Baz', $msg->getBody());
     }
 
@@ -159,7 +175,8 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $msg   = new CommitMessage('Foo' . PHP_EOL . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
         $lines = $msg->getBodyLines();
-        $this->assertEquals(2, count($lines));
+
+        $this->assertCount(2, $lines);
         $this->assertEquals('Bar', $lines[0]);
         $this->assertEquals('Baz', $lines[1]);
     }
@@ -170,7 +187,8 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     {
         $msg   = new CommitMessage('Foo' . PHP_EOL . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
         $lines = $msg->getBodyLines();
-        $this->assertEquals(1, count($lines));
+
+        $this->assertCount(1, $lines);
         $this->assertEquals('Baz', $lines[0]);
     }
 
@@ -180,6 +198,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetLine()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
+
         $this->assertEquals('Foo', $msg->getLine(0));
         $this->assertEquals('Bar', $msg->getLine(1));
         $this->assertEquals('Baz', $msg->getLine(2));
@@ -191,6 +210,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testGetLineIncludesCommentLines()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
+
         $this->assertEquals('Foo', $msg->getLine(0));
         $this->assertEquals('# Bar', $msg->getLine(1));
         $this->assertEquals('Baz', $msg->getLine(2));
@@ -212,6 +232,7 @@ class CommitMessageTest extends \PHPUnit\Framework\TestCase
     public function testCreateFromFileOk()
     {
         $message = CommitMessage::createFromFile(SF_GIT_PATH_FILES . '/git/message/valid.txt');
+
         $this->assertEquals('This is a valid dummy commit Message', $message->getSubject());
     }
 

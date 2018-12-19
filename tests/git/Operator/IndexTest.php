@@ -64,8 +64,8 @@ class IndexTest extends OperatorTest
         $operator = new Index($runner, $repo);
         $files    = $operator->getStagedFiles();
 
-        $this->assertTrue(is_array($files));
-        $this->assertEquals(4, count($files));
+        $this->assertInternalType('array', $files);
+        $this->assertCount(4, $files);
     }
 
     /**
@@ -91,8 +91,8 @@ class IndexTest extends OperatorTest
         $operator = new Index($runner, $repo);
         $files    = $operator->getStagedFilesOfType('php');
 
-        $this->assertTrue(is_array($files));
-        $this->assertEquals(2, count($files));
+        $this->assertInternalType('array', $files);
+        $this->assertCount(2, $files);
     }
 
     /**

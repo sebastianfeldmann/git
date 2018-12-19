@@ -39,7 +39,7 @@ class ConfigTest extends OperatorTest
         $config = new Config($runner, $repo);
         $hasKey = $config->has('core.commentchar');
 
-        $this->assertEquals(true, $hasKey);
+        $this->assertTrue($hasKey);
     }
 
     /**
@@ -63,7 +63,7 @@ class ConfigTest extends OperatorTest
         $config = new Config($runner, $repo);
         $hasKey = $config->has('core.commentchar');
 
-        $this->assertEquals(false, $hasKey);
+        $this->assertFalse($hasKey);
     }
 
     /**
