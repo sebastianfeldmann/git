@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\Describe;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class GetCurrentTagTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\Describe;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.8
  */
-class GetCurrentTagTest extends \PHPUnit\Framework\TestCase
+class GetCurrentTagTest extends TestCase
 {
     /**
      * Tests GetCurrentTag::getGitCommand

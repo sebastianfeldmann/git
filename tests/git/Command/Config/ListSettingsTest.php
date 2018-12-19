@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\Config;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ListSettingsTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\Config;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.8
  */
-class ListSettingsTest extends \PHPUnit\Framework\TestCase
+class ListSettingsTest extends TestCase
 {
     /**
      * Tests ListSettings::getGitCommand

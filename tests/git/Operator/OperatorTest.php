@@ -9,6 +9,10 @@
  */
 namespace SebastianFeldmann\Git\Operator;
 
+use SebastianFeldmann\Cli\Command\Runner;
+use SebastianFeldmann\Git\Repository;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class OperatorTest
  *
@@ -17,7 +21,7 @@ namespace SebastianFeldmann\Git\Operator;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-abstract class OperatorTest extends \PHPUnit\Framework\TestCase
+abstract class OperatorTest extends TestCase
 {
     /**
      * Return repository mock.
@@ -26,7 +30,7 @@ abstract class OperatorTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRepoMock()
     {
-        $repo = $this->getMockBuilder('\\SebastianFeldmann\\Git\\Repository')
+        $repo = $this->getMockBuilder(Repository::class)
                      ->disableOriginalConstructor()
                      ->getMock();
 
@@ -40,7 +44,7 @@ abstract class OperatorTest extends \PHPUnit\Framework\TestCase
      */
     protected function getRunnerMock()
     {
-        $runner = $this->getMockBuilder('\\SebastianFeldmann\\Cli\\Command\\Runner')
+        $runner = $this->getMockBuilder(Runner::class)
                        ->disableOriginalConstructor()
                        ->getMock();
 

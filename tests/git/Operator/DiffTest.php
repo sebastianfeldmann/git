@@ -53,7 +53,7 @@ class DiffTest extends OperatorTest
         $diff  = new Diff($runner, $repo);
         $files = $diff->compare('1.0.0', '1.1.0');
 
-        $this->assertTrue(is_array($files));
-        $this->assertEquals(2, count($files));
+        $this->assertInternaltype('array', $files);
+        $this->assertCount(2, $files);
     }
 }

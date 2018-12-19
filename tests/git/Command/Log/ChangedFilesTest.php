@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Command\Log;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ChangedFilesTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Command\Log;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class ChangedFilesTest extends \PHPUnit\Framework\TestCase
+class ChangedFilesTest extends TestCase
 {
     /**
      * Tests Commits::getCommand

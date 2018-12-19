@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Log;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class CommitTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Log;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.2.0
  */
-class CommitTest extends \PHPUnit\Framework\TestCase
+class CommitTest extends TestCase
 {
     /**
      * Tests Commit::__construct

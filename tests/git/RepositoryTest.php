@@ -9,6 +9,12 @@
  */
 namespace SebastianFeldmann\Git;
 
+use SebastianFeldmann\Git\Operator\Index;
+use SebastianFeldmann\Git\Operator\Info;
+use SebastianFeldmann\Git\Operator\Log;
+use SebastianFeldmann\Git\Operator\Config;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class RepositoryTest
  *
@@ -17,7 +23,7 @@ namespace SebastianFeldmann\Git;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class RepositoryTest extends \PHPUnit\Framework\TestCase
+class RepositoryTest extends TestCase
 {
     /**
      * @var \SebastianFeldmann\Git\DummyRepo
@@ -49,7 +55,8 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     public function testInvalidRepository()
     {
         $repository = new Repository('invalidGitRepo');
-        $this->assertFalse(is_a($repository, '\\SebastianFeldmann\\Git\\Repository'));
+
+        $this->assertFalse(is_a($repository, Repository::class));
     }
 
     /**
@@ -70,6 +77,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     public function testGetHooksDir()
     {
         $repository = new Repository($this->repo->getPath());
+
         $this->assertEquals($this->repo->getPath() . '/.git/hooks', $repository->getHooksDir());
         $this->assertEquals($this->repo->getPath(), $repository->getRoot());
     }
@@ -104,6 +112,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     public function testIsMergingNegative()
     {
         $repository = new Repository($this->repo->getPath());
+
         $this->assertFalse($repository->isMerging());
     }
 
@@ -114,6 +123,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->repo->merge();
         $repository = new Repository($this->repo->getPath());
+
         $this->assertTrue($repository->isMerging());
     }
 
@@ -125,7 +135,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getIndexOperator();
 
-        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Index'));
+        $this->assertTrue(is_a($operator, Index::class));
     }
 
     /**
@@ -136,7 +146,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getInfoOperator();
 
-        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Info'));
+        $this->assertTrue(is_a($operator, Info::class));
     }
 
     /**
@@ -147,7 +157,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getLogOperator();
 
-        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Log'));
+        $this->assertTrue(is_a($operator, Log::class));
     }
 
     /**
@@ -158,6 +168,6 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getConfigOperator();
 
-        $this->assertTrue(is_a($operator, '\\SebastianFeldmann\\Git\\Operator\\Config'));
+        $this->assertTrue(is_a($operator, Config::class));
     }
 }

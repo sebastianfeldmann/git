@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Diff;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class FileTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Diff;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.1.1
  */
-class FileTest extends \PHPUnit\Framework\TestCase
+class FileTest extends TestCase
 {
     /**
      * Tests File::getName
@@ -25,6 +27,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
     public function testGetName()
     {
         $file = new File('foo', File::OP_MODIFIED);
+
         $this->assertEquals('foo', $file->getName());
     }
 
@@ -34,6 +37,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
     public function testGetOperation()
     {
         $file = new File('foo', File::OP_MODIFIED);
+
         $this->assertEquals(File::OP_MODIFIED, $file->getOperation());
     }
 
@@ -43,6 +47,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
     public function testChangesEmptyOnInit()
     {
         $file = new File('foo', File::OP_MODIFIED);
+
         $this->assertEquals([], $file->getChanges());
     }
 
@@ -57,7 +62,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
         $changes = $file->getChanges();
         $change  = $changes[0];
 
-        $this->assertEquals(1, count($changes));
+        $this->assertCount(1, $changes);
         $this->assertEquals('foo', $change->getHeader());
     }
 
@@ -75,9 +80,9 @@ class FileTest extends \PHPUnit\Framework\TestCase
         $changes = $file->getChanges();
         $change  = $changes[0];
 
-        $this->assertEquals(1, count($changes));
+        $this->assertCount(1, $changes);
         $this->assertEquals('bar', $change->getHeader());
-        $this->assertEquals(1, count($change->getLines()));
+        $this->assertCount(1, $change->getLines());
         $this->assertEquals(Line::ADDED, $change->getLines()[0]->getOperation());
         $this->assertEquals('baz', $change->getLines()[0]->getContent());
     }

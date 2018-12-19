@@ -9,6 +9,9 @@
  */
 namespace SebastianFeldmann\Git\Command\Log\Commits;
 
+use SebastianFeldmann\Git\Log\Commit;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class JsonizedTest
  *
@@ -17,7 +20,7 @@ namespace SebastianFeldmann\Git\Command\Log\Commits;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 0.9.0
  */
-class JsonizedTest extends \PHPUnit\Framework\TestCase
+class JsonizedTest extends TestCase
 {
     public function testFormat()
     {
@@ -27,9 +30,9 @@ class JsonizedTest extends \PHPUnit\Framework\TestCase
            '"description": "Fix case in path", "date": "2017-01-16 02:16:13 +0100", "author": "Sebastian Feldmann"}',
         ]);
 
-        $this->assertEquals(1, count($result));
+        $this->assertCount(1, $result);
         $this->assertTrue($result[0]->hasNames());
-        $this->assertTrue(is_a($result[0], '\\SebastianFeldmann\\Git\\Log\\Commit'));
+        $this->assertTrue(is_a($result[0], Commit::class));
         $this->assertEquals('a9d9ac5', $result[0]->getHash());
         $this->assertEquals('Sebastian Feldmann', $result[0]->getAuthor());
     }

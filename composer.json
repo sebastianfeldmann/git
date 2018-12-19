@@ -19,9 +19,17 @@
       "SebastianFeldmann\\Git\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "SebastianFeldmann\\Git\\": "tests/"
+    }
+  },
   "require": {
     "php": ">=7.0.0",
     "sebastianfeldmann/cli": "^2.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
   },
   "extra": {
     "branch-alias": {

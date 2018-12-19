@@ -10,6 +10,8 @@
 
 namespace SebastianFeldmann\Git\Command\Diff;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class CompareTest
  *
@@ -18,7 +20,7 @@ namespace SebastianFeldmann\Git\Command\Diff;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.2.0
  */
-class CompareTest extends \PHPUnit\Framework\TestCase
+class CompareTest extends TestCase
 {
     /**
      * Tests Compare::revision

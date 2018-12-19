@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git\Diff;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ChangeTest
  *
@@ -17,7 +19,7 @@ namespace SebastianFeldmann\Git\Diff;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.2.0
  */
-class ChangeTest extends \PHPUnit\Framework\TestCase
+class ChangeTest extends TestCase
 {
     /**
      * Tests Change::__construct
@@ -39,7 +41,7 @@ class ChangeTest extends \PHPUnit\Framework\TestCase
         $change = new Change('-0,5 +0,10', 'foo bar');
         $change->addLine(new Line(Line::ADDED, 'fiz baz'));
 
-        $this->assertEquals(1, count($change->getLines()));
+        $this->assertCount(1, $change->getLines());
     }
 
     /**
