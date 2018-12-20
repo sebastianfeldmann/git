@@ -228,6 +228,16 @@ class CommitMessageTest extends TestCase
 
     /**
      * Tests CommitMessage::createFromFile
+     *
+     * @expectedException \Exception
+     */
+    public function testCreateFromEmptyPathFail()
+    {
+        CommitMessage::createFromFile('');
+    }
+
+    /**
+     * Tests CommitMessage::createFromFile
      */
     public function testCreateFromFileOk()
     {
