@@ -32,7 +32,7 @@ class JsonizedTest extends TestCase
 
         $this->assertCount(1, $result);
         $this->assertTrue($result[0]->hasNames());
-        $this->assertTrue(is_a($result[0], Commit::class));
+        $this->assertInstanceOf(Commit::class, $result[0]);
         $this->assertEquals('a9d9ac5', $result[0]->getHash());
         $this->assertEquals('Sebastian Feldmann', $result[0]->getAuthor());
     }

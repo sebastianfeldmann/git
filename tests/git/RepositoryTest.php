@@ -56,7 +56,7 @@ class RepositoryTest extends TestCase
     {
         $repository = new Repository('invalidGitRepo');
 
-        $this->assertFalse(is_a($repository, Repository::class));
+        $this->assertNotInstanceOf(Repository::class, $repository);
     }
 
     /**
@@ -135,7 +135,7 @@ class RepositoryTest extends TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getIndexOperator();
 
-        $this->assertTrue(is_a($operator, Index::class));
+        $this->assertInstanceOf(Index::class, $operator);
     }
 
     /**
@@ -146,7 +146,7 @@ class RepositoryTest extends TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getInfoOperator();
 
-        $this->assertTrue(is_a($operator, Info::class));
+        $this->assertInstanceOf(Info::class, $operator);
     }
 
     /**
@@ -157,7 +157,7 @@ class RepositoryTest extends TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getLogOperator();
 
-        $this->assertTrue(is_a($operator, Log::class));
+        $this->assertInstanceOf(Log::class, $operator);
     }
 
     /**
@@ -168,6 +168,6 @@ class RepositoryTest extends TestCase
         $repository = new Repository($this->repo->getPath());
         $operator   = $repository->getConfigOperator();
 
-        $this->assertTrue(is_a($operator, Config::class));
+        $this->assertInstanceOf(Config::class, $operator);
     }
 }

@@ -52,7 +52,6 @@ class CommitMessageTest extends TestCase
         $this->assertEquals($content, $msg->getContent());
     }
 
-
     /**
      * Tests CommitMessage::getContent
      */
