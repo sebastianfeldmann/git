@@ -102,9 +102,10 @@ class Change
     /**
      * Add a line to the change.
      *
-     * @param \SebastianFeldmann\Git\Diff\Line $line
+     * @param  \SebastianFeldmann\Git\Diff\Line $line
+     * @return void
      */
-    public function addLine(Line $line)
+    public function addLine(Line $line): void
     {
         $this->lines[] = $line;
     }
@@ -112,9 +113,10 @@ class Change
     /**
      * Parse ranges and split them into pre and post range.
      *
-     * @param string $ranges
+     * @param  string $ranges
+     * @return void
      */
-    private function splitRanges(string $ranges)
+    private function splitRanges(string $ranges): void
     {
         $matches = [];
         if (!preg_match('#^[\-|\+]{1}([0-9]+),([0-9]+) [\-\+]{1}([0-9]+),([0-9]+)$#', $ranges, $matches)) {

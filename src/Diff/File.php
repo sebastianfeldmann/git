@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Diff;
 
 /**
@@ -19,11 +20,11 @@ namespace SebastianFeldmann\Git\Diff;
  */
 class File
 {
-    const OP_DELETED  = 'deleted';
-    const OP_CREATED  = 'created';
+    const OP_DELETED = 'deleted';
+    const OP_CREATED = 'created';
     const OP_MODIFIED = 'modified';
-    const OP_RENAMED  = 'renamed';
-    const OP_COPIED   = 'copied';
+    const OP_RENAMED = 'renamed';
+    const OP_COPIED = 'copied';
 
     /**
      * List of changes.
@@ -91,9 +92,10 @@ class File
     /**
      * Add a change to the list of changes.
      *
-     * @param \SebastianFeldmann\Git\Diff\Change $change
+     * @param  \SebastianFeldmann\Git\Diff\Change $change
+     * @return void
      */
-    public function addChange(Change $change)
+    public function addChange(Change $change): void
     {
         $this->changes[] = $change;
     }

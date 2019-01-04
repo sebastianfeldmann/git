@@ -27,7 +27,7 @@ class GetStagedFiles extends Base
      * @return string
      * @throws \RuntimeException
      */
-    protected function getGitCommand() : string
+    protected function getGitCommand(): string
     {
         return 'diff-index --cached --name-status HEAD';
     }

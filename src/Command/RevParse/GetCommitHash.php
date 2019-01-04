@@ -34,7 +34,7 @@ class GetCommitHash extends Base
      * @param  string $revision
      * @return \SebastianFeldmann\Git\Command\RevParse\GetCommitHash
      */
-    public function revision(string $revision) : GetCommitHash
+    public function revision(string $revision): GetCommitHash
     {
         $this->rev = $revision;
         return $this;

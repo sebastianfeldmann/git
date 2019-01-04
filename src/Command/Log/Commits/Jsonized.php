@@ -36,7 +36,7 @@ class Jsonized implements OutputFormatter
      * @return iterable
      * @throws \Exception
      */
-    public function format(array $output)
+    public function format(array $output): iterable
     {
         $formatted = [];
         foreach ($output as $row) {

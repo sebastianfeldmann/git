@@ -56,7 +56,7 @@ class Compare extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Diff\Compare
      */
-    public function revisions(string $from, string $to) : Compare
+    public function revisions(string $from, string $to): Compare
     {
         $this->compare = escapeshellarg($from) . ' ' . escapeshellarg($to);
         return $this;
@@ -68,7 +68,7 @@ class Compare extends Base
      * @param  bool $bool
      * @return \SebastianFeldmann\Git\Command\Diff\Compare
      */
-    public function statsOnly(bool $bool = true) : Compare
+    public function statsOnly(bool $bool = true): Compare
     {
         $this->stats = $this->useOption('--numstat', $bool);
         return $this;
@@ -80,7 +80,7 @@ class Compare extends Base
      * @param  bool $bool
      * @return \SebastianFeldmann\Git\Command\Diff\Compare
      */
-    public function ignoreWhitespacesAtEndOfLine(bool $bool = true) : Compare
+    public function ignoreWhitespacesAtEndOfLine(bool $bool = true): Compare
     {
         $this->ignoreEOL = $this->useOption('--ignore-space-at-eol', $bool);
         return $this;
@@ -92,7 +92,7 @@ class Compare extends Base
      * @param  bool $bool
      * @return \SebastianFeldmann\Git\Command\Diff\Compare
      */
-    public function ignoreWhitespaces(bool $bool = true) : Compare
+    public function ignoreWhitespaces(bool $bool = true): Compare
     {
         $this->ignoreWhitespaces = $this->useOption('-w', $bool);
         return $this;

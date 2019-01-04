@@ -70,7 +70,7 @@ abstract class Log extends Base
      * @param  string $format
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function prettyFormat(string $format) : Log
+    public function prettyFormat(string $format): Log
     {
         $this->format = $format;
         return $this;
@@ -82,7 +82,7 @@ abstract class Log extends Base
      * @param  bool $bool
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function withMerges(bool $bool = true) : Log
+    public function withMerges(bool $bool = true): Log
     {
         $this->merges = ($bool ? '' : ' --no-merges');
         return $this;
@@ -94,7 +94,7 @@ abstract class Log extends Base
      * @param  bool $bool
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function abbrevCommit(bool $bool = true) : Log
+    public function abbrevCommit(bool $bool = true): Log
     {
         $this->abbrev = ($bool ? ' --abbrev--commit' : '');
         return $this;
@@ -107,7 +107,7 @@ abstract class Log extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function byRevision(string $from, string $to = '') : Log
+    public function byRevision(string $from, string $to = ''): Log
     {
         $this->since = ' ' . escapeshellarg($from) . '..'
                      . (empty($to) ? '' : escapeshellarg($to));
@@ -120,7 +120,7 @@ abstract class Log extends Base
      * @param  string $author
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function authoredBy(string $author) : Log
+    public function authoredBy(string $author): Log
     {
         $this->author = ' --author=' . escapeshellarg($author);
         return $this;
@@ -133,7 +133,7 @@ abstract class Log extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function byDate(string $from, string $to = '') : Log
+    public function byDate(string $from, string $to = ''): Log
     {
         $this->since = ' --after=' . escapeshellarg($from)
                      . (empty($to) ? '' : ' --before=' . escapeshellarg($to));

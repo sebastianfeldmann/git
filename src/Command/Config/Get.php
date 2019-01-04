@@ -34,7 +34,7 @@ class Get extends Base
      * @param string $name
      * @return \SebastianFeldmann\Git\Command\Config\Get
      */
-    public function name(string $name) : Get
+    public function name(string $name): Get
     {
         $this->name = $name;
 
@@ -46,7 +46,7 @@ class Get extends Base
      *
      * @return string
      */
-    protected function getGitCommand() : string
+    protected function getGitCommand(): string
     {
         return 'config --get ' .  escapeshellarg($this->name);
     }

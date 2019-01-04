@@ -140,7 +140,7 @@ class FullDiffList implements OutputFormatter
      * @param  array $output
      * @return iterable
      */
-    public function format(array $output)
+    public function format(array $output): iterable
     {
         $previousLineType = self::LINE_TYPE_START;
         // for each line of the output
@@ -303,8 +303,10 @@ class FullDiffList implements OutputFormatter
 
     /**
      * Add all collected changes to its file.
+     *
+     * @return void
      */
-    private function appendCollectedFileAndChanges()
+    private function appendCollectedFileAndChanges(): void
     {
         if (!empty($this->currentFile)) {
             foreach ($this->currentChanges as $change) {

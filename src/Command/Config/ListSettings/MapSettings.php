@@ -27,7 +27,7 @@ class MapSettings implements OutputFormatter
      * @param  array $output
      * @return iterable
      */
-    public function format(array $output)
+    public function format(array $output): iterable
     {
         $formatted = [];
         foreach ($output as $row) {

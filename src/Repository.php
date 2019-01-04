@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git;
 
 use SebastianFeldmann\Cli\Command\Runner;
@@ -79,7 +80,7 @@ class Repository
      *
      * @return string
      */
-    public function getRoot() : string
+    public function getRoot(): string
     {
         return $this->root;
     }
@@ -89,7 +90,7 @@ class Repository
      *
      * @return string
      */
-    public function getHooksDir() : string
+    public function getHooksDir(): string
     {
         return $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks';
     }
@@ -100,7 +101,7 @@ class Repository
      * @param  string $hook
      * @return bool
      */
-    public function hookExists($hook) : bool
+    public function hookExists($hook): bool
     {
         return file_exists($this->getHooksDir() . DIRECTORY_SEPARATOR . $hook);
     }
@@ -108,9 +109,10 @@ class Repository
     /**
      * CommitMessage setter.
      *
-     * @param \SebastianFeldmann\Git\CommitMessage $commitMsg
+     * @param  \SebastianFeldmann\Git\CommitMessage $commitMsg
+     * @return void
      */
-    public function setCommitMsg(CommitMessage $commitMsg)
+    public function setCommitMsg(CommitMessage $commitMsg): void
     {
         $this->commitMsg = $commitMsg;
     }
@@ -120,7 +122,7 @@ class Repository
      *
      * @return \SebastianFeldmann\Git\CommitMessage
      */
-    public function getCommitMsg() : CommitMessage
+    public function getCommitMsg(): CommitMessage
     {
         if (null === $this->commitMsg) {
             throw new \RuntimeException('No commit message available');
@@ -133,7 +135,7 @@ class Repository
      *
      * @return bool
      */
-    public function isMerging() : bool
+    public function isMerging(): bool
     {
         foreach (['MERGE_MSG', 'MERGE_HEAD', 'MERGE_MODE'] as $fileName) {
             if (file_exists($this->dotGitDir . DIRECTORY_SEPARATOR . $fileName)) {
@@ -148,7 +150,7 @@ class Repository
      *
      * @return \SebastianFeldmann\Git\Operator\Index
      */
-    public function getIndexOperator() : Operator\Index
+    public function getIndexOperator(): Operator\Index
     {
         return $this->getOperator('Index');
     }
@@ -158,7 +160,7 @@ class Repository
      *
      * @return \SebastianFeldmann\Git\Operator\Info
      */
-    public function getInfoOperator() : Operator\Info
+    public function getInfoOperator(): Operator\Info
     {
         return $this->getOperator('Info');
     }
@@ -168,7 +170,7 @@ class Repository
      *
      * @return \SebastianFeldmann\Git\Operator\Log
      */
-    public function getLogOperator() : Operator\Log
+    public function getLogOperator(): Operator\Log
     {
         return $this->getOperator('Log');
     }
@@ -178,7 +180,7 @@ class Repository
      *
      * @return \SebastianFeldmann\Git\Operator\Config
      */
-    public function getConfigOperator() : Operator\Config
+    public function getConfigOperator(): Operator\Config
     {
         return $this->getOperator('Config');
     }

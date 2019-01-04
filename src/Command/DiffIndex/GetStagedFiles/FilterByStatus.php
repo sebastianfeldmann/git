@@ -44,7 +44,7 @@ class FilterByStatus implements OutputFormatter
      * @param  array $output
      * @return iterable
      */
-    public function format(array $output)
+    public function format(array $output): iterable
     {
         $formatted = [];
         $pattern = sprintf('#^(?:%s)\t(.+)$#i', implode('|', $this->status));

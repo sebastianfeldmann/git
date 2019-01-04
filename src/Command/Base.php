@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Command;
 
 use SebastianFeldmann\Cli\Command;
@@ -43,7 +44,7 @@ abstract class Base implements Command
      *
      * @return string
      */
-    public function getCommand() : string
+    public function getCommand(): string
     {
         $command = 'git'
                  . $this->getRootOption()
@@ -57,7 +58,7 @@ abstract class Base implements Command
      *
      * @return array
      */
-    public function getAcceptableExitCodes() : array
+    public function getAcceptableExitCodes(): array
     {
         return [0];
     }
@@ -67,16 +68,15 @@ abstract class Base implements Command
      *
      * @return string
      */
-    protected function getRootOption() : string
+    protected function getRootOption(): string
     {
         $option = '';
         // if root is set
         if (!empty($this->repositoryRoot)) {
             // and it's not the current working directory
             if (getcwd() !== $this->repositoryRoot) {
-                $option =  ' -C ' . escapeshellarg($this->repositoryRoot);
+                $option = ' -C ' . escapeshellarg($this->repositoryRoot);
             }
-
         }
         return $option;
     }
@@ -88,7 +88,7 @@ abstract class Base implements Command
      * @param  bool   $switch
      * @return string
      */
-    protected function useOption(string $option, bool $switch) : string
+    protected function useOption(string $option, bool $switch): string
     {
         return ($switch ? ' ' . $option : '');
     }
@@ -99,7 +99,7 @@ abstract class Base implements Command
      *
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->getCommand();
     }
@@ -110,5 +110,5 @@ abstract class Base implements Command
      * @return string
      * @throws \RuntimeException
      */
-    protected abstract function getGitCommand() : string;
+    protected abstract function getGitCommand(): string;
 }
