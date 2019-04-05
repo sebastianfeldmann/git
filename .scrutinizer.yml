@@ -5,7 +5,7 @@ build:
     coverage:
       dependencies:
         after:
-          - wget -O phpunit.phar https://phar.phpunit.de/phpunit-6.5.9.phar
+          - wget -O phpunit.phar https://phar.phpunit.de/phpunit-7.5.8.phar
       tests:
         override:
           - php phpunit.phar
