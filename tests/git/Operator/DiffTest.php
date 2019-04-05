@@ -12,6 +12,7 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Diff\Compare;
+use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
 use SebastianFeldmann\Git\Diff\File;
 
 /**
@@ -53,7 +54,36 @@ class DiffTest extends OperatorTest
         $diff  = new Diff($runner, $repo);
         $files = $diff->compare('1.0.0', '1.1.0');
 
-        $this->assertInternaltype('array', $files);
+        $this->assertIsArray($files);
+        $this->assertCount(2, $files);
+    }
+
+    /**
+     * Tests Diff::compare
+     */
+    public function testChangedFiles()
+    {
+        $root = realpath(__FILE__ . '/../../..');
+        $out  = 'foo.php' . PHP_EOL . 'bar.php' . PHP_EOL;
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0, $out);
+        $runRes = new RunnerResult($cmdRes);
+        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0');
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->equalTo($gitCmd)
+            )
+            ->willReturn($runRes);
+
+        $diff  = new Diff($runner, $repo);
+        $files = $diff->getChangedFiles('1.0.0', '1.1.0');
+
+        $this->assertIsArray($files);
         $this->assertCount(2, $files);
     }
 }

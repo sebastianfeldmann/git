@@ -10,6 +10,7 @@
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Diff\Compare;
+use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
 
 /**
  * Diff operator
@@ -36,5 +37,20 @@ class Diff extends Base
         $result = $this->runner->run($compare, new Compare\FullDiffList());
 
         return $result->getFormattedOutput();
+    }
+
+    /**
+     * Uses 'diff-tree' to list the files that changed between two revisions
+     *
+     * @param  string $from
+     * @param  string $to
+     * @return string[]
+     */
+    public function getChangedFiles(string $from, string $to): array
+    {
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to);
+        $result = $this->runner->run($cmd);
+
+        return $result->getBufferedOutput();
     }
 }

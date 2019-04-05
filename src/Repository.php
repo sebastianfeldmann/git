@@ -186,6 +186,16 @@ class Repository
     }
 
     /**
+     * Get diff operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Diff
+     */
+    public function getDiffOperator(): Operator\Diff
+    {
+        return $this->getOperator('Diff');
+    }
+
+    /**
      * Return requested operator.
      *
      * @param  string $name

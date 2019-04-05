@@ -9,6 +9,7 @@
  */
 namespace SebastianFeldmann\Git;
 
+use SebastianFeldmann\Git\Operator\Diff;
 use SebastianFeldmann\Git\Operator\Index;
 use SebastianFeldmann\Git\Operator\Info;
 use SebastianFeldmann\Git\Operator\Log;
@@ -33,7 +34,7 @@ class RepositoryTest extends TestCase
     /**
      * Setup dummy repo.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->repo = new DummyRepo();
         $this->repo->setup();
@@ -42,7 +43,7 @@ class RepositoryTest extends TestCase
     /**
      * Cleanup dummy repo.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->repo->cleanup();
     }
@@ -169,5 +170,16 @@ class RepositoryTest extends TestCase
         $operator   = $repository->getConfigOperator();
 
         $this->assertInstanceOf(Config::class, $operator);
+    }
+
+    /**
+     * Tests Repository::getDiffOperator
+     */
+    public function testGetDiffOperator()
+    {
+        $repository = new Repository($this->repo->getPath());
+        $operator   = $repository->getDiffOperator();
+
+        $this->assertInstanceOf(Diff::class, $operator);
     }
 }
