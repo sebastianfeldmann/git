@@ -30,7 +30,7 @@ class DummyRepo
     private $gitDir;
 
     /**
-     * DummyRepo constructor.
+     * DummyRepo constructor
      *
      * @param string $name
      */
@@ -42,34 +42,38 @@ class DummyRepo
     }
 
     /**
-     * Create the repository directory.
+     * Create the repository directory
+     *
+     * @return void
      */
-    public function setup()
+    public function setup() : void
     {
         mkdir($this->gitDir . DIRECTORY_SEPARATOR . 'hooks', 0777, true);
     }
 
     /**
-     * Create a hook script.
+     * Create a hook script
      *
-     * @param string $name
-     * @param string $content
+     * @param  string $name
+     * @param  string $content
+     * @return void
      */
-    public function touchHook(string $name, string $content = '# dummy hook')
+    public function touchHook(string $name, string $content = '# dummy hook') : void
     {
         file_put_contents($this->gitDir . DIRECTORY_SEPARATOR . 'hooks' . DIRECTORY_SEPARATOR . $name, $content);
     }
 
     /**
-     * Simulate a merge state.
+     * Simulate a merge state
+     *
      */
-    public function merge()
+    public function merge() : void
     {
         file_put_contents($this->gitDir . DIRECTORY_SEPARATOR . 'MERGE_MSG', '# merge file');
     }
 
     /**
-     * Path getter.
+     * Path getter
      *
      * @return string
      */
@@ -79,7 +83,7 @@ class DummyRepo
     }
 
     /**
-     * Git directory getter.
+     * Git directory getter
      *
      * @return string
      */
@@ -89,7 +93,7 @@ class DummyRepo
     }
 
     /**
-     * Hook directory getter.
+     * Hook directory getter
      *
      * @return string
      */
@@ -99,9 +103,11 @@ class DummyRepo
     }
 
     /**
-     * Cleanup all dummy files.
+     * Cleanup all dummy files
+     *
+     * @return void
      */
-    public function cleanup()
+    public function cleanup() : void
     {
         system('rm -rf ' . $this->path);
     }
