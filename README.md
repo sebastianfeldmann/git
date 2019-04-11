@@ -22,6 +22,8 @@ The git package is installable via composer. Just run the following command.
 $ composer require sebastianfeldmann/git
 ```
 
+## Usage
+
 Setup the `Repository`
 ```php
 $repoRootPath  = '/var/www/my-project';
