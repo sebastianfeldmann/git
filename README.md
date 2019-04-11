@@ -13,6 +13,15 @@ All you have to do is setup a `Repository` object, retrieve a command `Operator`
 and fire away. Each git command like git _config_ or git _log_ is handled
 by an `Operator`. Follow the next steps to give it a try.
 
+
+## Installation
+
+The git package is installable via composer. Just run the following command.
+
+```bash
+$ composer require sebastianfeldmann/git
+```
+
 Setup the `Repository`
 ```php
 $repoRootPath  = '/var/www/my-project';
