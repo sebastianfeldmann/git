@@ -180,6 +180,17 @@ class CommitMessage
     }
 
     /**
+     * Get a specific content line
+     *
+     * @param  int $index
+     * @return string
+     */
+    public function getContentLine(int $index) : string
+    {
+        return $this->contentLines[$index] ?? '';
+    }
+
+    /**
      * Return first line
      *
      * @return string

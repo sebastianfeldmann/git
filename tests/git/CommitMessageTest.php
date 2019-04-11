@@ -215,6 +215,18 @@ class CommitMessageTest extends TestCase
     }
 
     /**
+     * Tests CommitMessage::getLines
+     */
+    public function testGetContentLine()
+    {
+        $msg = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz');
+
+        $this->assertEquals('Foo', $msg->getContentLine(0));
+        $this->assertEquals('Baz', $msg->getContentLine(1));
+        $this->assertEquals('', $msg->getContentLine(2));
+    }
+
+    /**
      * Tests CommitMessage::getLine
      */
     public function testGetLineIncludesCommentLines()
