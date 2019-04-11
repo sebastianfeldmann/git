@@ -9,6 +9,8 @@
  */
 namespace SebastianFeldmann\Git;
 
+use RuntimeException;
+
 /**
  * Class CommitMessage
  *
@@ -155,6 +157,18 @@ class CommitMessage
     }
 
     /**
+     * Return content line count
+     *
+     * This doesn't includes lines that are comments.
+     *
+     * @return int
+     */
+    public function getContentLineCount() : int
+    {
+        return $this->contentLineCount;
+    }
+
+    /**
      * Get a specific line
      *
      * @param  int $index
@@ -162,7 +176,7 @@ class CommitMessage
      */
     public function getLine(int $index) : string
     {
-        return isset($this->rawLines[$index]) ? $this->rawLines[$index] : '';
+        return $this->rawLines[$index] ?? '';
     }
 
     /**
@@ -237,7 +251,7 @@ class CommitMessage
     public static function createFromFile(string $path, $commentCharacter = '#') : CommitMessage
     {
         if (!file_exists($path)) {
-            throw new \RuntimeException('Commit message file not found');
+            throw new RuntimeException('Commit message file not found');
         }
 
         return new CommitMessage(file_get_contents($path), $commentCharacter);

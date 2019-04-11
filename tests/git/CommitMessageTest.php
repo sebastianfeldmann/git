@@ -82,7 +82,7 @@ class CommitMessageTest extends TestCase
         $msg   = new CommitMessage('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
         $lines = $msg->getLines();
 
-        $this->assertInternalType('array', $lines);
+        $this->assertIsArray($lines);
         $this->assertCount(3, $lines);
     }
 
@@ -94,7 +94,7 @@ class CommitMessageTest extends TestCase
         $msg   = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
         $lines = $msg->getLines();
 
-        $this->assertInternalType('array', $lines);
+        $this->assertIsArray($lines);
         $this->assertCount(3, $lines);
     }
 
@@ -117,14 +117,25 @@ class CommitMessageTest extends TestCase
 
         $this->assertEquals(3, $msg->getLineCount());
     }
+
     /**
      * Tests CommitMessage::getLineCount
      */
-    public function testLineCountIncludesComments()
+    public function testRawLineCountIncludesComments()
     {
         $msg = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
 
         $this->assertEquals(3, $msg->getLineCount());
+    }
+
+    /**
+     * Tests CommitMessage::getContentLineCount
+     */
+    public function testContentLineCount()
+    {
+        $msg = new CommitMessage('Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz', '#');
+
+        $this->assertEquals(2, $msg->getContentLineCount());
     }
 
     /**
