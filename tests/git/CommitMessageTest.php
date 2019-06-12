@@ -74,6 +74,20 @@ class CommitMessageTest extends TestCase
     }
 
     /**
+     * Tests CommitMessage::getContent
+     */
+    public function testGetContentWithScissors()
+    {
+        $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz' . PHP_EOL .
+                   '# ------------------------ >8 ------------------------' . PHP_EOL .
+                   'fiz' . PHP_EOL . 'baz';
+
+        $msg = new CommitMessage($content);
+        $this->assertEquals(2, $msg->getContentLineCount());
+        $this->assertEquals('Foo' . PHP_EOL . 'Baz', $msg->getContent());
+    }
+
+    /**
      * Tests CommitMessage::getRawContent
      */
     public function testGetRawContentIncludesComments()

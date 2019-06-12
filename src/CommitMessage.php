@@ -243,10 +243,17 @@ class CommitMessage
     {
         $lines = [];
 
-        foreach($rawLines as $line) {
-            if(!isset($line{0}) || $line{0} !== $commentCharacter) {
-                $lines[] = $line;
+        foreach ($rawLines as $line) {
+            // if we handle a comment line
+            if (isset($line{0}) && $line{0} === $commentCharacter) {
+                // check if we should ignore all following lines
+                if (strpos($line, '------------------------ >8 ------------------------') !== false) {
+                    break;
+                }
+                // or only the current one
+                continue;
             }
+            $lines[] = $line;
         }
 
         return $lines;
