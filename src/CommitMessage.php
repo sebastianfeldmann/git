@@ -197,7 +197,7 @@ class CommitMessage
      */
     public function getSubject() : string
     {
-        return $this->contentLines[0];
+        return $this->contentLines[0] ?? '';
     }
 
     /**

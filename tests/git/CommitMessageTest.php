@@ -32,6 +32,16 @@ class CommitMessageTest extends TestCase
     }
 
     /**
+     * Tests CommitMessage::getSubject
+     */
+    public function testGetSubjectOnEmptyMessage()
+    {
+        $msg = new CommitMessage('');
+
+        $this->assertEquals('', $msg->getSubject());
+    }
+
+    /**
      * Tests CommitMessage::isEmpty
      */
     public function testIsEmptyDoesNotIncludeComments()
