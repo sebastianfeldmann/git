@@ -90,9 +90,14 @@ class Repository
      *
      * @return string
      */
-    public function getHooksDir(): string
+    public function getHooksDir($submoduleName = ''): string
     {
-        return $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks';
+        $submodulePath = '';
+        if($submoduleName !== ''){
+            $submodulePath = DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $submoduleName;
+        }
+
+        return $this->dotGitDir . $submodulePath . DIRECTORY_SEPARATOR . 'hooks';
     }
 
     /**
@@ -101,9 +106,9 @@ class Repository
      * @param  string $hook
      * @return bool
      */
-    public function hookExists($hook): bool
+    public function hookExists($hook, $submoduleName = ''): bool
     {
-        return file_exists($this->getHooksDir() . DIRECTORY_SEPARATOR . $hook);
+        return file_exists($this->getHooksDir($submoduleName) . DIRECTORY_SEPARATOR . $hook);
     }
 
     /**
