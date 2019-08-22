@@ -22,7 +22,7 @@ use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
 class Info extends Base
 {
     /**
-     * Returns the tag tag of the current commit
+     * Returns the tag of the current commit
      *
      * @return string
      */
