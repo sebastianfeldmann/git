@@ -23,7 +23,7 @@ use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 class Info extends Base
 {
     /**
-     * Returns the tag tag of the current commit
+     * Returns the tag of the current commit
      *
      * @return string
      */
