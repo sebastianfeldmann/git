@@ -64,4 +64,46 @@ class InfoTest extends OperatorTest
         // should never get asserted and fail in error case
         $this->assertEquals('1.0.0', $tag);
     }
+
+    /**
+     * Tests Info::getCurrentCommitHash
+     */
+    public function testGetCurrentCommitHashSuccess()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('rev-parse --verify 6b1cb23', 0, '6b1cb23' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $tag      = $operator->getCurrentCommitHash();
+
+        $this->assertEquals('6b1cb23', $tag);
+    }
+
+    /**
+     * Tests Info::getCurrentCommitHash
+     *
+     * @expectedException \RuntimeException
+     */
+    public function testGetCurrentCommitHashFail()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->will($this->throwException(new RuntimeException()));
+
+        $operator = new Info($runner, $repo);
+        $tag      = $operator->getCurrentCommitHash();
+
+        // should never get asserted and fail in error case
+        $this->assertEquals('6b1cb23', $tag);
+    }
 }
