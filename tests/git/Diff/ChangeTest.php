@@ -46,11 +46,11 @@ class ChangeTest extends TestCase
 
     /**
      * Tests Change::__construct
-     *
-     * @expectedException \RuntimeException
      */
     public function testNewChangeFail()
     {
+        $this->expectException(\RuntimeException::class);
+
         $change = new Change('@@ +5 -10 @@', 'foo bar');
     }
 }

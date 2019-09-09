@@ -50,11 +50,11 @@ class RepositoryTest extends TestCase
 
     /**
      * Tests Repository::__construct
-     *
-     * @expectedException \Exception
      */
     public function testInvalidRepository()
     {
+        $this->expectException(\Exception::class);
+
         $repository = new Repository('invalidGitRepo');
 
         $this->assertNotInstanceOf(Repository::class, $repository);
@@ -98,11 +98,10 @@ class RepositoryTest extends TestCase
 
     /**
      * Tests Repository::getCommitMsg
-     *
-     * @expectedException \Exception
      */
     public function testGetCommitMessageFail()
     {
+        $this->expectException(\Exception::class);
         $repository = new Repository($this->repo->getPath());
         $repository->getCommitMsg();
     }

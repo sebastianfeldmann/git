@@ -264,21 +264,19 @@ class CommitMessageTest extends TestCase
 
     /**
      * Tests CommitMessage::createFromFile
-     *
-     * @expectedException \Exception
      */
     public function testCreateFromFileFail()
     {
+        $this->expectException(\Exception::class);
         CommitMessage::createFromFile('iDoNotExist.txt');
     }
 
     /**
      * Tests CommitMessage::createFromFile
-     *
-     * @expectedException \Exception
      */
     public function testCreateFromEmptyPathFail()
     {
+        $this->expectException(\Exception::class);
         CommitMessage::createFromFile('');
     }
 

@@ -34,11 +34,10 @@ class LineTest extends TestCase
 
     /**
      * Tests Line::__construct
-     *
-     * @expectedException \RuntimeException
      */
     public function testInvalidOperation()
     {
+        $this->expectException(\RuntimeException::class);
         $line = new Line('foo', 'bar');
     }
 }
