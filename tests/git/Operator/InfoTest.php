@@ -47,11 +47,11 @@ class InfoTest extends OperatorTest
 
     /**
      * Tests Info::getCurrentTag
-     *
-     * @expectedException \RuntimeException
      */
     public function testGetCurrentTagFail()
     {
+        $this->expectException(RuntimeException::class);
+
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
 
@@ -60,6 +60,50 @@ class InfoTest extends OperatorTest
 
         $operator = new Info($runner, $repo);
         $tag      = $operator->getCurrentTag();
+
+        // should never get asserted and fail in error case
+        $this->assertEquals('1.0.0', $tag);
+    }
+
+    /**
+     * Tests Info::getTagsFrom
+     */
+    public function testTagsFromSuccess()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('tag --points-at \'HEAD\'', 0, '1.0.1' . PHP_EOL . '1.0.2' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $tags     = $operator->getTagsPointingTo('HEAD');
+
+        $this->assertCount(2, $tags);
+        $this->assertEquals('1.0.1', $tags[0]);
+        $this->assertEquals('1.0.2', $tags[1]);
+    }
+
+    /**
+     * Tests Info::getTagsFrom
+     */
+    public function testGetTagsFromFail()
+    {
+        $this->expectException(RuntimeException::class);
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->will($this->throwException(new RuntimeException()));
+
+        $operator = new Info($runner, $repo);
+        $tag      = $operator->getTagsPointingTo('HEAD');
 
         // should never get asserted and fail in error case
         $this->assertEquals('1.0.0', $tag);
@@ -89,11 +133,11 @@ class InfoTest extends OperatorTest
 
     /**
      * Tests Info::getCurrentCommitHash
-     *
-     * @expectedException \RuntimeException
      */
     public function testGetCurrentCommitHashFail()
     {
+        $this->expectException(RuntimeException::class);
+
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
 

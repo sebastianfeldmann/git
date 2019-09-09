@@ -11,6 +11,7 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
+use SebastianFeldmann\Git\Command\Tag\GetTags;
 
 /**
  * Class Info
@@ -33,6 +34,22 @@ class Info extends Base
         $result = $this->runner->run($cmd);
 
         return trim($result->getStdOut());
+    }
+
+    /**
+     * Returns a list of tags for a given commit hash
+     *
+     * @param  string $hash
+     * @return string[]
+     */
+    public function getTagsPointingTo(string $hash): array
+    {
+        $cmd = new GetTags($this->repo->getRoot());
+        $cmd->pointingTo($hash);
+
+        $result = $this->runner->run($cmd);
+
+        return $result->getBufferedOutput();
     }
 
     /**
