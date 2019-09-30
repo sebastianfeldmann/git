@@ -90,33 +90,13 @@ class InfoTest extends OperatorTest
     }
 
     /**
-     * Tests Info::getTagsFrom
-     */
-    public function testGetTagsFromFail()
-    {
-        $this->expectException(RuntimeException::class);
-
-        $repo   = $this->getRepoMock();
-        $runner = $this->getRunnerMock();
-
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
-        $runner->method('run')->will($this->throwException(new RuntimeException()));
-
-        $operator = new Info($runner, $repo);
-        $tag      = $operator->getTagsPointingTo('HEAD');
-
-        // should never get asserted and fail in error case
-        $this->assertEquals('1.0.0', $tag);
-    }
-
-    /**
      * Tests Info::getCurrentCommitHash
      */
     public function testGetCurrentCommitHashSuccess()
     {
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
-        $cmd    = new CommandResult('rev-parse --verify 6b1cb23', 0, '6b1cb23' . PHP_EOL);
+        $cmd    = new CommandResult('git rev-parse --verify 6b1cb23', 0, '6b1cb23' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
         $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
@@ -134,20 +114,22 @@ class InfoTest extends OperatorTest
     /**
      * Tests Info::getCurrentCommitHash
      */
-    public function testGetCurrentCommitHashFail()
+    public function testGetCurrentBranchSuccess()
     {
-        $this->expectException(RuntimeException::class);
-
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git rev-parse --abbrev-ref HEAD', 0, 'master' . PHP_EOL);
+        $result = new RunnerResult($cmd);
 
         $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
-        $runner->method('run')->will($this->throwException(new RuntimeException()));
+
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($result);
 
         $operator = new Info($runner, $repo);
-        $tag      = $operator->getCurrentCommitHash();
+        $branch   = $operator->getCurrentBranch();
 
-        // should never get asserted and fail in error case
-        $this->assertEquals('6b1cb23', $tag);
+        $this->assertEquals('master', $branch);
     }
 }

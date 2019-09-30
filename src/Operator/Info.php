@@ -10,6 +10,7 @@
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
+use SebastianFeldmann\Git\Command\RevParse\GetBranch;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 use SebastianFeldmann\Git\Command\Tag\GetTags;
 
@@ -60,6 +61,19 @@ class Info extends Base
     public function getCurrentCommitHash() : string
     {
         $cmd    = new GetCommitHash($this->repo->getRoot());
+        $result = $this->runner->run($cmd);
+
+        return trim($result->getStdOut());
+    }
+
+    /**
+     * Returns the current branch name
+     *
+     * @return string
+     */
+    public function getCurrentBranch() : string
+    {
+        $cmd    = new GetBranch($this->repo->getRoot());
         $result = $this->runner->run($cmd);
 
         return trim($result->getStdOut());
