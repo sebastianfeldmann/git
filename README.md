@@ -11,7 +11,7 @@
 This lib is used to execute `git` commands via an easy PHP api. 
 All you have to do is setup a `Repository` object, retrieve a command `Operator`
 and fire away. Each git command like git _config_ or git _log_ is handled
-by an `Operator`. Follow the next steps to give it a try.
+by an separate `Operator`. Follow the next steps to give it a try.
 
 
 ## Installation
@@ -61,24 +61,47 @@ $index = $repo->getIndexOperator();
 $files = $index->getStagedFiles();
 ```
 
+## Available operators
+
+- Config - Access all git settings e.g. line break settings. 
+- Diff - Compare to versions.
+- Index - Check the staging area.
+- Info - Access the current state like branch name or commit hash.  
+- Log - Returns list of changed files and other log features.
+
 ## Example commands
 
 Get the current tag:
 
-    $infoOperator->getCurrentTag(); // git describe --tag
+    // git describe --tag
+    $tag = $infoOperator->getCurrentTag(); 
+
+Get tags for a given commit:
+
+    // git tag --points-at HEAD
+    $tags = $infoOperator->getTagsPointingTo('HEAD'); 
+
+Get the current branch:
+
+    // git rev-parse --abbrev-ref HEAD
+    $branch = $infoOperator->getCurrentBranch(); 
     
 Get a list of staged files:
 
-    $indexOperator->getStagedFiles(); // git diff-index --cached --name-status HEAD
+    // git diff-index --cached --name-status HEAD
+    $files = $indexOperator->getStagedFiles();
     
 Get all current git settings:
 
-    $configOperator->getSettings(); // git config --list
+    // git config --list
+    $config = $configOperator->getSettings();
     
 Get all changed files since a given commit or tag:
 
-    $logOperator->changedFilesSince('1.0.0'); // git log --format='' --name-only $HASH
+    // git log --format='' --name-only $HASH
+    $files = $logOperator->changedFilesSince('1.0.0');
 
 Get differences between two versions
 
-    $diffOperator->compare('1.0.0', '1.1.0'); // git diff '1.0.0' '1.1.0'
+    // git diff '1.0.0' '1.1.0'
+    $changes = $diffOperator->compare('1.0.0', '1.1.0');
