@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianFeldmann\Git;
 
 use SebastianFeldmann\Cli\Command\Runner;
@@ -23,7 +22,7 @@ use SebastianFeldmann\Cli\Command\Runner;
 class Repository
 {
     /**
-     * Path to git repository root.
+     * Path to git repository root
      *
      * @var string
      */
@@ -44,7 +43,7 @@ class Repository
     private $commitMsg;
 
     /**
-     * Executes cli commands.
+     * Executes cli commands
      *
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
@@ -58,25 +57,21 @@ class Repository
     private $operator = [];
 
     /**
-     * Repository constructor.
+     * Repository constructor
      *
      * @param string                                $root
      * @param \SebastianFeldmann\Cli\Command\Runner $runner
      */
     public function __construct(string $root = '', Runner $runner = null)
     {
-        $path = empty($root) ? getcwd() : realpath($root);
-        // check for existing .git dir
-        if (!is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
-            throw new \RuntimeException(sprintf('Invalid git repository: %s', $root));
-        }
+        $path            = empty($root) ? getcwd() : $root;
         $this->root      = $path;
-        $this->dotGitDir = $this->root . DIRECTORY_SEPARATOR . '.git';
+        $this->dotGitDir = $this->root . '/.git';
         $this->runner    = null == $runner ? new Runner\Simple() : $runner;
     }
 
     /**
-     * Root path getter.
+     * Root path getter
      *
      * @return string
      */
@@ -86,7 +81,7 @@ class Repository
     }
 
     /**
-     * Returns the path to the hooks directory.
+     * Returns the path to the hooks directory
      *
      * @return string
      */
@@ -208,5 +203,29 @@ class Repository
             $this->operator[$name] = new $class($this->runner, $this);
         }
         return $this->operator[$name];
+    }
+
+    /**
+     * Creates a Repository but makes sure the repository exists
+     *
+     * @param  string                                     $root
+     * @param  \SebastianFeldmann\Cli\Command\Runner|null $runner
+     * @return \SebastianFeldmann\Git\Repository
+     */
+    public static function createVerified(string $root, Runner $runner = null): Repository
+    {
+        if (!self::isGitRepository($root)) {
+            throw new \RuntimeException(sprintf('Invalid git repository: %s', $root));
+        }
+        return new Repository($root, $runner);
+    }
+
+    /**
+     * @param  string $root
+     * @return bool
+     */
+    public static function isGitRepository(string $root): bool
+    {
+        return is_dir($root . '/.git');
     }
 }

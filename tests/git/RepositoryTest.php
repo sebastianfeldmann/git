@@ -49,13 +49,13 @@ class RepositoryTest extends TestCase
     }
 
     /**
-     * Tests Repository::__construct
+     * Tests Repository::createVerified
      */
     public function testInvalidRepository()
     {
         $this->expectException(\Exception::class);
 
-        $repository = new Repository('invalidGitRepo');
+        $repository = Repository::createVerified('invalidGitRepo');
 
         $this->assertNotInstanceOf(Repository::class, $repository);
     }
@@ -66,7 +66,7 @@ class RepositoryTest extends TestCase
     public function testGetCommitMessage()
     {
         $message = new CommitMessage('Foo bar baz');
-        $repo    = new Repository();
+        $repo    = Repository::createVerified($this->repo->getPath());
         $repo->setCommitMsg($message);
 
         $this->assertEquals($message, $repo->getCommitMsg());
