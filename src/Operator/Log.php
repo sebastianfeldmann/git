@@ -26,7 +26,7 @@ class Log extends Base
      * Get the list of files that changed since a given revision.
      *
      * @param  string $revision
-     * @return array
+     * @return array<string>
      */
     public function getChangedFilesSince(string $revision) : array
     {
@@ -40,7 +40,7 @@ class Log extends Base
      * Get list of commits since given revision.
      *
      * @param  string $revision
-     * @return array
+     * @return array<\SebastianFeldmann\Git\Log\Commit>
      */
     public function getCommitsSince(string $revision) : array
     {
@@ -56,7 +56,7 @@ class Log extends Base
      *
      * @param  string $from
      * @param  string $to
-     * @return array
+     * @return array<\SebastianFeldmann\Git\Log\Commit>
      */
     public function getCommitsBetween(string $from, string $to) : array
     {
