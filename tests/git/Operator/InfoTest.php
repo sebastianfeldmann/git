@@ -66,6 +66,50 @@ class InfoTest extends OperatorTest
     }
 
     /**
+     * Tests Info::getMostRecentTag
+     */
+    public function testMostRecentTagSuccess()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git describe --tags --abbrev=0', 0, '1.0.1' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $tag      = $operator->getMostRecentTag();
+
+        $this->assertEquals('1.0.1', $tag);
+    }
+
+    /**
+     * Tests Info::getMostRecentTagBefore
+     */
+    public function testMostRecentTagBeforeSuccess()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git describe --tags --abbrev=0 1.0.2^', 0, '1.0.1' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $tag      = $operator->getMostRecentTagBefore('1.0.2');
+
+        $this->assertEquals('1.0.1', $tag);
+    }
+
+    /**
      * Tests Info::getTagsFrom
      */
     public function testTagsFromSuccess()
