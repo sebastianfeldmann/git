@@ -12,7 +12,6 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Log\Commits;
-use SebastianFeldmann\Git\Command\Log\Commits\Jsonized;
 use SebastianFeldmann\Git\Log\Commit;
 
 /**
@@ -51,30 +50,26 @@ class LogTest extends OperatorTest
     public function testGetCommitsSince()
     {
         $root = realpath(__FILE__ . '/../../..');
-        $out  = [
-            new Commit(
-                'a9d9ac5',
-                ['HEAD -> master', 'origin/master', 'origin/HEAD'],
-                'Fix case in path',
-                '',
-                new \DateTimeImmutable('2017-01-16 02:16:13 +0100'),
-                'Sebastian Feldmann'
-            )
-        ];
+        $out  = '<commit>
+<hash>11cd79f</hash>
+<names><![CDATA[ (HEAD -> master, tag: 1.1.4, origin/master)]]></names>
+<date>2020-01-17 22:10:30 +0100</date>
+<author><![CDATA[Sebastian Feldmann]]></author>
+<subject><![CDATA[Major fixup]]></subject>
+<body><![CDATA[
+]]></body>
+</commit>';
 
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
-        $cmdRes = new CommandResult('git ...', 0);
-        $runRes = new RunnerResult($cmdRes, $out);
-        $gitCmd = (new Commits($root))->byRevision('b1ef1997291')->prettyFormat(Commits\Jsonized::FORMAT);
+        $cmdRes = new CommandResult('git ... just fake', 0, $out);
+        $runRes = new RunnerResult($cmdRes);
+        $gitCmd = (new Commits($root))->byRevision('b1ef1997291')->prettyFormat(Commits\XML::FORMAT);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
                ->method('run')
-               ->with(
-                   $this->equalTo($gitCmd),
-                   $this->equalTo(new Jsonized())
-               )
+               ->with($this->equalTo($gitCmd))
                ->willReturn($runRes);
 
         $log     = new Log($runner, $repo);
@@ -90,29 +85,27 @@ class LogTest extends OperatorTest
     public function testGetCommitsBetween()
     {
         $root = realpath(__FILE__ . '/../../..');
-        $out  = [
-            new Commit(
-                'a9d9ac5',
-                ['HEAD -> master', 'origin/master', 'origin/HEAD'],
-                'Fix case in path',
-                '',
-                new \DateTimeImmutable('2017-01-16 02:16:13 +0100'),
-                'Sebastian Feldmann'
-            )
-        ];
+        $out  = '<commit>
+<hash>11cd79f</hash>
+<names><![CDATA[ (HEAD -> master, tag: 1.1.4, origin/master)]]></names>
+<date>2020-01-17 22:10:30 +0100</date>
+<author><![CDATA[Sebastian Feldmann]]></author>
+<subject><![CDATA[Major fixup]]></subject>
+<body><![CDATA[
+]]></body>
+</commit>';
 
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
-        $cmdRes = new CommandResult('git ...', 0);
-        $runRes = new RunnerResult($cmdRes, $out);
-        $gitCmd = (new Commits($root))->byRevision('b1ef1997291', 'a1ef1577fe1')->prettyFormat(Commits\Jsonized::FORMAT);
+        $cmdRes = new CommandResult('git ...', 0, $out);
+        $runRes = new RunnerResult($cmdRes);
+        $gitCmd = (new Commits($root))->byRevision('b1ef1997291', 'a1ef1577fe1')->prettyFormat(Commits\Xml::FORMAT);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
                ->method('run')
                ->with(
-                  $this->equalTo($gitCmd),
-                  $this->equalTo(new Jsonized())
+                  $this->equalTo($gitCmd)
                )
                ->willReturn($runRes);
 

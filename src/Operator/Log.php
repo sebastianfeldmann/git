@@ -11,6 +11,8 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Log\ChangedFiles;
 use SebastianFeldmann\Git\Command\Log\Commits;
+use SebastianFeldmann\Git\Command\Log\Commits\Xml;
+use SebastianFeldmann\Git\Repository;
 
 /**
  * Class Log
@@ -41,29 +43,31 @@ class Log extends Base
      *
      * @param  string $revision
      * @return array<\SebastianFeldmann\Git\Log\Commit>
+     * @throws \Exception
      */
     public function getCommitsSince(string $revision) : array
     {
         $cmd = (new Commits($this->repo->getRoot()))->byRevision($revision)
-                                                    ->prettyFormat(Commits\Jsonized::FORMAT);
+                                                    ->prettyFormat(Commits\Xml::FORMAT);
 
-        $result = $this->runner->run($cmd, new Commits\Jsonized());
-        return $result->getFormattedOutput();
+        $result = $this->runner->run($cmd);
+        return Xml::parseLogOutput($result->getStdOut());
     }
 
     /**
-     * Get list of commits between to given revisions.
+     * Get list of commits between to given revisions
      *
      * @param  string $from
      * @param  string $to
      * @return array<\SebastianFeldmann\Git\Log\Commit>
+     * @throws \Exception
      */
     public function getCommitsBetween(string $from, string $to) : array
     {
         $cmd = (new Commits($this->repo->getRoot()))->byRevision($from, $to)
-                                                    ->prettyFormat(Commits\Jsonized::FORMAT);
+                                                    ->prettyFormat(Commits\Xml::FORMAT);
 
-        $result = $this->runner->run($cmd, new Commits\Jsonized());
-        return $result->getFormattedOutput();
+        $result = $this->runner->run($cmd);
+        return Xml::parseLogOutput($result->getStdOut());
     }
 }

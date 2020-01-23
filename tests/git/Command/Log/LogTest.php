@@ -10,6 +10,7 @@
 namespace SebastianFeldmann\Git\Command\Log;
 
 use PHPUnit\Framework\TestCase;
+use SebastianFeldmann\Git\Repository;
 
 /**
  * Class LogTest

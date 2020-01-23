@@ -27,6 +27,7 @@
   "require": {
     "php": "^7.1",
     "ext-json": "*",
+    "ext-xml": "*",
     "sebastianfeldmann/cli": "^3.0.0"
   },
   "require-dev": {
