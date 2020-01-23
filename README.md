@@ -11,7 +11,7 @@
 This lib is used to execute `git` commands via an easy PHP api. 
 All you have to do is setup a `Repository` object, retrieve a command `Operator`
 and fire away. Each git command like git _config_ or git _log_ is handled
-by an separate `Operator`. Follow the next steps to give it a try.
+by a separate `Operator`. Follow the next steps to give it a try.
 
 
 ## Installation
@@ -64,10 +64,10 @@ $files = $index->getStagedFiles();
 ## Available operators
 
 - Config - Access all git settings e.g. line break settings. 
-- Diff - Compare to versions.
+- Diff - Compare two versions.
 - Index - Check the staging area.
 - Info - Access the current state like branch name or commit hash.  
-- Log - Returns list of changed files and other log features.
+- Log - Returns list of changed files and other git log information.
 
 ## Example commands
 
