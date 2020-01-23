@@ -56,6 +56,7 @@ class LogTest extends OperatorTest
                 'a9d9ac5',
                 ['HEAD -> master', 'origin/master', 'origin/HEAD'],
                 'Fix case in path',
+                '',
                 new \DateTimeImmutable('2017-01-16 02:16:13 +0100'),
                 'Sebastian Feldmann'
             )
@@ -79,7 +80,7 @@ class LogTest extends OperatorTest
         $log     = new Log($runner, $repo);
         $commits = $log->getCommitsSince('b1ef1997291');
 
-        $this->assertInternalType('array', $commits);
+        $this->assertIsArray($commits);
         $this->assertEquals('Sebastian Feldmann', $commits[0]->getAuthor());
     }
 
@@ -94,6 +95,7 @@ class LogTest extends OperatorTest
                 'a9d9ac5',
                 ['HEAD -> master', 'origin/master', 'origin/HEAD'],
                 'Fix case in path',
+                '',
                 new \DateTimeImmutable('2017-01-16 02:16:13 +0100'),
                 'Sebastian Feldmann'
             )
@@ -117,7 +119,7 @@ class LogTest extends OperatorTest
         $log     = new Log($runner, $repo);
         $commits = $log->getCommitsBetween('b1ef1997291', 'a1ef1577fe1');
 
-        $this->assertInternalType('array', $commits);
+        $this->assertIsArray($commits);
         $this->assertEquals('Sebastian Feldmann', $commits[0]->getAuthor());
     }
 }

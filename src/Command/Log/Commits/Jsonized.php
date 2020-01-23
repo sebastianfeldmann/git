@@ -27,7 +27,7 @@ class Jsonized implements OutputFormatter
      *
      * @var string
      */
-    const FORMAT = '{"hash": "%h", "names": "%d", "description": "%s", "date": "%ci", "author": "%an"}';
+    const FORMAT = '{"hash": "%h", "names": "%d", "subject": "%s", "date": "%ci", "author": "%an"}';
 
     /**
      * Format the output.
@@ -58,6 +58,6 @@ class Jsonized implements OutputFormatter
         $date  = new \DateTimeImmutable($std->date);
         $names = array_map('trim', explode(',', str_replace(['(', ')'], '', $std->names)));
 
-        return new Commit($std->hash, $names, $std->description, $date, $std->author);
+        return new Commit($std->hash, $names, $std->subject, '', $date, $std->author);
     }
 }

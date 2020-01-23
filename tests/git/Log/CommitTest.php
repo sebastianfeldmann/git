@@ -29,14 +29,17 @@ class CommitTest extends TestCase
         $commit = new Commit(
             '1de52f8',
             ['HEAD -> master'],
-            'Some stupid message',
+            'Some not so stupid message',
+            'Foo bar baz',
             new \DateTimeImmutable('2018-08-08 14:04:23'),
             'John Doe'
         );
 
         $this->assertEquals('1de52f8', $commit->getHash());
         $this->assertEquals(['HEAD -> master'], $commit->getNames());
-        $this->assertEquals('Some stupid message', $commit->getDescription());
+        $this->assertEquals('Some not so stupid message', $commit->getSubject());
+        $this->assertEquals('Some not so stupid message', $commit->getDescription());
+        $this->assertEquals('Foo bar baz', $commit->getBody());
         $this->assertEquals('John Doe', $commit->getAuthor());
         $this->assertEquals('20180808', $commit->getDate()->format('Ymd'));
     }

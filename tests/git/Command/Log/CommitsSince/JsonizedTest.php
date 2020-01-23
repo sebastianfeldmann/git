@@ -27,7 +27,7 @@ class JsonizedTest extends TestCase
         $formatter = new Jsonized();
         $result    = $formatter->format([
            '{"hash": "a9d9ac5", "names": " (HEAD -> master, origin/master, origin/HEAD)", ' .
-           '"description": "Fix case in path", "date": "2017-01-16 02:16:13 +0100", "author": "Sebastian Feldmann"}',
+           '"subject": "Fix case in path", "date": "2017-01-16 02:16:13 +0100", "author": "Sebastian Feldmann"}',
         ]);
 
         $this->assertCount(1, $result);
