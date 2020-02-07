@@ -66,8 +66,7 @@ class Commit
         string $body,
         \DateTimeImmutable $date,
         string $author
-    )
-    {
+    ) {
         $this->hash    = $hash;
         $this->names   = $names;
         $this->subject = $subject;

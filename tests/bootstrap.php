@@ -8,10 +8,7 @@
  * file that was distributed with this source code.
  */
 
-define('SF_GIT_PATH_ROOT', realpath(__DIR__ . '/..'));
-define('SF_GIT_PATH_FILES', realpath(__DIR__ . '/files'));
-
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/constants.php';
 require __DIR__ . '/git/DummyRepo.php';
 require __DIR__ . '/git/Operator/OperatorTest.php';
-

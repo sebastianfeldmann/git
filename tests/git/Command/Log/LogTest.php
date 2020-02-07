@@ -91,7 +91,7 @@ class LogTest extends TestCase
         $exe = $cmd->getCommand();
 
         $this->assertEquals(
-             'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..',
+            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..',
             $exe
         );
     }

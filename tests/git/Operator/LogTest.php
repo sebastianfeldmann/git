@@ -104,9 +104,7 @@ class LogTest extends OperatorTest
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
                ->method('run')
-               ->with(
-                  $this->equalTo($gitCmd)
-               )
+               ->with($this->equalTo($gitCmd))
                ->willReturn($runRes);
 
         $log     = new Log($runner, $repo);

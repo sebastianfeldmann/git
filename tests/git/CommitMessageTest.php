@@ -93,7 +93,7 @@ class CommitMessageTest extends TestCase
     public function testGetRawContentIncludesComments()
     {
         $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz';
-        $msg = new CommitMessage($content,'#');
+        $msg     = new CommitMessage($content, '#');
 
         $this->assertEquals($content, $msg->getRawContent());
     }

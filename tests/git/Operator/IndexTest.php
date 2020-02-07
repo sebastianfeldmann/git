@@ -48,23 +48,22 @@ class IndexTest extends OperatorTest
         $runner->expects($this->exactly(2))
                ->method('run')
                ->withConsecutive(
-                [
-                    $this->equalTo(new GetCommitHash($repo->getRoot()))
-                ],
-                [
-                   $this->equalTo(new GetStagedFiles($repo->getRoot())),
-                   $this->equalTo(new FilterByStatus(['A', 'M']))
-                ]
+                   [
+                       $this->equalTo(new GetCommitHash($repo->getRoot()))
+                   ],
+                   [
+                      $this->equalTo(new GetStagedFiles($repo->getRoot())),
+                      $this->equalTo(new FilterByStatus(['A', 'M']))
+                   ]
                )
                ->will(
                    $this->onConsecutiveCalls($result, $result)
                );
-               //->willReturn($result);
 
         $operator = new Index($runner, $repo);
         $files    = $operator->getStagedFiles();
 
-        $this->assertInternalType('array', $files);
+        $this->assertIsArray($files);
         $this->assertCount(4, $files);
     }
 
@@ -132,7 +131,7 @@ class IndexTest extends OperatorTest
         $result = new RunnerResult($cmd, []);
 
         $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
-        $runner->method('run')->will($this->throwException(new RuntimeException));
+        $runner->method('run')->will($this->throwException(new RuntimeException()));
 
         $operator = new Index($runner, $repo);
         $files    = $operator->getStagedFiles();
