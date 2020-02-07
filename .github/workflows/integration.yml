@@ -29,7 +29,7 @@ jobs:
       run: wget -O phive.phar https://phar.io/releases/phive.phar
 
     - name: Make phive executable
-      run: chmod -x ./phive.phar
+      run: chmod +x ./phive.phar
 
     - name: Install tooling
       run: ./phive.phar --no-progress --home ./.phive install --trust-gpg-keys 4AA394086372C20A,31C7E470E2138192,8E730BA25823D8B5,CF1A108D0E7AE720 --force-accept-unsigned
