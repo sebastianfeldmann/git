@@ -4,6 +4,7 @@
 # ignore composer files
 composer.lock
 vendor/
+tools/
 
 #ignore build artefacts
 build
