@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git;
 
 /**
@@ -46,7 +48,7 @@ class DummyRepo
      *
      * @return void
      */
-    public function setup() : void
+    public function setup(): void
     {
         mkdir($this->gitDir . DIRECTORY_SEPARATOR . 'hooks', 0777, true);
     }
@@ -58,7 +60,7 @@ class DummyRepo
      * @param  string $content
      * @return void
      */
-    public function touchHook(string $name, string $content = '# dummy hook') : void
+    public function touchHook(string $name, string $content = '# dummy hook'): void
     {
         file_put_contents($this->gitDir . DIRECTORY_SEPARATOR . 'hooks' . DIRECTORY_SEPARATOR . $name, $content);
     }
@@ -67,7 +69,7 @@ class DummyRepo
      * Simulate a merge state
      *
      */
-    public function merge() : void
+    public function merge(): void
     {
         file_put_contents($this->gitDir . DIRECTORY_SEPARATOR . 'MERGE_MSG', '# merge file');
     }
@@ -77,7 +79,7 @@ class DummyRepo
      *
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -87,7 +89,7 @@ class DummyRepo
      *
      * @return string
      */
-    public function getGitDir() : string
+    public function getGitDir(): string
     {
         return $this->getPath() . DIRECTORY_SEPARATOR . '.git';
     }
@@ -97,7 +99,7 @@ class DummyRepo
      *
      * @return string
      */
-    public function getHookDir() : string
+    public function getHookDir(): string
     {
         return $this->getGitDir() . DIRECTORY_SEPARATOR . 'hooks';
     }
@@ -107,7 +109,7 @@ class DummyRepo
      *
      * @return void
      */
-    public function cleanup() : void
+    public function cleanup(): void
     {
         system('rm -rf ' . $this->path);
     }

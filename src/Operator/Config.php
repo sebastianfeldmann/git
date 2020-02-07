@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Operator;
 
 use RuntimeException;
@@ -30,7 +32,7 @@ class Config extends Base
      * @param  string $name
      * @return boolean
      */
-    public function has(string $name) : bool
+    public function has(string $name): bool
     {
         try {
             $result = $this->configCommand($name);
@@ -47,7 +49,7 @@ class Config extends Base
      * @param  string $name
      * @return string
      */
-    public function get(string $name) : string
+    public function get(string $name): string
     {
         $result = $this->configCommand($name);
 
@@ -76,7 +78,7 @@ class Config extends Base
      *
      * @return array
      */
-    public function getSettings() : array
+    public function getSettings(): array
     {
         $cmd = new ListSettings($this->repo->getRoot());
         $res = $this->runner->run($cmd, new ListSettings\MapSettings());
@@ -90,7 +92,7 @@ class Config extends Base
      * @param  string $name
      * @return \SebastianFeldmann\Cli\Command\Runner\Result
      */
-    private function configCommand(string $name) : Result
+    private function configCommand(string $name): Result
     {
         $cmd = (new Get($this->repo->getRoot()));
         $cmd->name($name);

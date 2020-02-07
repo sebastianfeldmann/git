@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Command\Diff\Compare;
 
 use SebastianFeldmann\Cli\Command\OutputFormatter;
@@ -29,14 +31,14 @@ class FullDiffList implements OutputFormatter
     /**
      * Available line types of git diff output.
      */
-    const LINE_TYPE_START      = 'Start';
-    const LINE_TYPE_HEADER     = 'Header';
-    const LINE_TYPE_SIMILARITY = 'HeaderSimilarity';
-    const LINE_TYPE_OP         = 'HeaderOp';
-    const LINE_TYPE_INDEX      = 'HeaderIndex';
-    const LINE_TYPE_FORMAT     = 'HeaderFormat';
-    const LINE_TYPE_POSITION   = 'ChangePosition';
-    const LINE_TYPE_CODE       = 'ChangeCode';
+    private const LINE_TYPE_START      = 'Start';
+    private const LINE_TYPE_HEADER     = 'Header';
+    private const LINE_TYPE_SIMILARITY = 'HeaderSimilarity';
+    private const LINE_TYPE_OP         = 'HeaderOp';
+    private const LINE_TYPE_INDEX      = 'HeaderIndex';
+    private const LINE_TYPE_FORMAT     = 'HeaderFormat';
+    private const LINE_TYPE_POSITION   = 'ChangePosition';
+    private const LINE_TYPE_CODE       = 'ChangeCode';
 
     /**
      * Search and parse strategy.

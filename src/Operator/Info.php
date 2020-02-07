@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
@@ -30,7 +32,7 @@ class Info extends Base
      *
      * @return string
      */
-    public function getCurrentTag() : string
+    public function getCurrentTag(): string
     {
         $cmd    = new GetCurrentTag($this->repo->getRoot());
         $result = $this->runner->run($cmd);
@@ -93,7 +95,7 @@ class Info extends Base
      *
      * @return string
      */
-    public function getCurrentCommitHash() : string
+    public function getCurrentCommitHash(): string
     {
         $cmd    = new GetCommitHash($this->repo->getRoot());
         $result = $this->runner->run($cmd);
@@ -106,7 +108,7 @@ class Info extends Base
      *
      * @return string
      */
-    public function getCurrentBranch() : string
+    public function getCurrentBranch(): string
     {
         $cmd    = new GetBranch($this->repo->getRoot());
         $result = $this->runner->run($cmd);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git;
 
 use RuntimeException;
@@ -102,7 +104,7 @@ class CommitMessage
      *
      * @return bool
      */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return empty($this->content);
     }
@@ -115,7 +117,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -127,7 +129,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getRawContent() : string
+    public function getRawContent(): string
     {
         return $this->rawContent;
     }
@@ -139,7 +141,7 @@ class CommitMessage
      *
      * @return array
      */
-    public function getLines() : array
+    public function getLines(): array
     {
         return $this->rawLines;
     }
@@ -151,7 +153,7 @@ class CommitMessage
      *
      * @return int
      */
-    public function getLineCount() : int
+    public function getLineCount(): int
     {
         return $this->rawLineCount;
     }
@@ -163,7 +165,7 @@ class CommitMessage
      *
      * @return int
      */
-    public function getContentLineCount() : int
+    public function getContentLineCount(): int
     {
         return $this->contentLineCount;
     }
@@ -174,7 +176,7 @@ class CommitMessage
      * @param  int $index
      * @return string
      */
-    public function getLine(int $index) : string
+    public function getLine(int $index): string
     {
         return $this->rawLines[$index] ?? '';
     }
@@ -185,7 +187,7 @@ class CommitMessage
      * @param  int $index
      * @return string
      */
-    public function getContentLine(int $index) : string
+    public function getContentLine(int $index): string
     {
         return $this->contentLines[$index] ?? '';
     }
@@ -195,7 +197,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getSubject() : string
+    public function getSubject(): string
     {
         return $this->contentLines[0] ?? '';
     }
@@ -205,7 +207,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getBody() : string
+    public function getBody(): string
     {
         return implode(PHP_EOL, $this->getBodyLines());
     }
@@ -215,7 +217,7 @@ class CommitMessage
      *
      * @return array
      */
-    public function getBodyLines() : array
+    public function getBodyLines(): array
     {
         return $this->contentLineCount < 3 ? [] : array_slice($this->contentLines, 2);
     }
@@ -227,7 +229,7 @@ class CommitMessage
      *
      * @return string
      */
-    public function getCommentCharacter() : string
+    public function getCommentCharacter(): string
     {
         return $this->commentCharacter;
     }
@@ -239,7 +241,7 @@ class CommitMessage
      * @param  string $commentCharacter
      * @return string[]
      */
-    private function getContentLines(array $rawLines, string $commentCharacter) : array
+    private function getContentLines(array $rawLines, string $commentCharacter): array
     {
         $lines = [];
 
@@ -266,7 +268,7 @@ class CommitMessage
      * @param  string $commentCharacter
      * @return \SebastianFeldmann\Git\CommitMessage
      */
-    public static function createFromFile(string $path, $commentCharacter = '#') : CommitMessage
+    public static function createFromFile(string $path, $commentCharacter = '#'): CommitMessage
     {
         if (!file_exists($path)) {
             throw new RuntimeException('Commit message file not found');

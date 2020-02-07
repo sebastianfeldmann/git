@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Diff;
 
 /**
@@ -21,9 +23,9 @@ class Line
     /**
      * Possible line operations
      */
-    const ADDED   = 'added';
-    const REMOVED = 'removed';
-    const EXISTED = 'existed';
+    public const ADDED   = 'added';
+    public const REMOVED = 'removed';
+    public const EXISTED = 'existed';
 
     /**
      * Map diff output to file operation

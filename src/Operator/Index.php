@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of CaptainHook.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Operator;
 
 use RuntimeException;
@@ -50,7 +52,7 @@ class Index extends Base
      *
      * @return array
      */
-    public function getStagedFiles() : array
+    public function getStagedFiles(): array
     {
         if (null === $this->files) {
             $this->resolveFiles();
@@ -64,7 +66,7 @@ class Index extends Base
      * @param  string $suffix
      * @return bool
      */
-    public function hasStagedFilesOfType($suffix) : bool
+    public function hasStagedFilesOfType($suffix): bool
     {
         return count($this->getStagedFilesOfType($suffix)) > 0;
     }
@@ -75,7 +77,7 @@ class Index extends Base
      * @param  string $suffix
      * @return array
      */
-    public function getStagedFilesOfType($suffix) : array
+    public function getStagedFilesOfType($suffix): array
     {
         if (!$this->typesResolved) {
             $this->resolveFileTypes();
@@ -115,7 +117,7 @@ class Index extends Base
      *
      * @return bool
      */
-    private function isHeadValid() : bool
+    private function isHeadValid(): bool
     {
         try {
             $cmd    = new GetCommitHash($this->repo->getRoot());

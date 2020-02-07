@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of CaptainHook.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Log\ChangedFiles;
@@ -30,7 +32,7 @@ class Log extends Base
      * @param  string $revision
      * @return array<string>
      */
-    public function getChangedFilesSince(string $revision) : array
+    public function getChangedFilesSince(string $revision): array
     {
         $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRevision($revision);
         $result = $this->runner->run($cmd);
@@ -45,7 +47,7 @@ class Log extends Base
      * @return array<\SebastianFeldmann\Git\Log\Commit>
      * @throws \Exception
      */
-    public function getCommitsSince(string $revision) : array
+    public function getCommitsSince(string $revision): array
     {
         $cmd = (new Commits($this->repo->getRoot()))->byRevision($revision)
                                                     ->prettyFormat(Commits\Xml::FORMAT);
@@ -62,7 +64,7 @@ class Log extends Base
      * @return array<\SebastianFeldmann\Git\Log\Commit>
      * @throws \Exception
      */
-    public function getCommitsBetween(string $from, string $to) : array
+    public function getCommitsBetween(string $from, string $to): array
     {
         $cmd = (new Commits($this->repo->getRoot()))->byRevision($from, $to)
                                                     ->prettyFormat(Commits\Xml::FORMAT);

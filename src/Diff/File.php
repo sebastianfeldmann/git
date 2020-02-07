@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of SebastianFeldmann\Git.
  *
@@ -20,11 +21,11 @@ namespace SebastianFeldmann\Git\Diff;
  */
 class File
 {
-    const OP_DELETED = 'deleted';
-    const OP_CREATED = 'created';
-    const OP_MODIFIED = 'modified';
-    const OP_RENAMED = 'renamed';
-    const OP_COPIED = 'copied';
+    public const OP_DELETED = 'deleted';
+    public const OP_CREATED = 'created';
+    public const OP_MODIFIED = 'modified';
+    public const OP_RENAMED = 'renamed';
+    public const OP_COPIED = 'copied';
 
     /**
      * List of changes.
