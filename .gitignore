@@ -5,6 +5,7 @@
 composer.lock
 vendor/
 tools/
+.phive/
 
 #ignore build artefacts
 build
