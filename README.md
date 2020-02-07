@@ -8,7 +8,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/sebastianfeldmann/git/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sebastianfeldmann/git/?branch=master)
 
-This lib is used to execute `git` commands via an easy PHP api. 
+This lib is used to execute `git` commands directly from PHP via a defined api. 
 All you have to do is setup a `Repository` object, retrieve a command `Operator`
 and fire away. Each git command like git _config_ or git _log_ is handled
 by a separate `Operator`. Follow the next steps to give it a try.
@@ -32,7 +32,7 @@ $gitRepository = new Git\Repository($repoRootPath);
 
 Retrieve the needed `Operator`
 ```php
-$log = $repo->getLogOperator();
+$log = $gitRepository->getLogOperator();
 ```
 
 Get files and commits since some tag
@@ -52,12 +52,12 @@ $repoRootPath  = '/path/to/repo';
 $gitRepository = new Git\Repository($repoRootPath);
 
 // get files and commits since hash or tag
-$log     = $repo->getLogOperator();
+$log     = $gitRepository->getLogOperator();
 $files   = $log->getChangedFilesSince('1.0.0');
 $commits = $log->getCommitsSince('1.0.0');
 
 // check the index status
-$index = $repo->getIndexOperator();
+$index = $gitRepository->getIndexOperator();
 $files = $index->getStagedFiles();
 ```
 
