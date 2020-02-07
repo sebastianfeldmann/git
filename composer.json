@@ -30,9 +30,6 @@
     "ext-xml": "*",
     "sebastianfeldmann/cli": "^3.0.0"
   },
-  "require-dev": {
-    "phpunit/phpunit": "^7.5"
-  },
   "extra": {
     "branch-alias": {
       "dev-master": "4.0.x-dev"
