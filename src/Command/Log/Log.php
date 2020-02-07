@@ -43,7 +43,7 @@ abstract class Log extends Base
      * Shorten commit hashes.
      * --abbrev-commit
      *
-     * @var bool
+     * @var string
      */
     protected $abbrev = ' --abbrev-commit';
 
