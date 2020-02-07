@@ -245,7 +245,7 @@ class CommitMessage
 
         foreach ($rawLines as $line) {
             // if we handle a comment line
-            if (isset($line{0}) && $line{0} === $commentCharacter) {
+            if (isset($line[0]) && $line[0] === $commentCharacter) {
                 // check if we should ignore all following lines
                 if (strpos($line, '------------------------ >8 ------------------------') !== false) {
                     break;
