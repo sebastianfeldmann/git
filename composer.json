@@ -34,5 +34,10 @@
     "branch-alias": {
       "dev-master": "4.0.x-dev"
     }
+  },
+  "scripts": {
+    "test": "tools/phpunit",
+    "analyse": "tools/phpstan analyse",
+    "style": "tools/phpcs --standard=psr12 src tests"
   }
 }
