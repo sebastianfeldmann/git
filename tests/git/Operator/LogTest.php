@@ -36,7 +36,7 @@ class LogTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0, 'tests/bootstrap.php');
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $log   = new Log($runner, $repo);
@@ -51,7 +51,7 @@ class LogTest extends OperatorTest
      */
     public function testGetCommitsSince()
     {
-        $root = realpath(__FILE__ . '/../../..');
+        $root = (string) realpath(__FILE__ . '/../../..');
         $out  = '<commit>
 <hash>11cd79f</hash>
 <names><![CDATA[ (HEAD -> master, tag: 1.1.4, origin/master)]]></names>
@@ -86,7 +86,7 @@ class LogTest extends OperatorTest
      */
     public function testGetCommitsBetween()
     {
-        $root = realpath(__FILE__ . '/../../..');
+        $root = (string) realpath(__FILE__ . '/../../..');
         $out  = '<commit>
 <hash>11cd79f</hash>
 <names><![CDATA[ (HEAD -> master, tag: 1.1.4, origin/master)]]></names>

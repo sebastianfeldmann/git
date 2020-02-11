@@ -32,7 +32,7 @@ class DiffTest extends OperatorTest
      */
     public function testCompare()
     {
-        $root = realpath(__FILE__ . '/../../..');
+        $root = (string) realpath(__FILE__ . '/../../..');
         $out  = [
             new File('foo', File::OP_MODIFIED),
             new File('bar', File::OP_MODIFIED)
@@ -65,7 +65,7 @@ class DiffTest extends OperatorTest
      */
     public function testChangedFiles()
     {
-        $root = realpath(__FILE__ . '/../../..');
+        $root = (string) realpath(__FILE__ . '/../../..');
         $out  = 'foo.php' . PHP_EOL . 'bar.php' . PHP_EOL;
 
         $repo   = $this->getRepoMock();

@@ -45,7 +45,7 @@ class IndexTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0);
         $result = new RunnerResult($cmd, $out);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->exactly(2))
                ->method('run')
@@ -86,13 +86,13 @@ class IndexTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0);
         $result = new RunnerResult($cmd, $out);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $operator = new Index($runner, $repo);
         $files    = $operator->getStagedFilesOfType('php');
 
-        $this->assertInternalType('array', $files);
+        $this->assertIsArray($files);
         $this->assertCount(2, $files);
     }
 
@@ -113,7 +113,7 @@ class IndexTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0);
         $result = new RunnerResult($cmd, $out);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $operator = new Index($runner, $repo);
@@ -132,7 +132,7 @@ class IndexTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 1);
         $result = new RunnerResult($cmd, []);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->will($this->throwException(new RuntimeException()));
 
         $operator = new Index($runner, $repo);

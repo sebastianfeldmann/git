@@ -35,7 +35,7 @@ class ConfigTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0, '#');
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $config = new Config($runner, $repo);
@@ -58,7 +58,7 @@ class ConfigTest extends OperatorTest
             1
         );
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')
                ->will($this->throwException($exception));
 
@@ -78,7 +78,7 @@ class ConfigTest extends OperatorTest
         $cmd = new CommandResult('git ...', 0, '#');
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $config = new Config($runner, $repo);
@@ -102,7 +102,7 @@ class ConfigTest extends OperatorTest
             1
         );
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')
                ->will($this->throwException($exception));
 
@@ -122,7 +122,7 @@ class ConfigTest extends OperatorTest
         $cmd    = new CommandResult('git ...', 0, '#');
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $config = new Config($runner, $repo);
@@ -142,7 +142,7 @@ class ConfigTest extends OperatorTest
         $cmd    = new CommandResult('git config --list', 0, '');
         $result = new RunnerResult($cmd, $out);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $config   = new Config($runner, $repo);

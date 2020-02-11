@@ -301,7 +301,7 @@ class CommitMessageTest extends TestCase
             SF_GIT_PATH_FILES . '/git/message/valid-with-comments.txt'
         );
 
-        $this->assertNotContains(
+        $this->assertStringNotContainsString(
             'Please enter the commit message for your changes. Lines starting',
             $message->getBody()
         );

@@ -35,7 +35,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('git describe --tags', 0, '1.0.1' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
                ->method('run')
@@ -57,7 +57,7 @@ class InfoTest extends OperatorTest
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->will($this->throwException(new RuntimeException()));
 
         $operator = new Info($runner, $repo);
@@ -77,7 +77,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('git describe --tags --abbrev=0', 0, '1.0.1' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
                ->method('run')
@@ -99,7 +99,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('git describe --tags --abbrev=0 1.0.2^', 0, '1.0.1' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
                ->method('run')
@@ -121,7 +121,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('tag --points-at \'HEAD\'', 0, '1.0.1' . PHP_EOL . '1.0.2' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
                ->method('run')
@@ -145,7 +145,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('git rev-parse --verify 6b1cb23', 0, '6b1cb23' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
             ->method('run')
@@ -167,7 +167,7 @@ class InfoTest extends OperatorTest
         $cmd    = new CommandResult('git rev-parse --abbrev-ref HEAD', 0, 'master' . PHP_EOL);
         $result = new RunnerResult($cmd);
 
-        $repo->method('getRoot')->willReturn(realpath(__FILE__ . '/../../..'));
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
         $runner->expects($this->once())
                ->method('run')
