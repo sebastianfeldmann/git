@@ -1,7 +1,9 @@
 # ignode IDE settings
 .idea
 
-# ignore composer files
+.phpunit.result.cache
+
+# ignore dependency files
 composer.lock
 vendor/
 tools/
