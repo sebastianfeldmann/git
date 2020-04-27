@@ -1,6 +1,6 @@
 name: "CI-Build"
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
       uses: shivammathur/setup-php@master
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, xdebug
+        extensions: xdebug
 
     - name: Validate composer.json and composer.lock
       run: composer validate

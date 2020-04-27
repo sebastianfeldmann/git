@@ -36,7 +36,7 @@ class RepositoryTest extends TestCase
     /**
      * Setup dummy repo.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->repo = new DummyRepo();
         $this->repo->setup();
@@ -45,7 +45,7 @@ class RepositoryTest extends TestCase
     /**
      * Cleanup dummy repo.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $this->repo->cleanup();
     }
