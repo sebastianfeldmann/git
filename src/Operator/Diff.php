@@ -42,6 +42,23 @@ class Diff extends Base
     }
 
     /**
+     * Returns a list of files and their changes
+     *
+     * @param  string $to
+     * @return \SebastianFeldmann\Git\Diff\File[]
+     */
+    public function compareIndexTo(string $to = 'head'): array
+    {
+        $compare = (new Compare($this->repo->getRoot()))->indexTo($to)
+                                                        ->withContextLines(0)
+                                                        ->ignoreWhitespacesAtEndOfLine();
+
+        $result = $this->runner->run($compare, new Compare\FullDiffList());
+
+        return $result->getFormattedOutput();
+    }
+
+    /**
      * Uses 'diff-tree' to list the files that changed between two revisions
      *
      * @param  string $from

@@ -63,6 +63,34 @@ class DiffTest extends OperatorTest
     /**
      * Tests Diff::compare
      */
+    public function testCompareIndexTo()
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+        $out  = [
+            new File('foo', File::OP_MODIFIED),
+            new File('bar', File::OP_MODIFIED)
+        ];
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, $out);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($runRes);
+
+        $diff  = new Diff($runner, $repo);
+        $files = $diff->compareIndexTo();
+
+        $this->assertIsArray($files);
+        $this->assertCount(2, $files);
+    }
+
+    /**
+     * Tests Diff::compare
+     */
     public function testChangedFiles()
     {
         $root = (string) realpath(__FILE__ . '/../../..');
