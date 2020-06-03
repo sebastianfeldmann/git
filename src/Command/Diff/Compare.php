@@ -54,7 +54,7 @@ class Compare extends Base
     /**
      * Number of context lines before and after the diff
      *
-     * @var int
+     * @var string
      */
     private $unified = '';
 
