@@ -52,6 +52,13 @@ class Compare extends Base
     private $ignoreWhitespaces = '';
 
     /**
+     * Number of context lines before and after the diff
+     *
+     * @var int
+     */
+    private $unified = '';
+
+    /**
      * Compare two given revisions.
      *
      * @param  string $from
@@ -61,6 +68,30 @@ class Compare extends Base
     public function revisions(string $from, string $to): Compare
     {
         $this->compare = escapeshellarg($from) . ' ' . escapeshellarg($to);
+        return $this;
+    }
+
+    /**
+     * Compares the index to a given commit hash
+     *
+     * @param  string $to
+     * @return \SebastianFeldmann\Git\Command\Diff\Compare
+     */
+    public function indexTo(string $to = 'HEAD'): Compare
+    {
+        $this->compare = '--staged ' . $to;
+        return $this;
+    }
+
+    /**
+     * Generate diffs with $amount lines of context instead of the usual three
+     *
+     * @param  int $amount
+     * @return \SebastianFeldmann\Git\Command\Diff\Compare
+     */
+    public function withContextLines(int $amount): Compare
+    {
+        $this->unified = $amount === 3 ? '' : ' --unified=' . $amount;
         return $this;
     }
 
@@ -108,6 +139,11 @@ class Compare extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff' . $this->ignoreWhitespaces . $this->ignoreEOL . $this->stats . ' ' . $this->compare;
+        return 'diff'
+               . $this->unified
+               . $this->ignoreWhitespaces
+               . $this->ignoreEOL
+               . $this->stats
+               . ' ' . $this->compare;
     }
 }

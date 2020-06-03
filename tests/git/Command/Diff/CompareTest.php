@@ -59,6 +59,29 @@ class CompareTest extends TestCase
     }
 
     /**
+     * Tests Compare::indexTo
+     */
+    public function testIndexTo()
+    {
+        $compare = new Compare();
+        $compare->indexTo();
+
+        $this->assertEquals('git diff --staged HEAD', $compare->getCommand());
+    }
+
+    /**
+     * Tests Compare::withContextLines
+     */
+    public function testContextLines()
+    {
+        $compare = new Compare();
+        $compare->indexTo()->withContextLines(2);
+
+
+        $this->assertEquals('git diff --unified=2 --staged HEAD', $compare->getCommand());
+    }
+
+    /**
      * Tests Compare::ignoreWhitespaces
      */
     public function testIgnoreWhitespaces()
