@@ -11,6 +11,7 @@
 
 namespace SebastianFeldmann\Git;
 
+use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner;
 
 /**
@@ -122,7 +123,7 @@ class Repository
     public function getCommitMsg(): CommitMessage
     {
         if (null === $this->commitMsg) {
-            throw new \RuntimeException('No commit message available');
+            throw new RuntimeException('No commit message available');
         }
         return $this->commitMsg;
     }
@@ -183,7 +184,9 @@ class Repository
     }
 
     /**
-     * Get diff operator.
+     * Get diff operator
+     *
+     * Responsible for inspection and comparison commands
      *
      * @return \SebastianFeldmann\Git\Operator\Diff
      */
@@ -217,7 +220,7 @@ class Repository
     public static function createVerified(string $root, Runner $runner = null): Repository
     {
         if (!self::isGitRepository($root)) {
-            throw new \RuntimeException(sprintf('Invalid git repository: %s', $root));
+            throw new RuntimeException(sprintf('Invalid git repository: %s', $root));
         }
         return new Repository($root, $runner);
     }
