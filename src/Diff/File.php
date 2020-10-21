@@ -100,4 +100,23 @@ class File
     {
         $this->changes[] = $change;
     }
+
+    /**
+     * Return all newly added content
+     *
+     * @return string[]
+     */
+    public function getAddedContent(): array
+    {
+        $content = [];
+        if ($this->operation === self::OP_DELETED) {
+            return $content;
+        }
+
+        foreach ($this->changes as $change) {
+            $content = array_merge($content, $change->getAddedContent());
+        }
+
+        return $content;
+    }
 }

@@ -88,4 +88,41 @@ class FileTest extends TestCase
         $this->assertEquals(Line::ADDED, $change->getLines()[0]->getOperation());
         $this->assertEquals('baz', $change->getLines()[0]->getContent());
     }
+
+    /**
+     * Tests File::getAddedContent
+     */
+    public function testGetAddedContent()
+    {
+        $changeIndex = '-1,1 +2,2';
+        $file        = new File('foo', File::OP_MODIFIED);
+
+        $change1 = new Change($changeIndex, 'bar');
+        $change1->addLine(new Line(Line::ADDED, 'fiz'));
+        $change1->addLine(new Line(Line::ADDED, 'baz'));
+        $file->addChange($change1);
+
+        $change2 = new Change($changeIndex, 'bar');
+        $change2->addLine(new Line(Line::ADDED, 'foo'));
+        $change2->addLine(new Line(Line::ADDED, 'bar'));
+        $file->addChange($change2);
+
+        $content = $file->getAddedContent();
+
+        $this->assertCount(4, $content);
+        $this->assertEquals(['fiz', 'baz', 'foo', 'bar'], $content);
+    }
+
+    /**
+     * Tests File::getAddedContent
+     */
+    public function testGetAddedContentOfDeletedFile()
+    {
+
+        $file    = new File('foo', File::OP_DELETED);
+        $content = $file->getAddedContent();
+
+        $this->assertCount(0, $content);
+        $this->assertEquals([], $content);
+    }
 }

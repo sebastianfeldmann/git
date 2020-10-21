@@ -102,6 +102,22 @@ class Change
     }
 
     /**
+     * Return list of added content
+     *
+     * @return string[]
+     */
+    public function getAddedContent(): array
+    {
+        $added = [];
+        foreach ($this->lines as $line) {
+            if ($line->getOperation() === Line::ADDED) {
+                $added[] = $line->getContent();
+            }
+        }
+        return $added;
+    }
+
+    /**
      * Add a line to the change.
      *
      * @param  \SebastianFeldmann\Git\Diff\Line $line
