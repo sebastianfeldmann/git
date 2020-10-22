@@ -178,4 +178,27 @@ class InfoTest extends OperatorTest
 
         $this->assertEquals('master', $branch);
     }
+
+    /**
+     * Tests Info::getFilesInTree
+     */
+    public function testGetFilesInTree()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ls-tree --name-only -r HEAD', 0, 'foo.txt' . PHP_EOL . 'bar.txt' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+               ->method('run')
+               ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $files    = $operator->getFilesInTree();
+
+        $this->assertCount(2, $files);
+        $this->assertEquals('foo.txt', $files[0]);
+    }
 }

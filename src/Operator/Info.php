@@ -13,6 +13,7 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
 use SebastianFeldmann\Git\Command\Describe\GetMostRecentTag;
+use SebastianFeldmann\Git\Command\LsTree\GetFiles;
 use SebastianFeldmann\Git\Command\RevParse\GetBranch;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 use SebastianFeldmann\Git\Command\Tag\GetTags;
@@ -114,5 +115,24 @@ class Info extends Base
         $result = $this->runner->run($cmd);
 
         return trim($result->getStdOut());
+    }
+
+    /**
+     * Return all files in the repository matching a given path
+     *
+     * This will return all files in the repository if no path is given.
+     *
+     * @param  string $path
+     * @param  string $tree
+     * @return string[]
+     */
+    public function getFilesInTree(string $path = '', string $tree = 'HEAD'): array
+    {
+        $cmd = new GetFiles($this->repo->getRoot());
+        $cmd->inPath($path);
+        $cmd->fromTree($tree);
+
+        $result = $this->runner->run($cmd);
+        return $result->getBufferedOutput();
     }
 }
