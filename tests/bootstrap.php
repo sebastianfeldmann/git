@@ -12,4 +12,5 @@
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/constants.php';
 require __DIR__ . '/git/DummyRepo.php';
+require __DIR__ . '/git/DummySubmoduleRepo.php';
 require __DIR__ . '/git/Operator/OperatorTest.php';

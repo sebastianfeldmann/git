@@ -24,12 +24,12 @@ class DummyRepo
     /**
      * @var string
      */
-    private $path;
+    protected $path;
 
     /**
      * @var string
      */
-    private $gitDir;
+    protected $gitDir;
 
     /**
      * DummyRepo constructor

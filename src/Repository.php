@@ -71,6 +71,14 @@ class Repository
         $this->root      = $path;
         $this->dotGitDir = $this->root . '/.git';
         $this->runner    = null == $runner ? new Runner\Simple() : $runner;
+
+        if (!is_dir($this->dotGitDir) && is_file($this->dotGitDir)) {
+            // This is a submodule - hooks are stored in the parents' .git/modules directory
+            $dotGitContents = file_get_contents($root . '/.git');
+            if (preg_match('/^gitdir:\s*(.+)$/m', $dotGitContents, $matches)) {
+                $this->dotGitDir = $root . '/' . $matches[1];
+            }
+        }
     }
 
     /**
@@ -231,6 +239,6 @@ class Repository
      */
     public static function isGitRepository(string $root): bool
     {
-        return is_dir($root . '/.git');
+        return is_dir($root . '/.git') || is_file($root . '/.git');
     }
 }
