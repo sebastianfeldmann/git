@@ -19,7 +19,7 @@ use SebastianFeldmann\Git\Command\Base;
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
- * @since   Class available since Release ?.?.?
+ * @since   Class available since Release 3.6.0
  */
 class WorkingTreeStatus extends Base
 {

@@ -17,7 +17,7 @@ namespace SebastianFeldmann\Git\Status;
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
  * @link    https://github.com/sebastianfeldmann/git
- * @since   Class available since Release ?.?.?
+ * @since   Class available since Release 3.6.0
  * @link    https://git-scm.com/docs/git-status#_output git-status status codes
  */
 class Path
