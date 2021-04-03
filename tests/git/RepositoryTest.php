@@ -17,6 +17,7 @@ use SebastianFeldmann\Git\Operator\Diff;
 use SebastianFeldmann\Git\Operator\Index;
 use SebastianFeldmann\Git\Operator\Info;
 use SebastianFeldmann\Git\Operator\Log;
+use SebastianFeldmann\Git\Operator\Status;
 
 /**
  * Class RepositoryTest
@@ -236,5 +237,19 @@ class RepositoryTest extends TestCase
         $operator   = $repository->getDiffOperator();
 
         $this->assertInstanceOf(Diff::class, $operator);
+    }
+
+    /**
+     * Tests Repository::getStatusOperator
+     *
+     * @dataProvider repoProvider
+     * @param DummyRepo $repo
+     */
+    public function testGetStatusOperator(DummyRepo $repo)
+    {
+        $repository = new Repository($repo->getPath());
+        $operator   = $repository->getStatusOperator();
+
+        $this->assertInstanceOf(Status::class, $operator);
     }
 }
