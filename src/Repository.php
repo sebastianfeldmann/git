@@ -204,6 +204,16 @@ class Repository
     }
 
     /**
+     * Get status operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Status
+     */
+    public function getStatusOperator(): Operator\Status
+    {
+        return $this->getOperator('Status');
+    }
+
+    /**
      * Return requested operator.
      *
      * @param  string $name
