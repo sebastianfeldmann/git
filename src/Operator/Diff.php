@@ -12,7 +12,9 @@
 namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Git\Command\Diff\Compare;
+use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
+use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
 
 /**
  * Diff operator
@@ -71,5 +73,32 @@ class Diff extends Base
         $result = $this->runner->run($cmd);
 
         return $result->getBufferedOutput();
+    }
+
+    /**
+     * Returns a binary diff of unstaged changes to the working tree that can be
+     * applied with `git-apply`.
+     *
+     * @return string|null String patch, if there are unstaged changes; null otherwise.
+     */
+    public function getUnstagedPatch(): ?string
+    {
+        $treeCmd = new CreateTreeObject($this->repo->getRoot());
+        $treeResult = $this->runner->run($treeCmd);
+
+        $treeId = null;
+        if ($treeResult->isSuccessful()) {
+            $treeId = trim($treeResult->getStdOut());
+        }
+
+        $cmd = (new GetUnstagedPatch($this->repo->getRoot()))->tree($treeId);
+        $result = $this->runner->run($cmd);
+
+        // A status code of 1 means there were differences and we have a patch.
+        if ($result->getCode() === 1) {
+            return $result->getStdOut();
+        }
+
+        return null;
     }
 }
