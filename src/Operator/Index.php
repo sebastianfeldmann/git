@@ -16,6 +16,7 @@ use SebastianFeldmann\Git\Command\Add\AddFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
+use SebastianFeldmann\Git\Command\Rm\RemoveFiles;
 
 /**
  * Index CommitMessage
@@ -162,6 +163,32 @@ class Index extends Base
     public function recordIntentToAddFiles(array $files): bool
     {
         $cmd = (new AddFiles($this->repo->getRoot()))->files($files)->intentToAdd();
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
+    }
+
+    /**
+     * Remove files from the working tree and from the index.
+     *
+     * @param array $files     The files to remove.
+     * @param bool $recursive  Allow recursive removal when a leading directory
+     *                         name is given
+     * @param bool $cachedOnly Unstage and remove paths only from the index.
+     *                         The working tree is untouched.
+     *
+     * @return bool
+     */
+    public function removeFiles(
+        array $files,
+        bool $recursive = false,
+        bool $cachedOnly = false
+    ): bool {
+        $cmd = (new RemoveFiles($this->repo->getRoot()))
+            ->files($files)
+            ->recursive($recursive)
+            ->cached($cachedOnly);
 
         $result = $this->runner->run($cmd);
 
