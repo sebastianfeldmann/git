@@ -12,6 +12,7 @@
 namespace SebastianFeldmann\Git\Operator;
 
 use RuntimeException;
+use SebastianFeldmann\Git\Command\Add\AddFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
@@ -48,7 +49,7 @@ class Index extends Base
     private $typesResolved = false;
 
     /**
-     * Get the lst of files that changed.
+     * Get the list of files that changed.
      *
      * @return array
      */
@@ -83,6 +84,88 @@ class Index extends Base
             $this->resolveFileTypes();
         }
         return isset($this->types[$suffix]) ? $this->types[$suffix] : [];
+    }
+
+    /**
+     * Update the index using the current content found in the working tree.
+     *
+     * @param array $files
+     *
+     * @return bool
+     */
+    public function addFilesToIndex(array $files): bool
+    {
+        $cmd = (new AddFiles($this->repo->getRoot()))->files($files);
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
+    }
+
+    /**
+     * Update the index just where it already has an entry matching <pathspec>.
+     *
+     * This removes as well as modifies index entries to match the working tree,
+     * but adds no new files.
+     *
+     * @param array $files
+     *
+     * @return bool
+     */
+    public function updateIndex(array $files): bool
+    {
+        $cmd = (new AddFiles($this->repo->getRoot()))->files($files)->update();
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
+    }
+
+    /**
+     * Update the index not only where the working tree has a file matching
+     * <pathspec> but also where the index already has an entry.
+     *
+     * This adds, modifies, and removes index entries to match the working tree.
+     *
+     * If `$ignoreRemoval` is `true`, files removed in the working tree are
+     * ignored and not removed from the index.
+     *
+     * @param array $files
+     * @param bool $ignoreRemoval Ignore files that have been removed
+     *     from the working tree.
+     *
+     * @return bool
+     */
+    public function updateIndexToMatchWorkingTree(array $files, bool $ignoreRemoval = false): bool
+    {
+        $all = !$ignoreRemoval;
+
+        $cmd = (new AddFiles($this->repo->getRoot()))
+            ->files($files)
+            ->all($all)
+            ->noAll($ignoreRemoval);
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
+    }
+
+    /**
+     * Record only the fact that the path will be added later.
+     *
+     * An entry for the path is placed in the index with no content.
+     *
+     * @param array $files
+     *
+     * @return bool
+     */
+    public function recordIntentToAddFiles(array $files): bool
+    {
+        $cmd = (new AddFiles($this->repo->getRoot()))->files($files)->intentToAdd();
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
     }
 
     /**
