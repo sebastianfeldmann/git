@@ -54,11 +54,11 @@ class RemoveFilesTest extends TestCase
             "foo/*",
             "foo bar.txt",
             "foo' 'bar.txt",
-            "føøBár.txt",
+            "fooBar.txt",
         ]);
 
         $this->assertSame(
-            "git rm -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'føøBár.txt'",
+            "git rm -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'fooBar.txt'",
             $remove->getCommand()
         );
     }
@@ -70,11 +70,11 @@ class RemoveFilesTest extends TestCase
             "foo/*",
             "foo bar.txt",
             "foo' 'bar.txt",
-            "føøBár.txt",
+            "fooBar.txt",
         ]);
 
         $this->assertSame(
-            "git rm --dry-run --cached -r -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'føøBár.txt'",
+            "git rm --dry-run --cached -r -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'fooBar.txt'",
             $remove->getCommand()
         );
     }
