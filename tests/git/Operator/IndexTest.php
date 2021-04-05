@@ -18,6 +18,7 @@ use SebastianFeldmann\Git\Command\Add\AddFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
+use SebastianFeldmann\Git\Command\Rm\RemoveFiles;
 
 /**
  * Class IndexTest
@@ -358,6 +359,50 @@ class IndexTest extends OperatorTest
 
         $operator = new Index($runner, $repo);
         $result = $operator->recordIntentToAddFiles(['foo', 'bar']);
+
+        $this->assertFalse($result);
+    }
+
+    public function testRemoveFilesReturnsTrue(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, ['foobar']);
+        $gitCmd = (new RemoveFiles($root))->files(['foo', 'bar'])->recursive()->cached();
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($gitCmd))
+            ->willReturn($runRes);
+
+        $operator = new Index($runner, $repo);
+        $result = $operator->removeFiles(['foo', 'bar'], true, true);
+
+        $this->assertTrue($result);
+    }
+
+    public function testRemoveFilesReturnsFalseWhenCommandHasNonZeroExitCode(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 127);
+        $runRes = new RunnerResult($cmdRes, ['foobar']);
+        $gitCmd = (new RemoveFiles($root))->files(['foo', 'bar']);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($gitCmd))
+            ->willReturn($runRes);
+
+        $operator = new Index($runner, $repo);
+        $result = $operator->removeFiles(['foo', 'bar']);
 
         $this->assertFalse($result);
     }
