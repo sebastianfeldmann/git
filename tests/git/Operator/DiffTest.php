@@ -14,7 +14,9 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Diff\Compare;
+use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
+use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
 use SebastianFeldmann\Git\Diff\File;
 
 /**
@@ -115,5 +117,89 @@ class DiffTest extends OperatorTest
 
         $this->assertIsArray($files);
         $this->assertCount(2, $files);
+    }
+
+    public function testGetUnstagedPatchWithNoChangesReturnsNull(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $treeCmdRes = new CommandResult('git ...', 0, '1234567890');
+        $treeRunRes = new RunnerResult($treeCmdRes, []);
+        $treeCmd = new CreateTreeObject($root);
+
+        $patchCmdRes = new CommandResult('git ...', 0);
+        $patchRunRes = new RunnerResult($patchCmdRes, []);
+        $patchCmd = (new GetUnstagedPatch($root))->tree('1234567890');
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->exactly(2))
+            ->method('run')
+            ->withConsecutive([$this->equalTo($treeCmd)], [$this->equalTo($patchCmd)])
+            ->willReturnOnConsecutiveCalls($treeRunRes, $patchRunRes);
+
+        $operator = new Diff($runner, $repo);
+        $response = $operator->getUnstagedPatch();
+
+        $this->assertNull($response);
+    }
+
+    public function testGetUnstagedPatchWithChanges(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $treeCmdRes = new CommandResult('git ...', 0, '0987654321');
+        $treeRunRes = new RunnerResult($treeCmdRes, []);
+        $treeCmd = new CreateTreeObject($root);
+
+        $patchCmdRes = new CommandResult('git ...', 1, 'foo bar baz');
+        $patchRunRes = new RunnerResult($patchCmdRes, []);
+        $patchCmd = (new GetUnstagedPatch($root))->tree('0987654321');
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->exactly(2))
+            ->method('run')
+            ->withConsecutive([$this->equalTo($treeCmd)], [$this->equalTo($patchCmd)])
+            ->willReturnOnConsecutiveCalls($treeRunRes, $patchRunRes);
+
+        $operator = new Diff($runner, $repo);
+        $response = $operator->getUnstagedPatch();
+
+        $this->assertSame('foo bar baz', $response);
+    }
+
+    public function testGetUnstagedPatchWhenTreeObjectCannotBeCreated(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $treeCmdRes = new CommandResult('git ...', 1);
+        $treeRunRes = new RunnerResult($treeCmdRes, []);
+        $treeCmd = new CreateTreeObject($root);
+
+        $patchCmdRes = new CommandResult('git ...', 1, 'foo bar baz');
+        $patchRunRes = new RunnerResult($patchCmdRes, []);
+        $patchCmd = (new GetUnstagedPatch($root))->tree(null);
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->exactly(2))
+            ->method('run')
+            ->withConsecutive([$this->equalTo($treeCmd)], [$this->equalTo($patchCmd)])
+            ->willReturnOnConsecutiveCalls($treeRunRes, $patchRunRes);
+
+        $operator = new Diff($runner, $repo);
+        $response = $operator->getUnstagedPatch();
+
+        $this->assertSame('foo bar baz', $response);
     }
 }
