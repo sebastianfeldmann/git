@@ -70,11 +70,11 @@ class AddFilesTest extends TestCase
             "foo/*",
             "foo bar.txt",
             "foo' 'bar.txt",
-            "føøBár.txt",
+            "fooBar.txt",
         ]);
 
         $this->assertSame(
-            "git add -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'føøBár.txt'",
+            "git add -- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'fooBar.txt'",
             $add->getCommand()
         );
     }
@@ -90,12 +90,12 @@ class AddFilesTest extends TestCase
             "foo/*",
             "foo bar.txt",
             "foo' 'bar.txt",
-            "føøBár.txt",
+            "fooBar.txt",
         ]);
 
         $this->assertSame(
             'git add --dry-run --update --all --no-all --intent-to-add '
-                . "-- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'føøBár.txt'",
+                . "-- 'foo/*' 'foo bar.txt' 'foo'\'' '\''bar.txt' 'fooBar.txt'",
             $add->getCommand()
         );
     }
