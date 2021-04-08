@@ -31,6 +31,13 @@ abstract class Base implements Command
     protected $repositoryRoot;
 
     /**
+     * Configuration parameters to pass along with the command.
+     *
+     * @var array<string, string>
+     */
+    private $configParameters = [];
+
+    /**
      * Base constructor.
      *
      * @param string $root
@@ -49,6 +56,7 @@ abstract class Base implements Command
     {
         $command = 'git'
                  . $this->getRootOption()
+                 . $this->getConfigParameterOptions()
                  . ' '
                  . $this->getGitCommand();
         return $command;
@@ -62,6 +70,34 @@ abstract class Base implements Command
     public function getAcceptableExitCodes(): array
     {
         return [0];
+    }
+
+    /**
+     * Adds a configuration parameter to pass to the command.
+     *
+     * This only modifies the current command object. It does not change other
+     * command objects, nor does it affect `~/.gitconfig` or `.git/config`.
+     *
+     * @param string $name Configuration parameter name in the same format as
+     *     listed by git config (subkeys separated by dots).
+     * @param scalar|null $value The parameter value, or `null` to unset a
+     *     previously set configuration parameter.
+     * @return self
+     */
+    public function setConfigParameter(string $name, $value): self
+    {
+        if ($value === null) {
+            unset($this->configParameters[$name]);
+            return $this;
+        }
+
+        if (is_bool($value)) {
+            $value = ($value === true) ? 'true' : 'false';
+        }
+
+        $this->configParameters[$name] = (string) $value;
+
+        return $this;
     }
 
     /**
@@ -80,6 +116,20 @@ abstract class Base implements Command
             }
         }
         return $option;
+    }
+
+    /**
+     * Returns a string of any config parameters set for use in the command.
+     *
+     * @return string
+     */
+    protected function getConfigParameterOptions(): string
+    {
+        $options = '';
+        foreach ($this->configParameters as $name => $value) {
+            $options .= ' -c ' . escapeshellarg($name . '=' . $value);
+        }
+        return $options;
     }
 
     /**

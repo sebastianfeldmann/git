@@ -35,4 +35,50 @@ class BaseTest extends TestCase
             (string) $cmd
         );
     }
+
+    public function testToStringWithConfigParameters(): void
+    {
+        $cmd = new class extends Base {
+            protected function getGitCommand(): string
+            {
+                return 'foo';
+            }
+        };
+
+        $cmd->setConfigParameter('core.autocrlf', false)
+            ->setConfigParameter('core.abbrev', 10)
+            ->setConfigParameter('commit.gpgSign', true)
+            ->setConfigParameter('diff.algorithm', 'patience');
+
+        $this->assertSame(
+            "git -c 'core.autocrlf=false' -c 'core.abbrev=10' "
+                . "-c 'commit.gpgSign=true' -c 'diff.algorithm=patience' foo",
+            (string) $cmd
+        );
+
+        $cmd->setConfigParameter('core.abbrev', null);
+
+        $this->assertSame(
+            "git -c 'core.autocrlf=false' "
+            . "-c 'commit.gpgSign=true' -c 'diff.algorithm=patience' foo",
+            (string) $cmd
+        );
+    }
+
+    public function testToStringWithRootAndConfigParameters(): void
+    {
+        $cmd = new class ('/bar') extends Base {
+            protected function getGitCommand(): string
+            {
+                return 'baz';
+            }
+        };
+
+        $cmd->setConfigParameter('core.autocrlf', false);
+
+        $this->assertSame(
+            "git -C '/bar' -c 'core.autocrlf=false' baz",
+            (string) $cmd
+        );
+    }
 }
