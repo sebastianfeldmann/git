@@ -13,6 +13,7 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
+use SebastianFeldmann\Git\Command\Apply\ApplyPatch;
 use SebastianFeldmann\Git\Command\Diff\Compare;
 use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
@@ -201,5 +202,77 @@ class DiffTest extends OperatorTest
         $response = $operator->getUnstagedPatch();
 
         $this->assertSame('foo bar baz', $response);
+    }
+
+    public function testApplyPatchesReturnsTrue(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, []);
+        $cmd = (new ApplyPatch($root))->patches(['foo.patch'])->whitespace('nowarn');
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($cmd))
+            ->willReturn($runRes);
+
+        $operator = new Diff($runner, $repo);
+
+        $this->assertTrue($operator->applyPatches(['foo.patch']));
+    }
+
+    public function testApplyPatchesReturnsFalse(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $cmdRes = new CommandResult('git ...', 1);
+        $runRes = new RunnerResult($cmdRes, []);
+        $cmd = (new ApplyPatch($root))->patches(['foo.patch'])->whitespace('nowarn');
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($cmd))
+            ->willReturn($runRes);
+
+        $operator = new Diff($runner, $repo);
+
+        $this->assertFalse($operator->applyPatches(['foo.patch']));
+    }
+
+    public function testApplyPatchesSetsAutoCrlfParameter(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, []);
+        $cmd = (new ApplyPatch($root))
+            ->patches(['foo.patch'])
+            ->whitespace('nowarn')
+            ->setConfigParameter('core.autocrlf', false);
+
+        $repo->method('getRoot')->willReturn($root);
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($cmd))
+            ->willReturn($runRes);
+
+        $operator = new Diff($runner, $repo);
+
+        $this->assertTrue($operator->applyPatches(['foo.patch'], true));
     }
 }

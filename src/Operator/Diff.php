@@ -11,6 +11,7 @@
 
 namespace SebastianFeldmann\Git\Operator;
 
+use SebastianFeldmann\Git\Command\Apply\ApplyPatch;
 use SebastianFeldmann\Git\Command\Diff\Compare;
 use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
@@ -100,5 +101,28 @@ class Diff extends Base
         }
 
         return null;
+    }
+
+    /**
+     * Applies the supplied diff patches to files.
+     *
+     * @param string[] $patches An array of paths to patch files.
+     * @param bool $disableAutoCrlfSetting If true, explicitly set core.autocrlf
+     *     to "false" to override the global Git configuration.
+     * @return bool True if the patches apply cleanly.
+     */
+    public function applyPatches(array $patches, bool $disableAutoCrlfSetting = false): bool
+    {
+        $cmd = (new ApplyPatch($this->repo->getRoot()))
+            ->patches($patches)
+            ->whitespace('nowarn');
+
+        if ($disableAutoCrlfSetting === true) {
+            $cmd->setConfigParameter('core.autocrlf', false);
+        }
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
     }
 }
