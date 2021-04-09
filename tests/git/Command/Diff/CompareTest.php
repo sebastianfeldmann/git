@@ -111,4 +111,12 @@ class CompareTest extends TestCase
             $compare->getCommand()
         );
     }
+
+    public function testIgnoreSubmodules(): void
+    {
+        $compare = new Compare();
+        $compare->ignoreSubmodules();
+
+        $this->assertEquals('git diff --no-ext-diff --ignore-submodules ', $compare->getCommand());
+    }
 }
