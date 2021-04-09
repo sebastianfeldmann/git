@@ -11,6 +11,7 @@
 
 namespace SebastianFeldmann\Git\Operator;
 
+use SebastianFeldmann\Git\Command\Checkout\RestoreWorkingTree;
 use SebastianFeldmann\Git\Command\Status\WorkingTreeStatus;
 use SebastianFeldmann\Git\Command\Status\Porcelain\PathList;
 
@@ -36,5 +37,21 @@ class Status extends Base
         $result = $this->runner->run($cmd, new PathList());
 
         return $result->getFormattedOutput();
+    }
+
+    /**
+     * Performs a checkout (restore) operation on the given paths
+     * (or the entire repo, by default).
+     *
+     * @param string[] $limitToPaths
+     * @return bool
+     */
+    public function restoreWorkingTree(array $limitToPaths = ['.']): bool
+    {
+        $cmd = (new RestoreWorkingTree($this->repo->getRoot()))->files($limitToPaths);
+
+        $result = $this->runner->run($cmd);
+
+        return $result->isSuccessful();
     }
 }
