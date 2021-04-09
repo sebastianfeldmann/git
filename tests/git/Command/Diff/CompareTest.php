@@ -31,7 +31,7 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->revisions('1.0.0', '1.1.0');
 
-        $this->assertEquals('git diff \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+        $this->assertEquals('git diff --no-ext-diff \'1.0.0\' \'1.1.0\'', $compare->getCommand());
     }
 
     /**
@@ -43,7 +43,7 @@ class CompareTest extends TestCase
         $compare->revisions('1.0.0', '1.1.0');
         $compare->statsOnly();
 
-        $this->assertEquals('git diff --numstat \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+        $this->assertEquals('git diff --no-ext-diff --numstat \'1.0.0\' \'1.1.0\'', $compare->getCommand());
     }
 
     /**
@@ -55,7 +55,10 @@ class CompareTest extends TestCase
         $compare->revisions('1.0.0', '1.1.0');
         $compare->ignoreWhitespacesAtEndOfLine();
 
-        $this->assertEquals('git diff --ignore-space-at-eol \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --ignore-space-at-eol \'1.0.0\' \'1.1.0\'',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -66,7 +69,7 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->indexTo();
 
-        $this->assertEquals('git diff --staged HEAD', $compare->getCommand());
+        $this->assertEquals('git diff --no-ext-diff --staged HEAD', $compare->getCommand());
     }
 
     /**
@@ -78,7 +81,7 @@ class CompareTest extends TestCase
         $compare->indexTo()->withContextLines(2);
 
 
-        $this->assertEquals('git diff --unified=2 --staged HEAD', $compare->getCommand());
+        $this->assertEquals('git diff --no-ext-diff --unified=2 --staged HEAD', $compare->getCommand());
     }
 
     /**
@@ -90,7 +93,7 @@ class CompareTest extends TestCase
         $compare->revisions('1.0.0', '1.1.0');
         $compare->ignoreWhitespaces();
 
-        $this->assertEquals('git diff -w \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+        $this->assertEquals('git diff --no-ext-diff -w \'1.0.0\' \'1.1.0\'', $compare->getCommand());
     }
 
     /**
@@ -103,6 +106,9 @@ class CompareTest extends TestCase
                 ->ignoreWhitespacesAtEndOfLine()
                 ->ignoreWhitespaces();
 
-        $this->assertEquals('git diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\'', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\'',
+            $compare->getCommand()
+        );
     }
 }

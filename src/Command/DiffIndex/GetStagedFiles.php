@@ -31,6 +31,6 @@ class GetStagedFiles extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff-index --cached --name-status HEAD';
+        return 'diff-index --no-ext-diff --cached --name-status HEAD';
     }
 }

@@ -139,7 +139,7 @@ class Compare extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff'
+        return 'diff --no-ext-diff'
                . $this->unified
                . $this->ignoreWhitespaces
                . $this->ignoreEOL
