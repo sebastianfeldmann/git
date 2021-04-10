@@ -13,6 +13,7 @@ namespace SebastianFeldmann\Git\Operator;
 
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
+use SebastianFeldmann\Git\Command\Checkout\RestoreWorkingTree;
 use SebastianFeldmann\Git\Command\Status\Porcelain\PathList;
 use SebastianFeldmann\Git\Command\Status\WorkingTreeStatus;
 use SebastianFeldmann\Git\Status\Path;
@@ -56,5 +57,47 @@ class StatusTest extends OperatorTest
         $this->assertIsArray($paths);
         $this->assertCount(2, $paths);
         $this->assertContainsOnlyInstancesOf(Path::class, $paths);
+    }
+
+    public function testRestoreWorkingTreeWithDefaultPathsParameter(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, ['foobar']);
+        $gitCmd = new RestoreWorkingTree($root);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($gitCmd))
+            ->willReturn($runRes);
+
+        $status = new Status($runner, $repo);
+
+        $this->assertTrue($status->restoreWorkingTree());
+    }
+
+    public function testRestoreWorkingTreeWithPassedPathsAndErrorResponse(): void
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 1);
+        $runRes = new RunnerResult($cmdRes, ['foobar']);
+        $gitCmd = (new RestoreWorkingTree($root))->files(['foo', 'bar']);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with($this->equalTo($gitCmd))
+            ->willReturn($runRes);
+
+        $status = new Status($runner, $repo);
+
+        $this->assertFalse($status->restoreWorkingTree(['foo', 'bar']));
     }
 }
