@@ -33,7 +33,10 @@ class ChangedFilesTest extends TestCase
         $changed->fromRevision('1.0.0')
                 ->toRevision('1.1.0');
 
-        $this->assertEquals('git diff-tree --no-commit-id --name-only -r \'1.0.0\' \'1.1.0\'', $changed->getCommand());
+        $this->assertEquals(
+            'git diff-tree --no-ext-diff --no-commit-id --name-only -r \'1.0.0\' \'1.1.0\'',
+            $changed->getCommand()
+        );
     }
 
     /**
@@ -44,6 +47,9 @@ class ChangedFilesTest extends TestCase
         $changed = new ChangedFiles();
         $changed->fromRevision('1.0.0');
 
-        $this->assertEquals('git diff-tree --no-commit-id --name-only -r \'1.0.0\'', $changed->getCommand());
+        $this->assertEquals(
+            'git diff-tree --no-ext-diff --no-commit-id --name-only -r \'1.0.0\'',
+            $changed->getCommand()
+        );
     }
 }

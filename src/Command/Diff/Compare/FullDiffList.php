@@ -264,7 +264,7 @@ class FullDiffList implements OutputFormatter
     private function isChangePositionLine(string $line): bool
     {
         $matches = [];
-        if (preg_match('#^@@ (\-[0-9,]{3,} \+[0-9,]{3,}) @@ ?(.*)$#', $line, $matches)) {
+        if (preg_match('#^@@ (-\d+(?:,\d+)? \+\d+(?:,\d+)?) @@ ?(.*)$#', $line, $matches)) {
             $this->currentPosition                        = $matches[1];
             $this->currentChanges[$this->currentPosition] = new Change($matches[1], $matches[2]);
             return true;

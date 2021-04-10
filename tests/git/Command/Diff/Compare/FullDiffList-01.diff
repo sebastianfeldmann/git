@@ -1,0 +1,140 @@
+diff --git a/src/Command/Diff/Compare.php b/src/Command/Diff/Compare.php
+index a2a41d1..a17881b 100644
+--- a/src/Command/Diff/Compare.php
++++ b/src/Command/Diff/Compare.php
+@@ -67,0 +68,7 @@ class Compare extends Base
++    /**
++     * View the changes staged for the next commit.
++     *
++     * @var string
++     */
++    private $staged = '';
++
+@@ -80,0 +88,12 @@ class Compare extends Base
++    /**
++     * Compares the working tree or index to a given commit-ish
++     *
++     * @param  string $to
++     * @return \SebastianFeldmann\Git\Command\Diff\Compare
++     */
++    public function to(string $to = 'HEAD'): Compare
++    {
++        $this->compare = $to;
++        return $this;
++    }
++
+@@ -83,0 +103,2 @@ class Compare extends Base
++     * This method is a shortcut for calling {@see staged()} and {@see to()}.
++     *
+@@ -89 +110,13 @@ class Compare extends Base
+-        $this->compare = '--staged ' . $to;
++        return $this->staged()->to($to);
++    }
++
++    /**
++     * View the changes staged for the next commit relative to the <commit>
++     * named with {@see to()}.
++     *
++     * @param  bool $bool
++     * @return \SebastianFeldmann\Git\Command\Diff\Compare
++     */
++    public function staged(bool $bool = true): Compare
++    {
++        $this->stats = $this->useOption('--staged', $bool);
+@@ -167 +200,3 @@ class Compare extends Base
+-               . ' ' . $this->compare;
++               . $this->staged
++               . ' ' . $this->compare
++               . ' -- ';
+diff --git a/src/Command/Diff/Compare/FullDiffList.php b/src/Command/Diff/Compare/FullDiffList.php
+index 4e85eba..f5e9ca7 100644
+--- a/src/Command/Diff/Compare/FullDiffList.php
++++ b/src/Command/Diff/Compare/FullDiffList.php
+@@ -267 +267 @@ class FullDiffList implements OutputFormatter
+-        if (preg_match('#^@@ (\-[0-9,]{3,} \+[0-9,]{3,}) @@ ?(.*)$#', $line, $matches)) {
++        if (preg_match('#^@@ (-\d+(?:,\d+)? \+\d+(?:,\d+)?) @@ ?(.*)$#', $line, $matches)) {
+diff --git a/src/Diff/Change.php b/src/Diff/Change.php
+index ff95c05..972b5db 100644
+--- a/src/Diff/Change.php
++++ b/src/Diff/Change.php
+@@ -31 +31 @@ class Change
+-     * Pre range ['from' => x, 'to' => y]
++     * Pre range.
+@@ -33 +33 @@ class Change
+-     * @var array
++     * @var array{from: int|null, to: int|null}
+@@ -38 +38 @@ class Change
+-     * Post range ['from' => x, 'to' => y]
++     * Post range.
+@@ -40 +40 @@ class Change
+-     * @var array
++     * @var array{from: int|null, to: int|null}
+@@ -140 +140 @@ class Change
+-        if (!preg_match('#^[\-|\+]{1}([0-9]+),([0-9]+) [\-\+]{1}([0-9]+),([0-9]+)$#', $ranges, $matches)) {
++        if (!preg_match('#^[\-|+](\d+)(?:,(\d+))? [\-+](\d+)(?:,(\d+))?$#', $ranges, $matches)) {
+@@ -143,2 +143,10 @@ class Change
+-        $this->pre  = ['from' => (int)$matches[1], 'to' => (int)$matches[2]];
+-        $this->post = ['from' => (int)$matches[3], 'to' => (int)$matches[4]];
++
++        $this->pre = [
++            'from' => isset($matches[1]) ? (int) $matches[1] : null,
++            'to' => isset($matches[2]) ? (int) $matches[2] : null,
++        ];
++
++        $this->post = [
++            'from' => isset($matches[3]) ? (int) $matches[3] : null,
++            'to' => isset($matches[4]) ? (int) $matches[4] : null,
++        ];
+diff --git a/src/Operator/Diff.php b/src/Operator/Diff.php
+index e05d7bb..b93b976 100644
+--- a/src/Operator/Diff.php
++++ b/src/Operator/Diff.php
+@@ -48 +48 @@ class Diff extends Base
+-     * Returns a list of files and their changes
++     * Returns a list of files and their changes staged for the next commit
+@@ -63,0 +64,17 @@ class Diff extends Base
++    /**
++     * Returns a list of files and their changes not yet staged
++     *
++     * @param string $to
++     * @return \SebastianFeldmann\Git\Diff\File[]
++     */
++    public function compareTo(string $to = 'HEAD'): iterable
++    {
++        $compare = (new Compare($this->repo->getRoot()))->to($to)
++                                                        ->ignoreSubmodules()
++                                                        ->withContextLines(0);
++
++        $result = $this->runner->run($compare, new Compare\FullDiffList());
++
++        return $result->getFormattedOutput();
++    }
++
+diff --git a/tests/git/Command/Diff/CompareTest.php b/tests/git/Command/Diff/CompareTest.php
+index a67881c..c895131 100644
+--- a/tests/git/Command/Diff/CompareTest.php
++++ b/tests/git/Command/Diff/CompareTest.php
+@@ -34 +34 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff \'1.0.0\' \'1.1.0\'', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+@@ -46 +46 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff --numstat \'1.0.0\' \'1.1.0\'', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff --numstat \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+@@ -59 +59 @@ class CompareTest extends TestCase
+-            'git diff --no-ext-diff --ignore-space-at-eol \'1.0.0\' \'1.1.0\'',
++            'git diff --no-ext-diff --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
+@@ -72 +72 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff --staged HEAD', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff --staged HEAD -- ', $compare->getCommand());
+@@ -84 +84 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff --unified=2 --staged HEAD', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff --unified=2 --staged HEAD -- ', $compare->getCommand());
+@@ -96 +96 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff -w \'1.0.0\' \'1.1.0\'', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff -w \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+@@ -110 +110 @@ class CompareTest extends TestCase
+-            'git diff --no-ext-diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\'',
++            'git diff --no-ext-diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
+@@ -120 +120 @@ class CompareTest extends TestCase
+-        $this->assertEquals('git diff --no-ext-diff --ignore-submodules ', $compare->getCommand());
++        $this->assertEquals('git diff --no-ext-diff --ignore-submodules  -- ', $compare->getCommand());

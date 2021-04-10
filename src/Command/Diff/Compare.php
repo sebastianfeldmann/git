@@ -52,11 +52,25 @@ class Compare extends Base
     private $ignoreWhitespaces = '';
 
     /**
+     * Ignore submodules.
+     *
+     * @var string
+     */
+    private $ignoreSubmodules = '';
+
+    /**
      * Number of context lines before and after the diff
      *
      * @var string
      */
     private $unified = '';
+
+    /**
+     * View the changes staged for the next commit.
+     *
+     * @var string
+     */
+    private $staged = '';
 
     /**
      * Compare two given revisions.
@@ -72,14 +86,40 @@ class Compare extends Base
     }
 
     /**
+     * Compares the working tree or index to a given commit-ish
+     *
+     * @param  string $to
+     * @return \SebastianFeldmann\Git\Command\Diff\Compare
+     */
+    public function to(string $to = 'HEAD'): Compare
+    {
+        $this->compare = escapeshellarg($to);
+        return $this;
+    }
+
+    /**
      * Compares the index to a given commit hash
+     *
+     * This method is a shortcut for calling {@see staged()} and {@see to()}.
      *
      * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Diff\Compare
      */
     public function indexTo(string $to = 'HEAD'): Compare
     {
-        $this->compare = '--staged ' . $to;
+        return $this->staged()->to($to);
+    }
+
+    /**
+     * View the changes staged for the next commit relative to the <commit>
+     * named with {@see to()}.
+     *
+     * @param  bool $bool
+     * @return \SebastianFeldmann\Git\Command\Diff\Compare
+     */
+    public function staged(bool $bool = true): Compare
+    {
+        $this->stats = $this->useOption('--staged', $bool);
         return $this;
     }
 
@@ -132,6 +172,18 @@ class Compare extends Base
     }
 
     /**
+     * Set ignore submodules.
+     *
+     * @param  bool $bool
+     * @return \SebastianFeldmann\Git\Command\Diff\Compare
+     */
+    public function ignoreSubmodules(bool $bool = true): Compare
+    {
+        $this->ignoreSubmodules = $this->useOption('--ignore-submodules', $bool);
+        return $this;
+    }
+
+    /**
      * Return the command to execute.
      *
      * @return string
@@ -139,11 +191,14 @@ class Compare extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff'
+        return 'diff --no-ext-diff'
                . $this->unified
                . $this->ignoreWhitespaces
+               . $this->ignoreSubmodules
                . $this->ignoreEOL
                . $this->stats
-               . ' ' . $this->compare;
+               . $this->staged
+               . ' ' . $this->compare
+               . ' -- ';
     }
 }
