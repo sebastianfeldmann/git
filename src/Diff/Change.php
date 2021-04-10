@@ -28,16 +28,16 @@ class Change
     private $header;
 
     /**
-     * Pre range ['from' => x, 'to' => y]
+     * Pre range.
      *
-     * @var array
+     * @var array{from: int|null, to: int|null}
      */
     private $pre;
 
     /**
-     * Post range ['from' => x, 'to' => y]
+     * Post range.
      *
-     * @var array
+     * @var array{from: int|null, to: int|null}
      */
     private $post;
 
@@ -137,10 +137,28 @@ class Change
     private function splitRanges(string $ranges): void
     {
         $matches = [];
-        if (!preg_match('#^[\-|\+]{1}([0-9]+),([0-9]+) [\-\+]{1}([0-9]+),([0-9]+)$#', $ranges, $matches)) {
+        if (!preg_match('#^[\-|+](\d+)(?:,(\d+))? [\-+](\d+)(?:,(\d+))?$#', $ranges, $matches)) {
             throw new \RuntimeException('invalid ranges: ' . $ranges);
         }
-        $this->pre  = ['from' => (int)$matches[1], 'to' => (int)$matches[2]];
-        $this->post = ['from' => (int)$matches[3], 'to' => (int)$matches[4]];
+
+        $matches = array_map(
+            function ($value) {
+                if (strlen($value) === 0) {
+                    return null;
+                }
+                return $value;
+            },
+            $matches
+        );
+
+        $this->pre = [
+            'from' => isset($matches[1]) ? (int) $matches[1] : null,
+            'to' => isset($matches[2]) ? (int) $matches[2] : null,
+        ];
+
+        $this->post = [
+            'from' => isset($matches[3]) ? (int) $matches[3] : null,
+            'to' => isset($matches[4]) ? (int) $matches[4] : null,
+        ];
     }
 }
