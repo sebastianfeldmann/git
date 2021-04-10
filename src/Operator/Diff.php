@@ -45,7 +45,7 @@ class Diff extends Base
     }
 
     /**
-     * Returns a list of files and their changes
+     * Returns a list of files and their changes staged for the next commit
      *
      * @param  string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
@@ -55,6 +55,23 @@ class Diff extends Base
         $compare = (new Compare($this->repo->getRoot()))->indexTo($to)
                                                         ->withContextLines(0)
                                                         ->ignoreWhitespacesAtEndOfLine();
+
+        $result = $this->runner->run($compare, new Compare\FullDiffList());
+
+        return $result->getFormattedOutput();
+    }
+
+    /**
+     * Returns a list of files and their changes not yet staged
+     *
+     * @param string $to
+     * @return \SebastianFeldmann\Git\Diff\File[]
+     */
+    public function compareTo(string $to = 'HEAD'): iterable
+    {
+        $compare = (new Compare($this->repo->getRoot()))->to($to)
+                                                        ->ignoreSubmodules()
+                                                        ->withContextLines(0);
 
         $result = $this->runner->run($compare, new Compare\FullDiffList());
 

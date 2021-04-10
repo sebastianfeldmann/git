@@ -15,6 +15,7 @@ use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Apply\ApplyPatch;
 use SebastianFeldmann\Git\Command\Diff\Compare;
+use SebastianFeldmann\Git\Command\Diff\Compare\FullDiffList;
 use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
 use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
@@ -274,5 +275,35 @@ class DiffTest extends OperatorTest
         $operator = new Diff($runner, $repo);
 
         $this->assertTrue($operator->applyPatches(['foo.patch'], true));
+    }
+
+    public function testCompareTo()
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+        $out  = [
+            new File('foo', File::OP_MODIFIED),
+            new File('bar', File::OP_MODIFIED)
+        ];
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0);
+        $runRes = new RunnerResult($cmdRes, $out);
+        $cmd    = (new Compare($root))->to('HEAD')->ignoreSubmodules()->withContextLines(0);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->equalTo($cmd),
+                $this->equalTo(new FullDiffList())
+            )
+            ->willReturn($runRes);
+
+        $diff  = new Diff($runner, $repo);
+        $files = $diff->compareTo();
+
+        $this->assertIsArray($files);
+        $this->assertCount(2, $files);
     }
 }
