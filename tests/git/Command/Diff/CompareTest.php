@@ -31,7 +31,10 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->revisions('1.0.0', '1.1.0');
 
-        $this->assertEquals('git diff --no-ext-diff \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers \'1.0.0\' \'1.1.0\' -- ',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -43,7 +46,10 @@ class CompareTest extends TestCase
         $compare->revisions('1.0.0', '1.1.0');
         $compare->statsOnly();
 
-        $this->assertEquals('git diff --no-ext-diff --numstat \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers --numstat \'1.0.0\' \'1.1.0\' -- ',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -56,7 +62,7 @@ class CompareTest extends TestCase
         $compare->ignoreWhitespacesAtEndOfLine();
 
         $this->assertEquals(
-            'git diff --no-ext-diff --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
+            'git diff --no-ext-diff --diff-algorithm=myers --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
             $compare->getCommand()
         );
     }
@@ -69,7 +75,10 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->indexTo();
 
-        $this->assertEquals('git diff --no-ext-diff --staged \'HEAD\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers --staged \'HEAD\' -- ',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -81,7 +90,10 @@ class CompareTest extends TestCase
         $compare->indexTo()->withContextLines(2);
 
 
-        $this->assertEquals('git diff --no-ext-diff --unified=2 --staged \'HEAD\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers --unified=2 --staged \'HEAD\' -- ',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -93,7 +105,10 @@ class CompareTest extends TestCase
         $compare->revisions('1.0.0', '1.1.0');
         $compare->ignoreWhitespaces();
 
-        $this->assertEquals('git diff --no-ext-diff -w \'1.0.0\' \'1.1.0\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers -w \'1.0.0\' \'1.1.0\' -- ',
+            $compare->getCommand()
+        );
     }
 
     /**
@@ -107,7 +122,7 @@ class CompareTest extends TestCase
                 ->ignoreWhitespaces();
 
         $this->assertEquals(
-            'git diff --no-ext-diff -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
+            'git diff --no-ext-diff --diff-algorithm=myers -w --ignore-space-at-eol \'1.0.0\' \'1.1.0\' -- ',
             $compare->getCommand()
         );
     }
@@ -117,7 +132,10 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->ignoreSubmodules();
 
-        $this->assertEquals('git diff --no-ext-diff --ignore-submodules  -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers --ignore-submodules  -- ',
+            $compare->getCommand()
+        );
     }
 
     public function testStaged(): void
@@ -125,7 +143,10 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->staged();
 
-        $this->assertEquals('git diff --no-ext-diff --staged  -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers --staged  -- ',
+            $compare->getCommand()
+        );
     }
 
     public function testToWithDefaultParam(): void
@@ -133,7 +154,10 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->to();
 
-        $this->assertEquals('git diff --no-ext-diff \'HEAD\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers \'HEAD\' -- ',
+            $compare->getCommand()
+        );
     }
 
     public function testToWithPassedParam(): void
@@ -141,6 +165,9 @@ class CompareTest extends TestCase
         $compare = new Compare();
         $compare->to('foobar');
 
-        $this->assertEquals('git diff --no-ext-diff \'foobar\' -- ', $compare->getCommand());
+        $this->assertEquals(
+            'git diff --no-ext-diff --diff-algorithm=myers \'foobar\' -- ',
+            $compare->getCommand()
+        );
     }
 }

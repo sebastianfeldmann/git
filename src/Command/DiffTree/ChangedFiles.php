@@ -61,7 +61,13 @@ class ChangedFiles extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff-tree --no-ext-diff --no-commit-id --name-only -r ' . $this->getVersionsToCompare();
+        return 'diff-tree'
+            . ' --diff-algorithm=myers'
+            . ' --no-ext-diff'
+            . ' --no-commit-id'
+            . ' --name-only'
+            . ' -r'
+            . ' ' . $this->getVersionsToCompare();
     }
 
     /**

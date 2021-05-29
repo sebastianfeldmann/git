@@ -31,6 +31,6 @@ class GetStagedFilesTest extends TestCase
         $cmd = new GetStagedFiles();
         $exe = $cmd->getCommand();
 
-        $this->assertEquals('git diff-index --no-ext-diff --cached --name-status HEAD', $exe);
+        $this->assertEquals('git diff-index --diff-algorithm=myers --no-ext-diff --cached --name-status HEAD', $exe);
     }
 }
