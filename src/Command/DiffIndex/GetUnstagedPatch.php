@@ -63,6 +63,7 @@ class GetUnstagedPatch extends Base
     protected function getGitCommand(): string
     {
         return 'diff-index'
+            . ' --diff-algorithm=myers'
             . ' --ignore-submodules'
             . ' --binary'
             . ' --exit-code'

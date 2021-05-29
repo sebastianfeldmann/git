@@ -191,7 +191,9 @@ class Compare extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'diff --no-ext-diff'
+        return 'diff'
+               . ' --no-ext-diff'
+               . ' --diff-algorithm=myers'
                . $this->unified
                . $this->ignoreWhitespaces
                . $this->ignoreSubmodules

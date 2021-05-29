@@ -35,7 +35,8 @@ class GetUnstagedPatchTest extends TestCase
         $cmd = new GetUnstagedPatch();
 
         $this->assertSame(
-            'git diff-index --ignore-submodules --binary --exit-code --no-color --no-ext-diff -- ',
+            'git diff-index --diff-algorithm=myers --ignore-submodules '
+            . '--binary --exit-code --no-color --no-ext-diff -- ',
             $cmd->getCommand()
         );
     }
@@ -45,7 +46,8 @@ class GetUnstagedPatchTest extends TestCase
         $cmd = (new GetUnstagedPatch())->tree('1234567890');
 
         $this->assertSame(
-            'git diff-index --ignore-submodules --binary --exit-code --no-color --no-ext-diff \'1234567890\' -- ',
+            'git diff-index --diff-algorithm=myers --ignore-submodules '
+            . '--binary --exit-code --no-color --no-ext-diff \'1234567890\' -- ',
             $cmd->getCommand()
         );
     }
