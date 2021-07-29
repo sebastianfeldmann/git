@@ -29,10 +29,22 @@ class Commits extends Log
      */
     protected function getGitCommand(): string
     {
-        return 'log --pretty=format:' .  escapeshellarg($this->format)
+        return 'log --pretty=' . $this->escape('format:' . $this->format)
                . $this->abbrev
                . $this->author
                . $this->merges
                . $this->since;
+    }
+
+    /**
+     * This makes sure the % and ! signs within the format string will not be replaced on windows by 'escapeshellarg'
+     *
+     * @param  string $arg
+     * @return string
+     */
+    private function escape(string $arg): string
+    {
+        // this is a dirty hack to make it work under windows
+        return defined('PHP_WINDOWS_VERSION_MAJOR') ? '"' . $arg . '"' : escapeshellarg($arg);
     }
 }

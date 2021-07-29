@@ -33,7 +33,7 @@ class LogTest extends TestCase
         $cmd->withMerges();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit',
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\' --abbrev-commit',
             (string) $cmd
         );
     }
@@ -59,7 +59,7 @@ class LogTest extends TestCase
 
         $this->assertEquals(
             'git log'
-            . ' --pretty=format:\'%h -%d %s (%ci) <%an>\''
+            . ' --pretty=\'format:%h -%d %s (%ci) <%an>\''
             . ' --abbrev-commit'
             . ' --author=\'Sebastian Feldmann\''
             . ' --no-merges',
@@ -77,7 +77,7 @@ class LogTest extends TestCase
         $cmd->abbrevCommit(false);
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --no-merges',
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\' --no-merges',
             (string) $cmd
         );
     }
@@ -93,7 +93,7 @@ class LogTest extends TestCase
         $exe = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..',
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..',
             $exe
         );
     }
@@ -109,7 +109,7 @@ class LogTest extends TestCase
         $exe = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..\'1.0.2\'',
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges \'1.0.1\'..\'1.0.2\'',
             $exe
         );
     }
@@ -127,7 +127,7 @@ class LogTest extends TestCase
         $exe    = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\''
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\''
             . ' --abbrev-commit --no-merges --after='
             . escapeshellarg($date),
             $exe
@@ -149,7 +149,7 @@ class LogTest extends TestCase
         $exe    = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\''
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\''
             . ' --abbrev-commit --no-merges --after='
             . escapeshellarg($from) . ' --before='
             . escapeshellarg($to),
@@ -169,7 +169,7 @@ class LogTest extends TestCase
 
         $this->assertEquals(
             'git'
-            . ' log --pretty=format:\''
+            . ' log --pretty=\'format:'
             . '{"hash": "%h", "name": "%d", "description": "%s", "date": "%ci", "author": "%an"}'
             . '\''
             . ' --abbrev-commit --no-merges',

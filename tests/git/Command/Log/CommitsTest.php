@@ -32,7 +32,7 @@ class CommitsTest extends TestCase
         $exe    = $cmd->getCommand();
 
         $this->assertEquals(
-            'git log --pretty=format:\'%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges',
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\' --abbrev-commit --no-merges',
             $exe
         );
     }
