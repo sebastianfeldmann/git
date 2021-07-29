@@ -58,11 +58,7 @@ class PathList implements OutputFormatter
      * - 1: path
      * - 2: original path, if renamed or copied
      *
-     * @return array{
-     *     0: non-empty-string,
-     *     1: non-empty-string,
-     *     2: non-empty-string|null
-     * }
+     * @return array<int, array<string, string, mixed>>
      */
     private function parseStatusLine(string $statusLine): array
     {
