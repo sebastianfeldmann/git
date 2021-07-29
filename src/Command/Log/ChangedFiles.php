@@ -29,6 +29,6 @@ class ChangedFiles extends Log
      */
     protected function getGitCommand(): string
     {
-        return 'log --format=\'\' --name-only' . $this->author . $this->merges . $this->since;
+        return 'log --format=' . escapeshellarg('') . ' --name-only' . $this->author . $this->merges . $this->since;
     }
 }
