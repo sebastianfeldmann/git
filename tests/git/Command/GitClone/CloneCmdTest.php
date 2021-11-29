@@ -6,6 +6,7 @@ namespace SebastianFeldmann\Git\Command\CloneCmd;
 
 use PHPUnit\Framework\TestCase;
 use SebastianFeldmann\Git\Command\CloneCmd\CloneCmd;
+use SebastianFeldmann\Git\Url;
 
 final class CloneCmdTest extends TestCase
 {
@@ -14,13 +15,13 @@ final class CloneCmdTest extends TestCase
      */
     public function testGitCloneCommand()
     {
-        $clone = new CloneCmd('https://github.com/test/repo.git');
+        $clone = new CloneCmd(new Url('https://github.com/test/repo.git'));
         $this->assertEquals('git clone \'https://github.com/test/repo.git\' \'repo\'', $clone->getCommand());
     }
 
     public function testGitCloneCommandDir()
     {
-        $clone = new CloneCmd('https://github.com/test/repo.git');
+        $clone = new CloneCmd(new Url('https://github.com/test/repo.git'));
         $clone = $clone->dir('fubar');
         $this->assertEquals('git clone \'https://github.com/test/repo.git\' \'fubar\'', $clone->getCommand());
     }

@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace SebastianFeldmann\Git\Command\CloneCmd;
 
 use SebastianFeldmann\Git\Command\Base;
+use SebastianFeldmann\Git\Url;
 
 final class CloneCmd extends Base
 {
-    /** @var string */
+    /** @var Url */
     private $url;
     /** @var string */
     private $dir;
 
-    public function __construct(string $url)
+    public function __construct(Url $url)
     {
         $this->url = $url;
         parent::__construct();
@@ -29,8 +30,7 @@ final class CloneCmd extends Base
     public function getDir(): string
     {
         if (empty($this->dir)) {
-            $lastSlashPosition = strrpos($this->url, '/');
-            $this->dir = str_replace('.git', '', substr($this->url, $lastSlashPosition + 1));
+            $this->dir = $this->url->getRepoName();
         }
 
         return $this->dir;
@@ -38,6 +38,6 @@ final class CloneCmd extends Base
 
     protected function getGitCommand(): string
     {
-        return 'clone ' . escapeshellarg($this->url) . ' ' . escapeshellarg($this->getDir());
+        return 'clone ' . escapeshellarg($this->url->getUrl()) . ' ' . escapeshellarg($this->getDir());
     }
 }

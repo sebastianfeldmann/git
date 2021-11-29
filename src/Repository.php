@@ -274,7 +274,7 @@ class Repository
     {
         $runner = $runner ?? new Runner\Simple();
 
-        $cloneCommand = (new CloneCmd($url))->dir($dir);
+        $cloneCommand = (new CloneCmd(new Url($url)))->dir($dir);
         $runner->run($cloneCommand);
 
         return self::createVerified($cloneCommand->getDir(), $runner);
