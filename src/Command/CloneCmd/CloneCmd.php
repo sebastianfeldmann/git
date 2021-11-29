@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SebastianFeldmann\Git\Command\GitClone;
+namespace SebastianFeldmann\Git\Command\CloneCmd;
 
 use SebastianFeldmann\Git\Command\Base;
 
-final class GitClone extends Base
+final class CloneCmd extends Base
 {
     /** @var string */
     private $url;
@@ -19,7 +19,7 @@ final class GitClone extends Base
         parent::__construct();
     }
 
-    public function dir(string $dir = ''): GitClone
+    public function dir(string $dir = ''): CloneCmd
     {
         $this->dir = $dir;
 

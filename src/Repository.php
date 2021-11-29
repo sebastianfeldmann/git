@@ -13,7 +13,7 @@ namespace SebastianFeldmann\Git;
 
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner;
-use SebastianFeldmann\Git\Command\GitClone\GitClone;
+use SebastianFeldmann\Git\Command\CloneCmd\CloneCmd;
 
 /**
  * Class Repository
@@ -274,7 +274,7 @@ class Repository
     {
         $runner = $runner ?? new Runner\Simple();
 
-        $cloneCommand = (new GitClone($url))->dir($dir);
+        $cloneCommand = (new CloneCmd($url))->dir($dir);
         $runner->run($cloneCommand);
 
         return self::createVerified($cloneCommand->getDir(), $runner);
