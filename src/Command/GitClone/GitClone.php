@@ -43,6 +43,6 @@ final class GitClone extends Base
 
     protected function getGitCommand(): string
     {
-        return 'clone ' . $this->url . ' ' . $this->getDir();
+        return 'clone ' . escapeshellarg($this->url) . ' ' . escapeshellarg($this->getDir());
     }
 }

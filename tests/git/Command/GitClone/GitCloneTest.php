@@ -15,13 +15,13 @@ final class GitCloneTest extends TestCase
     public function testGitCloneCommand()
     {
         $clone = new GitClone('https://github.com/test/repo.git');
-        $this->assertEquals('git clone https://github.com/test/repo.git repo', $clone->getCommand());
+        $this->assertEquals('git clone \'https://github.com/test/repo.git\' \'repo\'', $clone->getCommand());
     }
 
     public function testGitCloneCommandDir()
     {
         $clone = new GitClone('https://github.com/test/repo.git');
         $clone = $clone->dir('fubar');
-        $this->assertEquals('git clone https://github.com/test/repo.git fubar', $clone->getCommand());
+        $this->assertEquals('git clone \'https://github.com/test/repo.git\' \'fubar\'', $clone->getCommand());
     }
 }
