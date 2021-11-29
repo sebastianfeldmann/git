@@ -10,8 +10,8 @@ final class GitClone extends Base
 {
     /** @var string */
     private $url;
-    /** @var string */
-    private $dir = '';
+    /** @var string|null */
+    private $dir;
 
     public function __construct(string $url)
     {
@@ -19,26 +19,30 @@ final class GitClone extends Base
         parent::__construct();
     }
 
-    public function dir(string $dir): GitClone
+    public function dir(string $dir = null): GitClone
     {
+        if (empty($dir)) {
+            $lastSlashPosition = strrpos($this->url, '/');
+            $dotGitPosition = strrpos($this->url, '.');
+            $dir = substr(
+                $this->url,
+                $lastSlashPosition + 1,
+                strlen($this->url) - $dotGitPosition
+            );
+        }
+
         $this->dir = $dir;
 
         return $this;
     }
 
+    public function getDir(): string
+    {
+        return $this->dir;
+    }
+
     protected function getGitCommand(): string
     {
-        $dir = $this->dir;
-
-        if (empty($dir)) {
-            $lastSlashPosition = strrpos($this->url, '/');
-            $dir = substr(
-                $this->url,
-                $lastSlashPosition + 1,
-                strlen($this->url) - $lastSlashPosition
-            );
-        }
-
-        return 'clone ' . $this->url . ' ' . $dir;
+        return 'clone ' . $this->url . ' ' . $this->dir;
     }
 }
