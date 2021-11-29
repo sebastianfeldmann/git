@@ -266,11 +266,11 @@ class Repository
      * Clone a Repository and makes sure the repository exists
      *
      * @param  string                                     $url
-     * @param  string|null                                $dir
+     * @param  string                                     $dir
      * @param  \SebastianFeldmann\Cli\Command\Runner|null $runner
      * @return \SebastianFeldmann\Git\Repository
      */
-    public static function clone(string $url, string $dir = null, Runner $runner = null): Repository
+    public static function clone(string $url, string $dir = '', Runner $runner = null): Repository
     {
         $runner = $runner ?? new Runner\Simple();
 
