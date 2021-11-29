@@ -21,16 +21,6 @@ final class GitClone extends Base
 
     public function dir(string $dir = null): GitClone
     {
-        if (empty($dir)) {
-            $lastSlashPosition = strrpos($this->url, '/');
-            $dotGitPosition = strrpos($this->url, '.');
-            $dir = substr(
-                $this->url,
-                $lastSlashPosition + 1,
-                strlen($this->url) - $dotGitPosition
-            );
-        }
-
         $this->dir = $dir;
 
         return $this;
@@ -38,11 +28,21 @@ final class GitClone extends Base
 
     public function getDir(): string
     {
+        if (empty($this->dir)) {
+            $lastSlashPosition = strrpos($this->url, '/');
+            $dotGitPosition = strrpos($this->url, '.');
+            $this->dir = substr(
+                $this->url,
+                $lastSlashPosition + 1,
+                strlen($this->url) - $dotGitPosition
+            );
+        }
+
         return $this->dir;
     }
 
     protected function getGitCommand(): string
     {
-        return 'clone ' . $this->url . ' ' . $this->dir;
+        return 'clone ' . $this->url . ' ' . $this->getDir();
     }
 }
