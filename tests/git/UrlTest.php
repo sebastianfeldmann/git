@@ -9,27 +9,28 @@ use SebastianFeldmann\Git\Url;
 
 final class UrlTest extends TestCase
 {
-    public function testHttpsUrl()
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testUrls($url, $scheme, $user, $host, $path, $repo)
     {
-        $url = new Url('https://github.com/icanhazstring/composer-unused.git');
-        $this->assertEquals('https', $url->getScheme());
-        $this->assertEquals('/icanhazstring/composer-unused.git', $url->getPath());
-        $this->assertEquals('github.com', $url->getHost());
-        $this->assertEquals('composer-unused', $url->getRepoName());
+        $url = new Url($url);
+        $this->assertEquals($scheme, $url->getScheme());
+        $this->assertEquals($user, $url->getUser());
+        $this->assertEquals($host, $url->getHost());
+        $this->assertEquals($path, $url->getPath());
+        $this->assertEquals($repo, $url->getRepoName());
     }
 
-    public function testSshUrl()
+    public function urlProvider(): array
     {
-        $url = new Url('git@github.com/icanhazstring/composer-unused.git');
-        $this->assertEquals('/icanhazstring/composer-unused.git', $url->getPath());
-        $this->assertEquals('github.com', $url->getHost());
-        $this->assertEquals('composer-unused', $url->getRepoName());
-    }
-
-    public function testLocalUrl()
-    {
-        $url = new Url('/icanhazstring/composer-unused');
-        $this->assertEquals('/icanhazstring/composer-unused', $url->getPath());
-        $this->assertEquals('composer-unused', $url->getRepoName());
+        return [
+            // url                                 scheme   user   host                   path              repo-name
+            ['git@github.com:demo/repo.git',       'ssh',   'git', 'github.com',          '/demo/repo.git', 'repo'],
+            ['ssh://git@github.com:demo/repo.git', 'ssh',   'git', 'github.com',          '/demo/repo.git', 'repo'],
+            ['/some-dir/some-repo',                '', '',  '',    '/some-dir/some-repo', 'some-repo'],
+            ['http://mygit.com/demo/repo.git',     'http',  '',    'mygit.com',           '/demo/repo.git', 'repo'],
+            ['https://github.com/demo/repo.git',   'https', '',    'github.com',          '/demo/repo.git', 'repo'],
+        ];
     }
 }
