@@ -13,6 +13,7 @@ namespace SebastianFeldmann\Git;
 
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner;
+use SebastianFeldmann\Git\Command\CloneCmd\CloneCmd;
 
 /**
  * Class Repository
@@ -259,5 +260,23 @@ class Repository
     public static function isGitSubmodule(string $root): bool
     {
         return !is_dir($root) && is_file($root);
+    }
+
+    /**
+     * Clone a Repository and makes sure the repository exists
+     *
+     * @param  string                                     $url
+     * @param  string                                     $dir
+     * @param  \SebastianFeldmann\Cli\Command\Runner|null $runner
+     * @return \SebastianFeldmann\Git\Repository
+     */
+    public static function clone(string $url, string $dir = '', Runner $runner = null): Repository
+    {
+        $runner = $runner ?? new Runner\Simple();
+
+        $cloneCommand = (new CloneCmd(new Url($url)))->dir($dir);
+        $runner->run($cloneCommand);
+
+        return self::createVerified($cloneCommand->getDir(), $runner);
     }
 }
