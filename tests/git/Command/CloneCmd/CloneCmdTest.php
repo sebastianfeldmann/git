@@ -16,7 +16,7 @@ final class CloneCmdTest extends TestCase
     public function testGitCloneCommand()
     {
         $clone = new CloneCmd(new Url('https://github.com/test/repo.git'));
-        $this->assertEquals('git clone \'https://github.com/test/repo.git\' \'repo\'', $clone->getCommand());
+        $this->assertEquals('git clone \'https://github.com/test/repo.git\'', $clone->getCommand());
     }
 
     public function testGitCloneCommandDir()

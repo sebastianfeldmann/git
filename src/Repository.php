@@ -14,6 +14,7 @@ namespace SebastianFeldmann\Git;
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner;
 use SebastianFeldmann\Git\Command\CloneCmd\CloneCmd;
+use SebastianFeldmann\Git\Repository\Cloner;
 
 /**
  * Class Repository
@@ -272,11 +273,6 @@ class Repository
      */
     public static function clone(string $url, string $dir = '', Runner $runner = null): Repository
     {
-        $runner = $runner ?? new Runner\Simple();
-
-        $cloneCommand = (new CloneCmd(new Url($url)))->dir($dir);
-        $runner->run($cloneCommand);
-
-        return self::createVerified($cloneCommand->getDir(), $runner);
+        return (new Cloner('', $runner))->clone($url, $dir);
     }
 }
