@@ -77,9 +77,11 @@ final class Cloner
             $dir = $this->root . '/' . $dir;
         }
 
-        $cloneCommand
-            ->dir($dir)
-            ->depth($this->depth);
+        $cloneCommand->dir($dir);
+
+        if ($this->depth !== null) {
+            $cloneCommand->depth($this->depth);
+        }
 
         $this->runner->run($cloneCommand);
 
