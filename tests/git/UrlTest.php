@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace SebastianFeldmann\Git;
 
 use PHPUnit\Framework\TestCase;
-use SebastianFeldmann\Git\Url;
 
 final class UrlTest extends TestCase
 {

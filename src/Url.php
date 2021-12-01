@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace SebastianFeldmann\Git;
 
-use \RuntimeException;
+use RuntimeException;
 
 /**
  * Class Url
