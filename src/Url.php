@@ -1,8 +1,19 @@
 <?php
 
+/**
+ * This file is part of SebastianFeldmann\Git.
+ *
+ * (c) Sebastian Feldmann <sf@sebastian-feldmann.info>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace SebastianFeldmann\Git;
+
+use \RuntimeException;
 
 /**
  * Class Url
@@ -144,7 +155,12 @@ final class Url
             $url = $this->convertToValidUrl($url);
         }
 
-        return parse_url($url);
+        $parsed = parse_url($url);
+
+        if (!is_array($parsed)) {
+            throw new RuntimeException('can\'t parse repository url');
+        }
+        return $parsed;
     }
 
     /**
@@ -167,10 +183,6 @@ final class Url
      */
     private function parseRepoName(string $path): string
     {
-        if (empty($path)) {
-            return '';
-        }
-
         $lastSlashPosition = strrpos($path, '/');
         return str_replace('.git', '', substr($path, $lastSlashPosition + 1));
     }

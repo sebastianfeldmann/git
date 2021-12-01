@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of SebastianFeldmann\Git.
+ *
+ * (c) Sebastian Feldmann <sf@sebastian-feldmann.info>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace SebastianFeldmann\Git;
@@ -9,6 +18,15 @@ use SebastianFeldmann\Git\Url;
 
 final class UrlTest extends TestCase
 {
+    /**
+     * Tests Url::parseUrl
+     */
+    public function testInvalidCrap(): void
+    {
+        $this->expectException(\Exception::class);
+        $url = new Url('foo:bar:baz:fizz');
+    }
+
     /**
      * @dataProvider urlProvider
      */
