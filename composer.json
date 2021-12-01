@@ -40,5 +40,8 @@
     "analyse": "tools/phpstan analyse",
     "style": "tools/phpcs --standard=psr12 src tests",
     "style-fix": "tools/phpcbf --standard=psr12 src tests"
+  },
+  "require-dev": {
+    "mikey179/vfsstream": "^1.6"
   }
 }
