@@ -9,10 +9,20 @@ use SebastianFeldmann\Git\Url;
 
 final class CloneCmd extends Base
 {
-    /** @var Url */
+    /**
+     * @var Url
+     */
     private $url;
-    /** @var string */
-    private $dir;
+
+    /**
+     * @var string
+     */
+    private $dir = '';
+
+    /**
+     * @var string
+     */
+    private $depth = '';
 
     public function __construct(Url $url)
     {
@@ -23,21 +33,27 @@ final class CloneCmd extends Base
     public function dir(string $dir = ''): CloneCmd
     {
         $this->dir = $dir;
-
         return $this;
     }
 
-    public function getDir(): string
+    public function depth(int $depth): CloneCmd
     {
-        if (empty($this->dir)) {
-            $this->dir = $this->url->getRepoName();
-        }
-
-        return $this->dir;
+        $this->depth = $this->useOption('--depth ' . $depth, true);
+        return $this;
     }
 
     protected function getGitCommand(): string
     {
-        return 'clone ' . escapeshellarg($this->url->getUrl()) . ' ' . escapeshellarg($this->getDir());
+        $command = 'clone'
+            . $this->depth
+            . ' '
+            . escapeshellarg($this->url->getUrl());
+
+        if (!empty($this->dir)) {
+            $command .= ' '
+                . escapeshellarg($this->dir);
+        }
+
+        return $command;
     }
 }
