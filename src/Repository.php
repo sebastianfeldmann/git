@@ -55,7 +55,7 @@ class Repository
     /**
      * Map of operators
      *
-     * @var array
+     * @var array<string, object>
      */
     private $operator = [];
 

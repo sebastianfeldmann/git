@@ -150,7 +150,7 @@ class AddFiles extends Base
      * `dir/file1` modified in the working tree, a file `dir/file2` added to the
      * working tree, but also a file `dir/file3` removed from the working tree).
      *
-     * @param array $files
+     * @param array<string> $files
      *
      * @return \SebastianFeldmann\Git\Command\Add\AddFiles
      */

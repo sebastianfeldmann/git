@@ -27,7 +27,7 @@ class Commit
     private $hash;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $names;
 
@@ -52,10 +52,10 @@ class Commit
     private $author;
 
     /**
-     * Commit constructor.
+     * Commit constructor
      *
      * @param string             $hash
-     * @param array              $names
+     * @param array<string>      $names
      * @param string             $subject
      * @param string             $body
      * @param \DateTimeImmutable $date
@@ -78,7 +78,7 @@ class Commit
     }
 
     /**
-     * Hash getter.
+     * Hash getter
      *
      * @return string
      */
@@ -88,7 +88,7 @@ class Commit
     }
 
     /**
-     * Does the commit have names.
+     * Does the commit have names
      *
      * @return bool
      */
@@ -98,9 +98,9 @@ class Commit
     }
 
     /**
-     * Names getter.
+     * Names getter
      *
-     * @return array
+     * @return array<string>
      */
     public function getNames(): array
     {
@@ -108,7 +108,7 @@ class Commit
     }
 
     /**
-     * Description getter.
+     * Description getter
      *
      * @deprecated
      *
@@ -120,7 +120,7 @@ class Commit
     }
 
     /**
-     * Subject getter.
+     * Subject getter
      *
      * @return string
      */
@@ -130,7 +130,7 @@ class Commit
     }
 
     /**
-     * Body getter.
+     * Body getter
      *
      * @return string
      */
@@ -140,7 +140,7 @@ class Commit
     }
 
     /**
-     * Date getter.
+     * Date getter
      *
      * @return \DateTimeImmutable
      */
@@ -150,7 +150,7 @@ class Commit
     }
 
     /**
-     * Author getter.
+     * Author getter
      *
      * @return string
      */

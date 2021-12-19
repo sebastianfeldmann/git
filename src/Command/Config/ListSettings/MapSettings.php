@@ -24,10 +24,10 @@ use SebastianFeldmann\Cli\Command\OutputFormatter;
 class MapSettings implements OutputFormatter
 {
     /**
-     * Format the output.
+     * Format the output
      *
-     * @param  array $output
-     * @return iterable
+     * @param  array<string> $output
+     * @return iterable<string, string>
      */
     public function format(array $output): iterable
     {

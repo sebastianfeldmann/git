@@ -29,7 +29,7 @@ class Line
 
     /**
      * Map diff output to file operation
-     * @var array
+     * @var array<string, string>
      */
     public static $opsMap = [
         '+' => self::ADDED,

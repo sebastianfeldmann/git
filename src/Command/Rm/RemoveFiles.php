@@ -107,8 +107,7 @@ class RemoveFiles extends Base
      * `git rm 'd*'` and `git rm 'd/*'`, as the former will also remove all of
      * directory `d2`.
      *
-     * @param array $files
-     *
+     * @param  array<string> $files
      * @return \SebastianFeldmann\Git\Command\Rm\RemoveFiles
      */
     public function files(array $files): RemoveFiles

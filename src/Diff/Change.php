@@ -62,7 +62,7 @@ class Change
     }
 
     /**
-     * Header getter.
+     * Header getter
      *
      * @return string
      */
@@ -72,9 +72,9 @@ class Change
     }
 
     /**
-     * Pre range getter.
+     * Pre range getter
      *
-     * @return array
+     * @return array<string, int|null>
      */
     public function getPre(): array
     {
@@ -82,9 +82,9 @@ class Change
     }
 
     /**
-     * Post range getter.
+     * Post range getter
      *
-     * @return array
+     * @return array<string, int|null>
      */
     public function getPost(): array
     {
@@ -92,7 +92,7 @@ class Change
     }
 
     /**
-     * Return list of changed lines.
+     * Return list of changed lines
      *
      * @return \SebastianFeldmann\Git\Diff\Line[]
      */
@@ -118,7 +118,7 @@ class Change
     }
 
     /**
-     * Add a line to the change.
+     * Add a line to the change
      *
      * @param  \SebastianFeldmann\Git\Diff\Line $line
      * @return void
@@ -129,7 +129,7 @@ class Change
     }
 
     /**
-     * Parse ranges and split them into pre and post range.
+     * Parse ranges and split them into pre and post range
      *
      * @param  string $ranges
      * @return void
@@ -153,12 +153,12 @@ class Change
 
         $this->pre = [
             'from' => isset($matches[1]) ? (int) $matches[1] : null,
-            'to' => isset($matches[2]) ? (int) $matches[2] : null,
+            'to'   => isset($matches[2]) ? (int) $matches[2] : null,
         ];
 
         $this->post = [
             'from' => isset($matches[3]) ? (int) $matches[3] : null,
-            'to' => isset($matches[4]) ? (int) $matches[4] : null,
+            'to'   => isset($matches[4]) ? (int) $matches[4] : null,
         ];
     }
 }

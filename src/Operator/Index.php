@@ -53,7 +53,7 @@ class Index extends Base
      * Get the list of files that changed
      *
      * @param  array<string> $diffFilter List of status you want to get returned, choose from [A,C,D,M,R,T,U,X,B,*]
-     * @return array
+     * @return array<string>
      */
     public function getStagedFiles(array $diffFilter = []): array
     {
@@ -125,8 +125,8 @@ class Index extends Base
      * If `$ignoreRemoval` is `true`, files removed in the working tree are
      * ignored and not removed from the index.
      *
-     * @param  array $files
-     * @param  bool  $ignoreRemoval Ignore files that have been removed from the working tree
+     * @param  array<string> $files
+     * @param  bool          $ignoreRemoval Ignore files that have been removed from the working tree
      * @return bool
      */
     public function updateIndexToMatchWorkingTree(array $files, bool $ignoreRemoval = false): bool
@@ -148,7 +148,7 @@ class Index extends Base
      *
      * An entry for the path is placed in the index with no content.
      *
-     * @param array $files
+     * @param  array<string> $files
      * @return bool
      */
     public function recordIntentToAddFiles(array $files): bool
@@ -162,10 +162,10 @@ class Index extends Base
     /**
      * Remove files from the working tree and from the index
      *
-     * @param  array $files     The files to remove.
-     * @param  bool $recursive  Allow recursive removal when a leading directory name is given
-     * @param  bool $cachedOnly Unstage and remove paths only from the index.
-     *                          The working tree is untouched.
+     * @param  array<string> $files      The files to remove.
+     * @param  bool          $recursive  Allow recursive removal when a leading directory name is given
+     * @param  bool          $cachedOnly Unstage and remove paths only from the index.
+     *                                   The working tree is untouched.
      * @return bool
      */
     public function removeFiles(
@@ -234,17 +234,20 @@ class Index extends Base
     /**
      * Retrieve files from cache
      *
-     * @param  array $diffFilter
-     * @return array
+     * @param  array<string> $diffFilter
+     * @return array<string>
      */
     private function retrieveFromCache(array $diffFilter): array
     {
-        print_r($this->files);
         return $this->files[implode($diffFilter)];
     }
 
     /**
      * Sort files by file suffix
+     *
+     * @param  string        $suffix
+     * @param  array<string> $diffFilter
+     * @return array<string>
      */
     private function retrieveStagedFilesByType(string $suffix, array $diffFilter): array
     {

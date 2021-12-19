@@ -139,7 +139,7 @@ class CommitMessage
      *
      * This includes lines that are comments.
      *
-     * @return array
+     * @return array<string>
      */
     public function getLines(): array
     {
@@ -215,7 +215,7 @@ class CommitMessage
     /**
      * Return lines from line nr. 3 to the last line
      *
-     * @return array
+     * @return array<string>
      */
     public function getBodyLines(): array
     {
@@ -237,9 +237,9 @@ class CommitMessage
     /**
      * Get the lines that are not comments
      *
-     * @param  array  $rawLines
-     * @param  string $commentCharacter
-     * @return string[]
+     * @param  array<string> $rawLines
+     * @param  string        $commentCharacter
+     * @return array<string>
      */
     private function getContentLines(array $rawLines, string $commentCharacter): array
     {

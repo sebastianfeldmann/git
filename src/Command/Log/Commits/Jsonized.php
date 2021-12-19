@@ -34,8 +34,8 @@ class Jsonized implements OutputFormatter
     /**
      * Format the output.
      *
-     * @param  array $output
-     * @return iterable
+     * @param  array<string> $output
+     * @return iterable<Commit>
      * @throws \Exception
      */
     public function format(array $output): iterable

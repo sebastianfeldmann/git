@@ -29,7 +29,7 @@ use SebastianFeldmann\Git\Diff\Line;
 class FullDiffList implements OutputFormatter
 {
     /**
-     * Available line types of git diff output.
+     * Available line types of git diff output
      */
     private const LINE_TYPE_START      = 'Start';
     private const LINE_TYPE_HEADER     = 'Header';
@@ -41,11 +41,11 @@ class FullDiffList implements OutputFormatter
     private const LINE_TYPE_CODE       = 'ChangeCode';
 
     /**
-     * Search and parse strategy.
+     * Search and parse strategy
      *
      * Define possible follow up lines for each line type to minimize search effort.
      *
-     * @var array
+     * @var array<string, array<string>>
      */
     private static $lineTypesToCheck = [
         self::LINE_TYPE_START => [
@@ -82,9 +82,9 @@ class FullDiffList implements OutputFormatter
     ];
 
     /**
-     * Maps git diff output to file operations.
+     * Maps git diff output to file operations
      *
-     * @var array
+     * @var array<string, string>
      */
     private static $opsMap = [
         'old'     => File::OP_MODIFIED,
@@ -95,52 +95,52 @@ class FullDiffList implements OutputFormatter
     ];
 
     /**
-     * List of diff File objects.
+     * List of diff File objects
      *
-     * @var \SebastianFeldmann\Git\Diff\File[]
+     * @var array<\SebastianFeldmann\Git\Diff\File>
      */
     private $files = [];
 
     /**
-     * The currently processed file.
+     * The currently processed file
      *
      * @var \SebastianFeldmann\Git\Diff\File
      */
     private $currentFile;
 
     /**
-     * The file name of the currently processed file.
+     * The file name of the currently processed file
      *
      * @var string
      */
     private $currentFileName;
 
     /**
-     * The change position of the currently processed file.
+     * The change position of the currently processed file
      *
      * @var string
      */
     private $currentPosition;
 
     /**
-     * The operation of the currently processed file.
+     * The operation of the currently processed file
      *
      * @var string
      */
     private $currentOperation;
 
     /**
-     * List of collected changes.
+     * List of collected changes
      *
      * @var \SebastianFeldmann\Git\Diff\Change[]
      */
     private $currentChanges = [];
 
     /**
-     * Format the output.
+     * Format the output
      *
-     * @param  array $output
-     * @return iterable
+     * @param  array<string> $output
+     * @return iterable<\SebastianFeldmann\Git\Diff\File>
      */
     public function format(array $output): iterable
     {
@@ -166,7 +166,7 @@ class FullDiffList implements OutputFormatter
     }
 
     /**
-     * Is the given line a diff header line.
+     * Is the given line a diff header line
      *
      * diff --git a/some/file b/some/file
      *
@@ -176,7 +176,7 @@ class FullDiffList implements OutputFormatter
     private function isHeaderLine(string $line): bool
     {
         $matches = [];
-        if (preg_match('#^diff --git [a|b|c|i|w|o]/(.*) [a|b|c|i|w|o]/(.*)#', $line, $matches)) {
+        if (preg_match('#^diff --git [abciwo]/(.*) [abciwo]/(.*)#', $line, $matches)) {
             $this->appendCollectedFileAndChanges();
             $this->currentOperation = File::OP_MODIFIED;
             $this->currentFileName  = $matches[2];
@@ -250,7 +250,7 @@ class FullDiffList implements OutputFormatter
     private function isHeaderFormatLine(string $line): bool
     {
         $matches = [];
-        return (bool)preg_match('#^[\-\+]{3} [a|b|c|i|w|o]?/.*#', $line, $matches);
+        return (bool)preg_match('#^[\\-\\+]{3} [abciwo]?/.*#', $line, $matches);
     }
 
     /**

@@ -24,16 +24,16 @@ use SebastianFeldmann\Cli\Command\OutputFormatter;
 class FilterByStatus implements OutputFormatter
 {
     /**
-     * List of status to keep.
+     * List of status to keep
      *
-     * @var array
+     * @var array<string>
      */
     private $status;
 
     /**
-     * FilterByStatus constructor.
+     * FilterByStatus constructor
      *
-     * @param array $status
+     * @param array<string> $status
      */
     public function __construct(array $status)
     {
@@ -41,10 +41,10 @@ class FilterByStatus implements OutputFormatter
     }
 
     /**
-     * Format the output.
+     * Format the output
      *
-     * @param  array $output
-     * @return iterable
+     * @param  array<string> $output
+     * @return iterable<string>
      */
     public function format(array $output): iterable
     {

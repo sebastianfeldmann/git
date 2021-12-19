@@ -76,7 +76,7 @@ class Config extends Base
      *
      * For example: ['color.branch' => 'auto', 'color.diff' => 'auto]
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getSettings(): array
     {

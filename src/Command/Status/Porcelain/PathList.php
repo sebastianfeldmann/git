@@ -25,15 +25,15 @@ use SebastianFeldmann\Git\Status\Path;
 class PathList implements OutputFormatter
 {
     /**
-     * Nul-byte used as a separator in `--porcelain=v1 -z` output.
+     * Nul-byte used as a separator in `--porcelain=v1 -z` output
      */
     private const NUL_BYTE = "\x00";
 
     /**
-     * Format the output.
+     * Format the output
      *
-     * @param array $output
-     * @return iterable
+     * @param  array<string> $output
+     * @return iterable<Path>
      */
     public function format(array $output): iterable
     {
@@ -52,13 +52,13 @@ class PathList implements OutputFormatter
     }
 
     /**
-     * Parse the status line and return a 3-tuple of path parts.
+     * Parse the status line and return a 3-tuple of path parts
      *
      * - 0: status code
      * - 1: path
      * - 2: original path, if renamed or copied
      *
-     * @return array<int, array<string, string, mixed>>
+     * @return array<int, array<int, string|null>>
      */
     private function parseStatusLine(string $statusLine): array
     {
@@ -83,10 +83,10 @@ class PathList implements OutputFormatter
     }
 
     /**
-     * Split the status line on the nul-byte.
+     * Split the status line on the nul-byte
      *
-     * @param string $statusLine
-     * @return array
+     * @param  string $statusLine
+     * @return array<string>
      */
     private function splitOnNulByte(string $statusLine): array
     {

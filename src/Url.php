@@ -145,7 +145,7 @@ final class Url
      * Detect the url components
      *
      * @param  string $url
-     * @return array
+     * @return array<string, int|string>
      */
     private function parseUrl(string $url): array
     {

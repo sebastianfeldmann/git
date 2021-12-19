@@ -24,16 +24,16 @@ use SebastianFeldmann\Git\Command\Base;
 class RestoreWorkingTree extends Base
 {
     /**
-     * Files and directories to restore.
+     * Files and directories to restore
      *
-     * @var string[]
+     * @var array<string>
      */
     private $files = ['.'];
 
     /**
-     * Limits the paths affected by the operation to those specified here.
+     * Limits the paths affected by the operation to those specified here
      *
-     * @param array $files
+     * @param array<string> $files
      *
      * @return \SebastianFeldmann\Git\Command\Checkout\RestoreWorkingTree
      */
@@ -44,7 +44,7 @@ class RestoreWorkingTree extends Base
     }
 
     /**
-     * Return the command to execute.
+     * Return the command to execute
      *
      * @return string
      */
