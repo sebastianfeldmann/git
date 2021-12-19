@@ -191,21 +191,21 @@ class Index extends Base
      */
     private function retrieveStagedFiles(array $diffFilter): iterable
     {
-         if (!$this->isHeadValid()) {
-             return [];
-         }
+        if (!$this->isHeadValid()) {
+            return [];
+        }
 
-         if ($this->isCached($diffFilter)) {
-             return $this->retrieveFromCache($diffFilter);
-         }
+        if ($this->isCached($diffFilter)) {
+            return $this->retrieveFromCache($diffFilter);
+        }
 
-         $cmd       = new GetStagedFiles($this->repo->getRoot());
-         $formatter = new FilterByStatus($diffFilter);
-         $result    = $this->runner->run($cmd, $formatter);
-         $files     = $result->getFormattedOutput();
-         $this->cacheFiles($diffFilter, $files);
+        $cmd       = new GetStagedFiles($this->repo->getRoot());
+        $formatter = new FilterByStatus($diffFilter);
+        $result    = $this->runner->run($cmd, $formatter);
+        $files     = $result->getFormattedOutput();
+        $this->cacheFiles($diffFilter, $files);
 
-         return $files;
+        return $files;
     }
 
     /**
