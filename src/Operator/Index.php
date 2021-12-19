@@ -19,7 +19,7 @@ use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 use SebastianFeldmann\Git\Command\Rm\RemoveFiles;
 
 /**
- * Index CommitMessage
+ * Index Operator
  *
  * @package SebastianFeldmann\Git
  * @author  Sebastian Feldmann <sf@sebastian-feldmann.info>
@@ -29,94 +29,88 @@ use SebastianFeldmann\Git\Command\Rm\RemoveFiles;
 class Index extends Base
 {
     /**
-     * List of changed files.
+     * List of changed files
      *
-     * @var array
+     * @var array<string,array>
      */
-    private $files;
+    private $files = [];
 
     /**
      * Changed files by file type
      *
-     * @var array[]
+     * @var array<string, array>
      */
     private $types = [];
 
     /**
-     * Files sorted by suffix yet
+     * Default diff filter used
      *
-     * @var bool
+     * @var array<string>
      */
-    private $typesResolved = false;
+    private $defaultDiffFilter = ['A', 'C', 'M', 'R'];
 
     /**
-     * Get the list of files that changed.
+     * Get the list of files that changed
      *
+     * @param  array<string> $diffFilter List of status you want to get returned, choose from [A,C,D,M,R,T,U,X,B,*]
      * @return array
      */
-    public function getStagedFiles(): array
+    public function getStagedFiles(array $diffFilter = []): array
     {
-        if (null === $this->files) {
-            $this->resolveFiles();
-        }
-        return $this->files;
+        $filter = empty($diffFilter) ? $this->defaultDiffFilter : $diffFilter;
+        return $this->retrieveStagedFiles($filter);
     }
 
     /**
-     * Where there files changed of a given type.
+     * Where there files changed of a given type
      *
      * @param  string $suffix
      * @return bool
      */
-    public function hasStagedFilesOfType($suffix): bool
+    public function hasStagedFilesOfType(string $suffix): bool
     {
         return count($this->getStagedFilesOfType($suffix)) > 0;
     }
 
     /**
-     * Return list of changed files of a given type.
+     * Return list of changed files of a given type
      *
-     * @param  string $suffix
-     * @return array
+     * @param  string        $suffix
+     * @param  array<string> $diffFilter
+     * @return array<string>
      */
-    public function getStagedFilesOfType($suffix): array
+    public function getStagedFilesOfType(string $suffix, array $diffFilter = []): array
     {
-        if (!$this->typesResolved) {
-            $this->resolveFileTypes();
-        }
-        return isset($this->types[$suffix]) ? $this->types[$suffix] : [];
+        $filter = empty($diffFilter) ? $this->defaultDiffFilter : $diffFilter;
+        return $this->retrieveStagedFilesByType($suffix, $filter);
     }
 
     /**
-     * Update the index using the current content found in the working tree.
+     * Update the index using the current content found in the working tree
      *
-     * @param array $files
-     *
+     * @param  array<string> $files
      * @return bool
      */
     public function addFilesToIndex(array $files): bool
     {
-        $cmd = (new AddFiles($this->repo->getRoot()))->files($files);
-
+        $cmd    = (new AddFiles($this->repo->getRoot()))->files($files);
         $result = $this->runner->run($cmd);
 
         return $result->isSuccessful();
     }
 
     /**
-     * Update the index just where it already has an entry matching <pathspec>.
+     * Update the index just where it already has an entry matching <pathspec>
      *
      * This removes as well as modifies index entries to match the working tree,
      * but adds no new files.
      *
-     * @param array $files
-     *
+     * @param  array<string> $files
      * @return bool
      */
     public function updateIndex(array $files): bool
     {
-        $cmd = (new AddFiles($this->repo->getRoot()))->files($files)->update();
-
+        $cmd    = (new AddFiles($this->repo->getRoot()))->files($files)->update();
         $result = $this->runner->run($cmd);
 
         return $result->isSuccessful();
@@ -131,10 +125,8 @@ class Index extends Base
      * If `$ignoreRemoval` is `true`, files removed in the working tree are
      * ignored and not removed from the index.
      *
-     * @param array $files
-     * @param bool $ignoreRemoval Ignore files that have been removed
-     *     from the working tree.
-     *
+     * @param  array $files
+     * @param  bool  $ignoreRemoval Ignore files that have been removed from the working tree
      * @return bool
      */
     public function updateIndexToMatchWorkingTree(array $files, bool $ignoreRemoval = false): bool
@@ -152,32 +144,28 @@ class Index extends Base
     }
 
     /**
-     * Record only the fact that the path will be added later.
+     * Record only the fact that the path will be added later
      *
      * An entry for the path is placed in the index with no content.
      *
      * @param array $files
-     *
      * @return bool
      */
     public function recordIntentToAddFiles(array $files): bool
     {
-        $cmd = (new AddFiles($this->repo->getRoot()))->files($files)->intentToAdd();
-
+        $cmd    = (new AddFiles($this->repo->getRoot()))->files($files)->intentToAdd();
         $result = $this->runner->run($cmd);
 
         return $result->isSuccessful();
     }
 
     /**
-     * Remove files from the working tree and from the index.
+     * Remove files from the working tree and from the index
      *
-     * @param array $files     The files to remove.
-     * @param bool $recursive  Allow recursive removal when a leading directory
-     *                         name is given
-     * @param bool $cachedOnly Unstage and remove paths only from the index.
-     *                         The working tree is untouched.
-     *
+     * @param  array $files     The files to remove.
+     * @param  bool $recursive  Allow recursive removal when a leading directory name is given
+     * @param  bool $cachedOnly Unstage and remove paths only from the index.
+     *                          The working tree is untouched.
      * @return bool
      */
     public function removeFiles(
@@ -196,34 +184,85 @@ class Index extends Base
     }
 
     /**
-     * Resolve the list of files that changed.
+     * Resolve the list of files that changed
+     *
+     * @param  array<string> $diffFilter
+     * @return array<string>
      */
-    private function resolveFiles()
+    private function retrieveStagedFiles(array $diffFilter): iterable
     {
-        $this->files = [];
+         if (!$this->isHeadValid()) {
+             return [];
+         }
 
-        if ($this->isHeadValid()) {
-            $cmd         = new GetStagedFiles($this->repo->getRoot());
-            $formatter   = new FilterByStatus(['A', 'M']);
-            $result      = $this->runner->run($cmd, $formatter);
-            $this->files = $result->getFormattedOutput();
-        }
+         if ($this->isCached($diffFilter)) {
+             return $this->retrieveFromCache($diffFilter);
+         }
+
+         $cmd       = new GetStagedFiles($this->repo->getRoot());
+         $formatter = new FilterByStatus($diffFilter);
+         $result    = $this->runner->run($cmd, $formatter);
+         $files     = $result->getFormattedOutput();
+         $this->cacheFiles($diffFilter, $files);
+
+         return $files;
     }
 
     /**
-     * Sort files by file suffix.
+     * Check if the staged files are cached
+     *
+     * @param  array<string> $diffStatus
+     * @return bool
      */
-    private function resolveFileTypes()
+    private function isCached(array $diffStatus): bool
     {
-        foreach ($this->getStagedFiles() as $file) {
-            $ext                 = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            $this->types[$ext][] = $file;
-        }
-        $this->typesResolved = true;
+        return isset($this->files[implode($diffStatus)]);
     }
 
     /**
-     * Check head validity.
+     * Cache staged file by requested status
+     *
+     * @param  array<string> $diffFilter
+     * @param  array<string> $files
+     * @return void
+     */
+    private function cacheFiles(array $diffFilter, array $files): void
+    {
+        $this->files[implode($diffFilter)] = $files;
+    }
+
+    /**
+     * Retrieve files from cache
+     *
+     * @param  array $diffFilter
+     * @return array
+     */
+    private function retrieveFromCache(array $diffFilter): array
+    {
+        print_r($this->files);
+        return $this->files[implode($diffFilter)];
+    }
+
+    /**
+     * Sort files by file suffix
+     */
+    private function retrieveStagedFilesByType(string $suffix, array $diffFilter): array
+    {
+        $suffix = strtolower($suffix);
+        $key    = implode($diffFilter);
+
+        if (!isset($this->types[$key])) {
+            $this->types[$key] = [];
+            foreach ($this->retrieveStagedFiles($diffFilter) as $file) {
+                $ext                       = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                $this->types[$key][$ext][] = $file;
+            }
+        }
+        return isset($this->types[$key][$suffix]) ? $this->types[$key][$suffix] : [];
+    }
+
+    /**
+     * Check head validity
      *
      * @return bool
      */

@@ -49,7 +49,7 @@ class IndexTest extends OperatorTest
 
         $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
 
-        $runner->expects($this->exactly(2))
+        $runner->expects($this->exactly(3))
                ->method('run')
                ->withConsecutive(
                    [
@@ -57,18 +57,23 @@ class IndexTest extends OperatorTest
                    ],
                    [
                       $this->equalTo(new GetStagedFiles($repo->getRoot())),
-                      $this->equalTo(new FilterByStatus(['A', 'M']))
+                      $this->equalTo(new FilterByStatus(['A', 'C', 'M', 'R']))
+                   ],
+                   [
+                       $this->equalTo(new GetCommitHash($repo->getRoot()))
                    ]
                )
                ->will(
-                   $this->onConsecutiveCalls($result, $result)
+                   $this->onConsecutiveCalls($result, $result, $result)
                );
 
         $operator = new Index($runner, $repo);
-        $files    = $operator->getStagedFiles();
+        $files1   = $operator->getStagedFiles();
+        $files2   = $operator->getStagedFiles();
 
-        $this->assertIsArray($files);
-        $this->assertCount(4, $files);
+        $this->assertIsArray($files1);
+        $this->assertCount(4, $files1);
+        $this->assertCount(4, $files2);
     }
 
     /**
