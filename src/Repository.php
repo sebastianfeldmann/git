@@ -137,7 +137,11 @@ class Repository
     }
 
     /**
-     * Is there a merge in progress.
+     * Is there a merge in progress
+     *
+     * Will return true as soon as there are any MERGE_* files present in your .git directory.
+     * This is not only the case while merging but can also happen if you use `cherry-pick`
+     * without letting git instantly commit the picked changes.
      *
      * @return bool
      */
