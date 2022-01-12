@@ -28,7 +28,7 @@ class FilterByStatusTest extends TestCase
      */
     public function testFormat()
     {
-        $string = 'A	src/Command/Base.php
+        $string = 'A	.secret/treasure
 A	src/Command/DiffIndex/GetStagedFiles.php
 A	src/Command/Log/ChangedFilesSince.php
 A	src/Command/Runner/Cli.php
