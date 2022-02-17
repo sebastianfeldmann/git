@@ -37,7 +37,13 @@ class RestoreWorkingTree extends Base
      */
     private $noMoreHooks = false;
 
-    public function skipHooks($bool = true): RestoreWorkingTree
+    /**
+     * Do not trigger git hooks while restoring
+     *
+     * @param  bool $bool
+     * @return $this
+     */
+    public function skipHooks(bool $bool = true): RestoreWorkingTree
     {
         $this->noMoreHooks = $bool;
         return $this;
