@@ -48,7 +48,7 @@ class Status extends Base
      */
     public function restoreWorkingTree(array $limitToPaths = ['.']): bool
     {
-        $cmd = (new RestoreWorkingTree($this->repo->getRoot()))->files($limitToPaths);
+        $cmd = (new RestoreWorkingTree($this->repo->getRoot()))->skipHooks()->files($limitToPaths);
 
         $result = $this->runner->run($cmd);
 

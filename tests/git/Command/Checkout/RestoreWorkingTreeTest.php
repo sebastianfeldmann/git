@@ -30,6 +30,14 @@ class RestoreWorkingTreeTest extends TestCase
         $this->assertSame('git checkout --quiet -- \'.\'', $command->getCommand());
     }
 
+    public function testSkipKooks(): void
+    {
+        $command = new RestoreWorkingTree();
+        $command->skipHooks();
+
+        $this->assertSame('git -c core.hooksPath=/dev/null checkout --quiet -- \'.\'', $command->getCommand());
+    }
+
     public function testFiles(): void
     {
         $command = new RestoreWorkingTree();

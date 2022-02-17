@@ -31,6 +31,19 @@ class RestoreWorkingTree extends Base
     private $files = ['.'];
 
     /**
+     * Skip the checkout hooks?
+     *
+     * @var bool
+     */
+    private $noMoreHooks = false;
+
+    public function skipHooks($bool = true): RestoreWorkingTree
+    {
+        $this->noMoreHooks = $bool;
+        return $this;
+    }
+
+    /**
      * Limits the paths affected by the operation to those specified here
      *
      * @param array<string> $files
@@ -50,7 +63,7 @@ class RestoreWorkingTree extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'checkout --quiet'
+        return ($this->noMoreHooks ? '-c core.hooksPath=/dev/null ' : '') . 'checkout --quiet'
             . ' -- '
             . implode(' ', array_map('escapeshellarg', $this->files));
     }

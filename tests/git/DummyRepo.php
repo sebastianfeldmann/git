@@ -38,7 +38,7 @@ class DummyRepo
      */
     public function __construct(string $name = '')
     {
-        $name         = empty($name) ? md5(mt_rand(0, 9999)) : $name;
+        $name         = empty($name) ? md5(mt_rand(0, 9999999)) : $name;
         $this->path   = realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . $name;
         $this->gitDir = $this->path . DIRECTORY_SEPARATOR . '.git';
     }

@@ -68,6 +68,7 @@ class StatusTest extends OperatorTest
         $cmdRes = new CommandResult('git ...', 0);
         $runRes = new RunnerResult($cmdRes, ['foobar']);
         $gitCmd = new RestoreWorkingTree($root);
+        $gitCmd->skipHooks();
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
@@ -88,7 +89,7 @@ class StatusTest extends OperatorTest
         $runner = $this->getRunnerMock();
         $cmdRes = new CommandResult('git ...', 1);
         $runRes = new RunnerResult($cmdRes, ['foobar']);
-        $gitCmd = (new RestoreWorkingTree($root))->files(['foo', 'bar']);
+        $gitCmd = (new RestoreWorkingTree($root))->skipHooks()->files(['foo', 'bar']);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
