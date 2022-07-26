@@ -148,6 +148,24 @@ class IndexTest extends OperatorTest
         $this->assertEquals([], $files);
     }
 
+    /**
+     * Tests StagedFiles::getStagedFiles
+     */
+    public function testHasStagedFilesPermissionErrors()
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 1);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->will($this->throwException(new RuntimeException('permissions', 128)));
+
+        $operator = new Index($runner, $repo);
+        $operator->getStagedFiles();
+    }
+
     public function testAddFilesToIndexReturnsTrue(): void
     {
         $root = (string) realpath(__FILE__ . '/../../..');

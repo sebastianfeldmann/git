@@ -276,7 +276,11 @@ class Index extends Base
             $result = $this->runner->run($cmd);
             return $result->isSuccessful();
         } catch (RuntimeException $e) {
-            return false;
+            // if we do not have a permission error the current head is just invalid
+            if ($e->getCode() !== 128) {
+                return false;
+            }
+            throw $e;
         }
     }
 }
