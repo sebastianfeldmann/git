@@ -281,6 +281,9 @@ class FullDiffList implements OutputFormatter
     private function isChangeCodeLine(string $line): bool
     {
         $line = $this->parseCodeLine($line);
+        if ($line === null) {
+            return false;
+        }
         $this->currentChanges[$this->currentPosition]->addLine($line);
         return true;
     }
@@ -289,15 +292,18 @@ class FullDiffList implements OutputFormatter
      * Determines the line type and cleans up the line.
      *
      * @param  string $line
-     * @return \SebastianFeldmann\Git\Diff\Line
+     * @return \SebastianFeldmann\Git\Diff\Line|null
      */
-    private function parseCodeLine(string $line): Line
+    private function parseCodeLine(string $line): ?Line
     {
         if (strlen($line) == 0) {
             return new Line(Line::EXISTED, '');
         }
 
         $firstChar = $line[0];
+        if (!array_key_exists($firstChar, Line::$opsMap)) {
+            return null;
+        }
         $cleanLine = rtrim(substr($line, 1));
 
         return new Line(Line::$opsMap[$firstChar], $cleanLine);
