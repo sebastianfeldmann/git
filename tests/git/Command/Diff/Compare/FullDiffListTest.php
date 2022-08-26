@@ -272,4 +272,49 @@ class FullDiffListTest extends TestCase
         $this->assertSame('tests/git/Command/Diff/CompareTest.php', $files[4]->getName());
         $this->assertCount(8, $files[4]->getChanges());
     }
+
+    public function testFullDiffListWithNoNewlineNotice(): void
+    {
+        $output = file(__DIR__ . '/FullDiffList-with-no-newline-notice.diff', FILE_IGNORE_NEW_LINES);
+
+        $formatter = new FullDiffList();
+
+        /** @var File[] $files */
+        $files = $formatter->format($output);
+
+        $this->assertCount(5, $files);
+
+        $firstFile = $files[0];
+        $firstFileChanges = $firstFile->getChanges();
+
+        $this->assertSame('src/Command/Diff/Compare.php', $firstFile->getName());
+        $this->assertCount(5, $firstFileChanges);
+        $this->assertSame(['from' => 67, 'to' => 0], $firstFileChanges[0]->getPre());
+        $this->assertSame(['from' => 68, 'to' => 7], $firstFileChanges[0]->getPost());
+        $this->assertSame(['from' => 80, 'to' => 0], $firstFileChanges[1]->getPre());
+        $this->assertSame(['from' => 88, 'to' => 12], $firstFileChanges[1]->getPost());
+        $this->assertSame(['from' => 83, 'to' => 0], $firstFileChanges[2]->getPre());
+        $this->assertSame(['from' => 103, 'to' => 2], $firstFileChanges[2]->getPost());
+        $this->assertSame(['from' => 89, 'to' => null], $firstFileChanges[3]->getPre());
+        $this->assertSame(['from' => 110, 'to' => 13], $firstFileChanges[3]->getPost());
+        $this->assertSame(['from' => 167, 'to' => null], $firstFileChanges[4]->getPre());
+        $this->assertSame(['from' => 200, 'to' => 3], $firstFileChanges[4]->getPost());
+
+        $secondFile = $files[1];
+        $secondFileChanges = $secondFile->getChanges();
+
+        $this->assertSame('src/Command/Diff/Compare/FullDiffList.php', $secondFile->getName());
+        $this->assertCount(1, $secondFileChanges);
+        $this->assertSame(['from' => 267, 'to' => null], $secondFileChanges[0]->getPre());
+        $this->assertSame(['from' => 267, 'to' => null], $secondFileChanges[0]->getPost());
+
+        $this->assertSame('src/Diff/Change.php', $files[2]->getName());
+        $this->assertCount(6, $files[2]->getChanges());
+
+        $this->assertSame('src/Operator/Diff.php', $files[3]->getName());
+        $this->assertCount(2, $files[3]->getChanges());
+
+        $this->assertSame('tests/git/Command/Diff/CompareTest.php', $files[4]->getName());
+        $this->assertCount(8, $files[4]->getChanges());
+    }
 }
