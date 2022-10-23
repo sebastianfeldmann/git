@@ -34,6 +34,30 @@ class CommitMessageTest extends TestCase
     }
 
     /**
+     * Tests CommitMessage::isFixup
+     */
+    public function testIsFixup()
+    {
+        $msg = new CommitMessage('Some stuff');
+        $this->assertFalse($msg->isFixup());
+
+        $msg = new CommitMessage('fixup! Some stuff');
+        $this->assertTrue($msg->isFixup());
+    }
+
+    /**
+     * Tests CommitMessage::isSquash
+     */
+    public function testIsSquash()
+    {
+        $msg = new CommitMessage('Some stuff');
+        $this->assertFalse($msg->isSquash());
+
+        $msg = new CommitMessage('squash! Some stuff');
+        $this->assertTrue($msg->isSquash());
+    }
+
+    /**
      * Tests CommitMessage::getSubject
      */
     public function testGetSubjectOnEmptyMessage()

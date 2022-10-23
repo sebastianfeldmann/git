@@ -109,6 +109,25 @@ class CommitMessage
         return empty($this->content);
     }
 
+    /**
+     * Is this a fixup commit
+     *
+     * @return bool
+     */
+    public function isFixup(): bool
+    {
+        return strpos($this->rawContent, 'fixup!') === 0;
+    }
+
+    /**
+     * Is this a squash commit
+     *
+     * @return bool
+     */
+    public function isSquash(): bool
+    {
+        return  strpos($this->rawContent, 'squash!') === 0;
+    }
 
     /**
      * Get commit message content
