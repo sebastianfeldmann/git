@@ -65,7 +65,7 @@ class DiffTest extends OperatorTest
     }
 
     /**
-     * Tests Diff::compare
+     * Tests Diff::compareIndexTo
      */
     public function testCompareIndexTo()
     {
@@ -93,7 +93,7 @@ class DiffTest extends OperatorTest
     }
 
     /**
-     * Tests Diff::compare
+     * Tests Diff::changedFiles
      */
     public function testChangedFiles()
     {
@@ -119,6 +119,35 @@ class DiffTest extends OperatorTest
 
         $this->assertIsArray($files);
         $this->assertCount(2, $files);
+    }
+
+    /**
+     * Tests Diff::changedFilesOfType
+     */
+    public function testChangedFilesOfType()
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+        $out  = 'foo.php' . PHP_EOL . 'bar.txt' . PHP_EOL;
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0, $out);
+        $runRes = new RunnerResult($cmdRes);
+        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0');
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->equalTo($gitCmd)
+            )
+            ->willReturn($runRes);
+
+        $diff  = new Diff($runner, $repo);
+        $files = $diff->getChangedFilesOfType('1.0.0', '1.1.0', 'php');
+
+        $this->assertIsArray($files);
+        $this->assertCount(1, $files);
     }
 
     public function testGetUnstagedPatchWithNoChangesReturnsNull(): void

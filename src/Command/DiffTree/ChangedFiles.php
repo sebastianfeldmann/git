@@ -71,7 +71,7 @@ class ChangedFiles extends Base
     }
 
     /**
-     * Return the from commit id to diff
+     * Returns the commit range for the diff command
      *
      * @return string
      */

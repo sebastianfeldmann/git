@@ -94,6 +94,29 @@ class Diff extends Base
     }
 
     /**
+     * Uses 'diff-tree' to list the files with a given suffix that changed between two revisions
+     *
+     * @param  string $from
+     * @param  string $to
+     * @param  string $suffix
+     * @return string[]
+     */
+    public function getChangedFilesOfType(string $from, string $to, string $suffix): array
+    {
+        $suffix       = strtolower($suffix);
+        $cmd          = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to);
+        $result       = $this->runner->run($cmd);
+        $files        = $result->getBufferedOutput();
+        $filesByType  = [];
+
+        foreach ($files as $file) {
+            $ext                 = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            $filesByType[$ext][] = $file;
+        }
+        return $filesByType[$suffix] ?? [];
+    }
+
+    /**
      * Returns a binary diff of unstaged changes to the working tree that can be
      * applied with `git-apply`.
      *
