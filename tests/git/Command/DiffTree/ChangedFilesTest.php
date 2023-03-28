@@ -42,6 +42,24 @@ class ChangedFilesTest extends TestCase
     /**
      * Tests ChangedFiles::getCommand
      */
+    public function testChangedFilesWithFilter()
+    {
+        $changed = new ChangedFiles();
+        $changed->fromRevision('1.0.0')
+                ->toRevision('1.1.0')
+                ->useFilter(['A', 'C', 'M', 'R']);
+
+        $this->assertEquals(
+            'git diff-tree'
+            . ' --diff-algorithm=myers --no-ext-diff --no-commit-id --name-only -r'
+            . ' --diff-filter=A|C|M|R \'1.0.0\' \'1.1.0\'',
+            $changed->getCommand()
+        );
+    }
+
+    /**
+     * Tests ChangedFiles::getCommand
+     */
     public function testChangedFilesBySingleRevision()
     {
         $changed = new ChangedFiles();

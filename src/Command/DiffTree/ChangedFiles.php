@@ -34,6 +34,11 @@ class ChangedFiles extends Base
     private $to;
 
     /**
+     * @var array<string>
+     */
+    private $filter;
+
+    /**
      * @param  string $from
      * @return \SebastianFeldmann\Git\Command\DiffTree\ChangedFiles
      */
@@ -54,6 +59,18 @@ class ChangedFiles extends Base
     }
 
     /**
+     * Set --diff-filter
+     *
+     * @param  array<string> $filter
+     * @return \SebastianFeldmann\Git\Command\DiffTree\ChangedFiles
+     */
+    public function useFilter(array $filter): ChangedFiles
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    /**
      * Return the command to execute.
      *
      * @return string
@@ -67,6 +84,7 @@ class ChangedFiles extends Base
             . ' --no-commit-id'
             . ' --name-only'
             . ' -r'
+            . (!empty($this->filter) ? ' --diff-filter=' . implode('|', $this->filter) : '')
             . ' ' . $this->getVersionsToCompare();
     }
 
