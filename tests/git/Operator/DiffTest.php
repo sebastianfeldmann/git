@@ -104,7 +104,7 @@ class DiffTest extends OperatorTest
         $runner = $this->getRunnerMock();
         $cmdRes = new CommandResult('git ...', 0, $out);
         $runRes = new RunnerResult($cmdRes);
-        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0');
+        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
@@ -133,7 +133,7 @@ class DiffTest extends OperatorTest
         $runner = $this->getRunnerMock();
         $cmdRes = new CommandResult('git ...', 0, $out);
         $runRes = new RunnerResult($cmdRes);
-        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0');
+        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())

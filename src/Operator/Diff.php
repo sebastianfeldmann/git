@@ -81,13 +81,14 @@ class Diff extends Base
     /**
      * Uses 'diff-tree' to list the files that changed between two revisions
      *
-     * @param  string $from
-     * @param  string $to
+     * @param  string        $from
+     * @param  string        $to
+     * @param  array<string> $filter
      * @return string[]
      */
-    public function getChangedFiles(string $from, string $to): array
+    public function getChangedFiles(string $from, string $to, array $filter = []): array
     {
-        $cmd    = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to);
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to)->useFilter($filter);
         $result = $this->runner->run($cmd);
 
         return $result->getBufferedOutput();
@@ -96,18 +97,21 @@ class Diff extends Base
     /**
      * Uses 'diff-tree' to list the files with a given suffix that changed between two revisions
      *
-     * @param  string $from
-     * @param  string $to
-     * @param  string $suffix
+     * @param  string        $from
+     * @param  string        $to
+     * @param  string        $suffix
+     * @param  array<string> $filter
      * @return string[]
      */
-    public function getChangedFilesOfType(string $from, string $to, string $suffix): array
+    public function getChangedFilesOfType(string $from, string $to, string $suffix, array $filter = []): array
     {
-        $suffix       = strtolower($suffix);
-        $cmd          = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to);
-        $result       = $this->runner->run($cmd);
-        $files        = $result->getBufferedOutput();
-        $filesByType  = [];
+        $suffix      = strtolower($suffix);
+        $cmd         = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)
+                                                                 ->toRevision($to)
+                                                                 ->useFilter($filter);
+        $result      = $this->runner->run($cmd);
+        $files       = $result->getBufferedOutput();
+        $filesByType = [];
 
         foreach ($files as $file) {
             $ext                 = strtolower(pathinfo($file, PATHINFO_EXTENSION));
