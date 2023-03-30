@@ -52,7 +52,7 @@ class ChangedFilesTest extends TestCase
         $this->assertEquals(
             'git diff-tree'
             . ' --diff-algorithm=myers --no-ext-diff --no-commit-id --name-only -r'
-            . ' --diff-filter=A|C|M|R \'1.0.0\' \'1.1.0\'',
+            . ' --diff-filter=ACMR \'1.0.0\' \'1.1.0\'',
             $changed->getCommand()
         );
     }

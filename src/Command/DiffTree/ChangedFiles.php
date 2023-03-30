@@ -84,7 +84,7 @@ class ChangedFiles extends Base
             . ' --no-commit-id'
             . ' --name-only'
             . ' -r'
-            . (!empty($this->filter) ? ' --diff-filter=' . implode('|', $this->filter) : '')
+            . (!empty($this->filter) ? ' --diff-filter=' . implode('', $this->filter) : '')
             . ' ' . $this->getVersionsToCompare();
     }
 
