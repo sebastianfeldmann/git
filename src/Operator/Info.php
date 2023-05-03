@@ -11,6 +11,7 @@
 
 namespace SebastianFeldmann\Git\Operator;
 
+use SebastianFeldmann\Git\Command\Branch\ListRemote;
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
 use SebastianFeldmann\Git\Command\Describe\GetMostRecentTag;
 use SebastianFeldmann\Git\Command\LsTree\GetFiles;
@@ -133,6 +134,19 @@ class Info extends Base
         $cmd->fromTree($tree);
 
         $result = $this->runner->run($cmd);
+        return $result->getBufferedOutput();
+    }
+    
+    /**
+     * Returns all the branches available on the remote git
+     *
+     * @return string
+     */
+    public function getListRemoteBranches(): array
+    {
+        $cmd    = new ListRemote($this->repo->getRoot());
+        $result = $this->runner->run($cmd);
+
         return $result->getBufferedOutput();
     }
 }
