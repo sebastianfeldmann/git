@@ -18,8 +18,6 @@ use PHPUnit\Framework\TestCase;
  *
  * @package SebastianFeldmann\Git
  * @author  David Eckhaus
- * @link    https://github.com/sebastianfeldmann/git
- * @since   Class available since Release 3.7.0
  */
 class ListRemoteTest extends TestCase
 {
