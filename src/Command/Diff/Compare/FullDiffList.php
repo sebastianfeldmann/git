@@ -316,7 +316,7 @@ class FullDiffList implements OutputFormatter
      */
     private function appendCollectedFileAndChanges(): void
     {
-        if (!empty($this->currentFile)) {
+        if ($this->currentFile !== null) {
             foreach ($this->currentChanges as $change) {
                 $this->currentFile->addChange($change);
             }
