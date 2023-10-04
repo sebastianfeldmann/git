@@ -106,6 +106,35 @@ class IndexTest extends OperatorTest
     /**
      * Tests StagedFiles::getStagedFilesOfType
      */
+    public function testGetStagedFilesOfTypes()
+    {
+        $out = [
+            '/foo/bar.txt',
+            '/fiz/baz.txt',
+            '/foo/bar.php',
+            '/fiz/baz.php',
+            '/foo/bar.tpl',
+            '/fiz/baz.tpl',
+        ];
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0);
+        $result = new RunnerResult($cmd, $out);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $operator = new Index($runner, $repo);
+        $files    = $operator->getStagedFilesOfTypes(['php', 'tpl']);
+
+        $this->assertIsArray($files);
+        $this->assertCount(4, $files);
+    }
+
+    /**
+     * Tests StagedFiles::getStagedFilesOfType
+     */
     public function testHasStagedFilesOfType()
     {
         $out = [

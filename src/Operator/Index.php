@@ -17,6 +17,7 @@ use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles;
 use SebastianFeldmann\Git\Command\DiffIndex\GetStagedFiles\FilterByStatus;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 use SebastianFeldmann\Git\Command\Rm\RemoveFiles;
+use SebastianFeldmann\Git\Diff\FilterUtil;
 
 /**
  * Index Operator
@@ -77,12 +78,39 @@ class Index extends Base
      *
      * @param  string        $suffix
      * @param  array<string> $diffFilter
-     * @return array<string>
+     * @return array<int, string>
      */
     public function getStagedFilesOfType(string $suffix, array $diffFilter = []): array
     {
-        $filter = empty($diffFilter) ? $this->defaultDiffFilter : $diffFilter;
-        return $this->retrieveStagedFilesByType($suffix, $filter);
+        $suffix      = strtolower($suffix);
+        $sanitized   = FilterUtil::sanitize($diffFilter);
+        $filter      = empty($sanitized) ? $this->defaultDiffFilter : $sanitized;
+        $filesByType = $this->retrieveStagedFilesByType($filter);
+
+        return $filesByType[$suffix] ?? [];
+    }
+
+    /**
+     * Return list of changed files of a given types
+     *
+     * @param  array<string> $suffixes
+     * @param  array<string> $diffFilter
+     * @return array<int, string>
+     */
+    public function getStagedFilesOfTypes(array $suffixes, array $diffFilter = []): array
+    {
+        $suffixes    = array_map('strtolower', $suffixes);
+        $sanitized   = FilterUtil::sanitize($diffFilter);
+        $filter      = empty($sanitized) ? $this->defaultDiffFilter : $sanitized;
+        $filesByType = $this->retrieveStagedFilesByType($filter);
+
+        $files = [];
+        foreach ($suffixes as $suffix) {
+            if (!empty($filesByType[$suffix])) {
+                $files = array_merge($files, $filesByType[$suffix]);
+            }
+        }
+        return $files;
     }
 
     /**
@@ -245,14 +273,12 @@ class Index extends Base
     /**
      * Sort files by file suffix
      *
-     * @param  string        $suffix
      * @param  array<string> $diffFilter
-     * @return array<string>
+     * @return array<string, <int, string>>
      */
-    private function retrieveStagedFilesByType(string $suffix, array $diffFilter): array
+    private function retrieveStagedFilesByType(array $diffFilter): array
     {
-        $suffix = strtolower($suffix);
-        $key    = implode($diffFilter);
+        $key = implode($diffFilter);
 
         if (!isset($this->types[$key])) {
             $this->types[$key] = [];
@@ -261,7 +287,7 @@ class Index extends Base
                 $this->types[$key][$ext][] = $file;
             }
         }
-        return isset($this->types[$key][$suffix]) ? $this->types[$key][$suffix] : [];
+        return $this->types[$key];
     }
 
     /**
