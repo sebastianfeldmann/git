@@ -17,12 +17,12 @@ use SebastianFeldmann\Git\Command\Base;
  * Class ListRemote
  *
  * @package SebastianFeldmann\Git
- * @author  David Eckhaus 
+ * @author  David Eckhaus
  */
 class ListRemote extends Base
 {
     /**
-     * Return the command to execute.
+     * Return the command to execute
      *
      * @return string
      */

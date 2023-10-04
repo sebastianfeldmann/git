@@ -136,7 +136,7 @@ class Info extends Base
         $result = $this->runner->run($cmd);
         return $result->getBufferedOutput();
     }
-    
+
     /**
      * Returns all the branches available on the remote git
      *
