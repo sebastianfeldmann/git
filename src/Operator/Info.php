@@ -93,7 +93,7 @@ class Info extends Base
     }
 
     /**
-     * Returns the the hash of the current commit
+     * Returns the hash of the current commit
      *
      * @return string
      */
@@ -142,7 +142,7 @@ class Info extends Base
      *
      * @return array<string>
      */
-    public function getListRemoteBranches(): array
+    public function getRemoteBranches(): array
     {
         $cmd    = new ListRemote($this->repo->getRoot());
         $result = $this->runner->run($cmd);

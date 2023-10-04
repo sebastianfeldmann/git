@@ -201,4 +201,26 @@ class InfoTest extends OperatorTest
         $this->assertCount(2, $files);
         $this->assertEquals('foo.txt', $files[0]);
     }
+
+    /**
+     * Tests Info::getRemoteBranches
+     */
+    public function testGetRemoteBranches()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git branch -r', 0, 'main' . PHP_EOL . 'dev' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $list     = $operator->getRemoteBranches();
+
+        $this->assertEquals(['main', 'dev'], $list);
+    }
 }
