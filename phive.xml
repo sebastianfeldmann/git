@@ -2,6 +2,6 @@
 <phive xmlns="https://phar.io/phive">
   <phar name="phpunit" version="^9.0.0" location="./tools/phpunit" copy="true" installed="9.6.13"/>
   <phar name="phpcs" version="^3.5.2" location="./tools/phpcs" copy="true" installed="3.7.2"/>
-  <phar name="phpstan" version="^0.12.0" location="./tools/phpstan" copy="true" installed="0.12.100"/>
+  <phar name="phpstan" version="^1.0.0" location="./tools/phpstan" copy="true" installed="1.10.37"/>
   <phar name="phpcbf" version="^3.6.1" location="./tools/phpcbf" copy="true" installed="3.7.2"/>
 </phive>
