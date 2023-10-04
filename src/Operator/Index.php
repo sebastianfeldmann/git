@@ -32,14 +32,14 @@ class Index extends Base
     /**
      * List of changed files
      *
-     * @var array<string,array>
+     * @var array<string,array<int, string>>
      */
     private $files = [];
 
     /**
      * Changed files by file type
      *
-     * @var array<string, array>
+     * @var array<string, array<int, string>>
      */
     private $types = [];
 
@@ -215,7 +215,7 @@ class Index extends Base
      * Resolve the list of files that changed
      *
      * @param  array<string> $diffFilter
-     * @return array<string>
+     * @return array<int, string>
      */
     private function retrieveStagedFiles(array $diffFilter): iterable
     {
@@ -274,7 +274,7 @@ class Index extends Base
      * Sort files by file suffix
      *
      * @param  array<string> $diffFilter
-     * @return array<string, <int, string>>
+     * @return array<string, array<int, string>>
      */
     private function retrieveStagedFilesByType(array $diffFilter): array
     {
