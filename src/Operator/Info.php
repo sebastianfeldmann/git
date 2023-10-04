@@ -140,7 +140,7 @@ class Info extends Base
     /**
      * Returns all the branches available on the remote git
      *
-     * @return string
+     * @return array<string>
      */
     public function getListRemoteBranches(): array
     {
