@@ -226,7 +226,7 @@ class Repository
     private function getOperator(string $name)
     {
         if (!isset($this->operator[$name])) {
-            $class                 = '\\SebastianFeldmann\\Git\\Operator\\' . $name;
+            $class                 = substr(self::class, 0, -10) . 'Operator\\' . $name;
             $this->operator[$name] = new $class($this->runner, $this);
         }
         return $this->operator[$name];
