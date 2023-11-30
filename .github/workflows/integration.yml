@@ -9,7 +9,7 @@ jobs:
       max-parallel: 3
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
     steps:
     - uses: actions/checkout@master
 
