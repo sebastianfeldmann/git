@@ -30,31 +30,33 @@ use SebastianFeldmann\Git\Diff\FilterUtil;
 class Index extends Base
 {
     /**
-     * List of changed files
+     * Cached list of changed files
      *
-     * @var array<string,array<int, string>>
+     * files[FILTER][file1, file2, file3]
+     *
+     * @var array<string, array<int, string>>
      */
-    private $files = [];
+    private array $files = [];
 
     /**
      * Changed files by file type
      *
-     * @var array<string, array<int, string>>
+     * @var array<string, array<string, array<int, string>>>
      */
-    private $types = [];
+    private array $types = [];
 
     /**
      * Default diff filter used
      *
-     * @var array<string>
+     * @var array<int, string>
      */
-    private $defaultDiffFilter = ['A', 'C', 'M', 'R'];
+    private array $defaultDiffFilter = ['A', 'C', 'M', 'R'];
 
     /**
      * Get the list of files that changed
      *
-     * @param  array<string> $diffFilter List of status you want to get returned, choose from [A,C,D,M,R,T,U,X,B,*]
-     * @return array<string>
+     * @param  array<int, string> $diffFilter List of status you want to get returned, choose from [A,C,D,M,R,T,U,X,B,*]
+     * @return array<int, string>
      */
     public function getStagedFiles(array $diffFilter = []): array
     {
@@ -217,7 +219,7 @@ class Index extends Base
      * @param  array<string> $diffFilter
      * @return array<int, string>
      */
-    private function retrieveStagedFiles(array $diffFilter): iterable
+    private function retrieveStagedFiles(array $diffFilter): array
     {
         if (!$this->isHeadValid()) {
             return [];
@@ -250,8 +252,8 @@ class Index extends Base
     /**
      * Cache staged file by requested status
      *
-     * @param  array<string> $diffFilter
-     * @param  array<string> $files
+     * @param  array<int, string> $diffFilter
+     * @param  array<int, string> $files
      * @return void
      */
     private function cacheFiles(array $diffFilter, array $files): void
@@ -262,8 +264,8 @@ class Index extends Base
     /**
      * Retrieve files from cache
      *
-     * @param  array<string> $diffFilter
-     * @return array<string>
+     * @param  array<int, string> $diffFilter
+     * @return array<int, string>
      */
     private function retrieveFromCache(array $diffFilter): array
     {
@@ -273,7 +275,7 @@ class Index extends Base
     /**
      * Sort files by file suffix
      *
-     * @param  array<string> $diffFilter
+     * @param  array<int, string> $diffFilter
      * @return array<string, array<int, string>>
      */
     private function retrieveStagedFilesByType(array $diffFilter): array

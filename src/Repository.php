@@ -68,13 +68,13 @@ class Repository
     public function __construct(string $root = '', Runner $runner = null)
     {
         $path            = empty($root) ? getcwd() : $root;
-        $this->root      = $path;
+        $this->root      = (string) $path;
         $this->dotGitDir = $this->root . '/.git';
         $this->runner    = null == $runner ? new Runner\Simple() : $runner;
 
         if (self::isGitSubmodule($this->dotGitDir)) {
             // For submodules hooks are stored in the parents .git/modules directory
-            $dotGitContents = file_get_contents($root . '/.git');
+            $dotGitContents = (string) file_get_contents($root . '/.git');
             if (preg_match('/^gitdir:\s*(.+)$/m', $dotGitContents, $matches)) {
                 $this->dotGitDir = $root . '/' . $matches[1];
             }

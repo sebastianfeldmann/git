@@ -50,6 +50,9 @@ class Xml
         $xml = '<?xml version="1.0"?><log>' . $output . '</log>';
 
         $parsedXML = \simplexml_load_string($xml);
+        if (!$parsedXML) {
+            return $log;
+        }
 
         foreach ($parsedXML->commit as $commitXML) {
             $nameRaw = str_replace(['(', ')'], '', trim((string) $commitXML->names));

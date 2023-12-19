@@ -37,7 +37,7 @@ class CommitMessage
      *
      * This includes lines that are comments.
      *
-     * @var string[]
+     * @var array<int, string>
      */
     private array $rawLines;
 
@@ -60,7 +60,7 @@ class CommitMessage
     /**
      * All non comment lines
      *
-     * @var string[]
+     * @var array<int, string>
      */
     private array $contentLines;
 
@@ -91,7 +91,7 @@ class CommitMessage
     public function __construct(string $content, string $commentCharacter = '#')
     {
         $this->rawContent       = $content;
-        $this->rawLines         = empty($content) ? [] : preg_split("/\\r\\n|\\r|\\n/", $content);
+        $this->rawLines         = empty($content) ? [] : $this->splitByLine($content);
         $this->rawLineCount     = count($this->rawLines);
         $this->commentCharacter = $commentCharacter;
         $this->contentLines     = $this->getContentLines($this->rawLines, $commentCharacter);
@@ -234,7 +234,7 @@ class CommitMessage
     /**
      * Return lines from line nr. 3 to the last line
      *
-     * @return array<string>
+     * @return array<int, string>
      */
     public function getBodyLines(): array
     {
@@ -256,9 +256,9 @@ class CommitMessage
     /**
      * Get the lines that are not comments
      *
-     * @param  array<string> $rawLines
-     * @param  string        $commentCharacter
-     * @return array<string>
+     * @param  array<int, string> $rawLines
+     * @param  string             $commentCharacter
+     * @return array<int, string>
      */
     private function getContentLines(array $rawLines, string $commentCharacter): array
     {
@@ -292,7 +292,18 @@ class CommitMessage
         if (!file_exists($path)) {
             throw new RuntimeException('Commit message file not found');
         }
+        return new CommitMessage((string) file_get_contents($path), $commentCharacter);
+    }
 
-        return new CommitMessage(file_get_contents($path), $commentCharacter);
+    /**
+     * Split message into separate lines
+     *
+     * @param  string $content
+     * @return array<int, string>
+     */
+    private function splitByLine(string $content): array
+    {
+        $lines = (array) preg_split("/\\r\\n|\\r|\\n/", $content);
+        return array_filter($lines, fn($line) => is_string($line));
     }
 }

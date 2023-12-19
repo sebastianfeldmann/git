@@ -61,10 +61,10 @@ final class Url
     {
         $parsed         = $this->parseUrl($url);
         $this->url      = $url;
-        $this->scheme   = $parsed['scheme'] ?? '';
-        $this->user     = $parsed['user'] ?? '';
-        $this->host     = $parsed['host'] ?? '';
-        $this->path     = $parsed['path'] ?? '';
+        $this->scheme   = (string) ($parsed['scheme'] ?? '');
+        $this->user     = (string) ($parsed['user'] ?? '');
+        $this->host     = (string) ($parsed['host'] ?? '');
+        $this->path     = (string) ($parsed['path'] ?? '');
         $this->repoName = $this->parseRepoName($this->path);
     }
 
@@ -78,7 +78,7 @@ final class Url
     {
         // should not contain http
         // should at least contain one colon
-        return strpos($url, 'http') === false && strpos($url, ':') !== false;
+        return !str_contains($url, 'http') && str_contains($url, ':');
     }
 
     /**
@@ -206,7 +206,7 @@ final class Url
      */
     private function replaceColonWithSlash(string $url): string
     {
-        $lastColonPosition = strrpos($url, ':');
+        $lastColonPosition = (int)strrpos($url, ':');
         return substr($url, 0, $lastColonPosition) . '/' . substr($url, $lastColonPosition + 1);
     }
 }
