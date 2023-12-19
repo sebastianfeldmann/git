@@ -28,6 +28,7 @@
     "php": ">=8.0",
     "ext-json": "*",
     "ext-xml": "*",
+    "ext-simplexml": "*",
     "sebastianfeldmann/cli": "^3.0"
   },
   "extra": {
