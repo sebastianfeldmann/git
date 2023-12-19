@@ -21,7 +21,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "SebastianFeldmann\\Git\\": "tests/"
+      "SebastianFeldmann\\Git\\": "tests/git/"
     }
   },
   "require": {
