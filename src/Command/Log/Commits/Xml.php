@@ -49,7 +49,7 @@ class Xml
         $log = [];
         $xml = '<?xml version="1.0"?><log>' . $output . '</log>';
 
-        $parsedXML = \simplexml_load_string($xml);
+        $parsedXML = \simplexml_load_string($xml, "SimpleXMLElement", LIBXML_NOERROR);
         if (!$parsedXML) {
             return $log;
         }

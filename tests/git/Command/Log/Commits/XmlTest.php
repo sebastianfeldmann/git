@@ -80,4 +80,11 @@ This is a multiline commit message.
         $this->assertEquals('Major fixup', $log[0]->getSubject());
         $this->assertEquals('This is a multiline commit message.', $log[3]->getBody());
     }
+
+    public function testFailedToParseLogOutput(): void
+    {
+        $log = Xml::parseLogOutput('<< /');
+
+        $this->assertCount(0, $log);
+    }
 }

@@ -27,7 +27,7 @@
   "require": {
     "php": ">=8.0",
     "ext-json": "*",
-    "ext-xml": "*",
+    "ext-libxml": "*",
     "ext-simplexml": "*",
     "sebastianfeldmann/cli": "^3.0"
   },
