@@ -17,6 +17,7 @@ use SebastianFeldmann\Git\Operator\Diff;
 use SebastianFeldmann\Git\Operator\Index;
 use SebastianFeldmann\Git\Operator\Info;
 use SebastianFeldmann\Git\Operator\Log;
+use SebastianFeldmann\Git\Operator\Remote;
 use SebastianFeldmann\Git\Operator\Status;
 
 /**
@@ -251,5 +252,19 @@ class RepositoryTest extends TestCase
         $operator   = $repository->getStatusOperator();
 
         $this->assertInstanceOf(Status::class, $operator);
+    }
+
+    /**
+     * Tests Repository::getRemoteOperator
+     *
+     * @dataProvider repoProvider
+     * @param DummyRepo $repo
+     */
+    public function testGetRemoteOperator(DummyRepo $repo)
+    {
+        $repository = new Repository($repo->getPath());
+        $operator   = $repository->getRemoteOperator();
+
+        $this->assertInstanceOf(Remote::class, $operator);
     }
 }

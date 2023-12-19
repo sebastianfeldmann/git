@@ -218,6 +218,16 @@ class Repository
     }
 
     /**
+     * Get Remote operator.
+     *
+     * @return \SebastianFeldmann\Git\Operator\Remote
+     */
+    public function getRemoteOperator(): Operator\Remote
+    {
+        return $this->getOperator('Remote');
+    }
+
+    /**
      * Return requested operator.
      *
      * @param  string $name
