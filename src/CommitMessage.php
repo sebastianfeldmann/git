@@ -30,7 +30,7 @@ class CommitMessage
      *
      * @var string
      */
-    private $rawContent;
+    private string $rawContent;
 
     /**
      * Content split lines
@@ -39,7 +39,7 @@ class CommitMessage
      *
      * @var string[]
      */
-    private $rawLines;
+    private array $rawLines;
 
     /**
      * Amount of lines
@@ -48,21 +48,21 @@ class CommitMessage
      *
      * @var int
      */
-    private $rawLineCount;
+    private int $rawLineCount;
 
     /**
      * The comment character
      *
      * @var string
      */
-    private $commentCharacter;
+    private string $commentCharacter;
 
     /**
      * All non comment lines
      *
      * @var string[]
      */
-    private $contentLines;
+    private array $contentLines;
 
     /**
      * Get the number of lines
@@ -71,7 +71,7 @@ class CommitMessage
      *
      * @var int
      */
-    private $contentLineCount;
+    private int $contentLineCount;
 
     /**
      * Commit Message content
@@ -80,7 +80,7 @@ class CommitMessage
      *
      * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * CommitMessage constructor
@@ -116,7 +116,7 @@ class CommitMessage
      */
     public function isFixup(): bool
     {
-        return strpos($this->rawContent, 'fixup!') === 0;
+        return str_starts_with($this->rawContent, 'fixup!');
     }
 
     /**
@@ -126,7 +126,7 @@ class CommitMessage
      */
     public function isSquash(): bool
     {
-        return  strpos($this->rawContent, 'squash!') === 0;
+        return str_starts_with($this->rawContent, 'squash!');
     }
 
     /**
@@ -268,7 +268,7 @@ class CommitMessage
             // if we handle a comment line
             if (isset($line[0]) && $line[0] === $commentCharacter) {
                 // check if we should ignore all following lines
-                if (strpos($line, '------------------------ >8 ------------------------') !== false) {
+                if (str_contains($line, '------------------------ >8 ------------------------')) {
                     break;
                 }
                 // or only the current one
@@ -287,7 +287,7 @@ class CommitMessage
      * @param  string $commentCharacter
      * @return \SebastianFeldmann\Git\CommitMessage
      */
-    public static function createFromFile(string $path, $commentCharacter = '#'): CommitMessage
+    public static function createFromFile(string $path, string $commentCharacter = '#'): CommitMessage
     {
         if (!file_exists($path)) {
             throw new RuntimeException('Commit message file not found');

@@ -30,32 +30,32 @@ final class Url
     /**
      * @var string
      */
-    private $url;
+    private string $url;
 
     /**
      * @var string
      */
-    private $scheme;
+    private string $scheme;
 
     /**
      * @var string
      */
-    private $user;
+    private string $user;
 
     /**
      * @var string
      */
-    private $host;
+    private string $host;
 
     /**
      * @var string
      */
-    private $path;
+    private string $path;
 
     /**
      * @var string
      */
-    private $repoName;
+    private string $repoName;
 
     public function __construct(string $url)
     {
@@ -195,7 +195,7 @@ final class Url
      */
     private function addMissingScheme(string $url): string
     {
-        return strpos($url, 'ssh://') !== false ? $url : 'ssh://' . $url;
+        return str_contains($url, 'ssh://') ? $url : 'ssh://' . $url;
     }
 
     /**

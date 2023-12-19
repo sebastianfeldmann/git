@@ -107,7 +107,7 @@ class Repository
      * @param  string $hook
      * @return bool
      */
-    public function hookExists($hook): bool
+    public function hookExists(string $hook): bool
     {
         return file_exists($this->getHooksDir() . DIRECTORY_SEPARATOR . $hook);
     }
@@ -233,7 +233,7 @@ class Repository
      * @param  string $name
      * @return mixed
      */
-    private function getOperator(string $name)
+    private function getOperator(string $name): mixed
     {
         if (!isset($this->operator[$name])) {
             $class                 = substr(self::class, 0, -10) . 'Operator\\' . $name;
