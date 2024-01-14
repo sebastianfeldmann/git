@@ -29,7 +29,7 @@ abstract class Log extends Base
      *
      * @var string
      */
-    protected $format = '%h -%d %s (%ci) <%an>';
+    protected string $format = '%h -%d %s (%ci) <%an>';
 
     /**
      * Include or hide merge commits.
@@ -37,7 +37,16 @@ abstract class Log extends Base
      *
      * @var string
      */
-    protected $merges = ' --no-merges';
+    protected string $merges = ' --no-merges';
+
+
+    /**
+     * Set min and max date
+     * --before --after
+     *
+     * @var string
+     */
+    protected string $date = '';
 
     /**
      * Shorten commit hashes.
@@ -45,7 +54,7 @@ abstract class Log extends Base
      *
      * @var string
      */
-    protected $abbrev = ' --abbrev-commit';
+    protected string $abbrev = ' --abbrev-commit';
 
     /**
      * Can be revision or date query.
@@ -56,7 +65,7 @@ abstract class Log extends Base
      *
      * @var string
      */
-    protected $since;
+    protected string $revSelection = '';
 
     /**
      * Filter log by author.
@@ -64,7 +73,7 @@ abstract class Log extends Base
      *
      * @var string
      */
-    protected $author;
+    protected string $author = '';
 
     /**
      * Define the pretty log format.
@@ -105,14 +114,29 @@ abstract class Log extends Base
     /**
      * Set revision range.
      *
+     *   REV..REV
+     *   REV..    // meaning HASH..HEAD
+     *
      * @param  string $from
      * @param  string $to
      * @return \SebastianFeldmann\Git\Command\Log\Log
      */
-    public function byRevision(string $from, string $to = ''): Log
+    public function byRange(string $from, string $to = ''): Log
     {
-        $this->since = ' ' . escapeshellarg($from) . '..'
-                     . (empty($to) ? '' : escapeshellarg($to));
+        $this->revSelection = ' ' . escapeshellarg($from) . '..'
+                              . (empty($to) ? '' : escapeshellarg($to));
+        return $this;
+    }
+
+    /**
+     * Set list of revisions to check
+     *
+     * @param string ...$revisions
+     * @return $this
+     */
+    public function byRevisions(string ...$revisions): Log
+    {
+        $this->revSelection = implode(' ', $revisions);
         return $this;
     }
 
@@ -137,8 +161,8 @@ abstract class Log extends Base
      */
     public function byDate(string $from, string $to = ''): Log
     {
-        $this->since = ' --after=' . escapeshellarg($from)
-                     . (empty($to) ? '' : ' --before=' . escapeshellarg($to));
+        $this->date = ' --after=' . escapeshellarg($from)
+                              . (empty($to) ? '' : ' --before=' . escapeshellarg($to));
         return $this;
     }
 }

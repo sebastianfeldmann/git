@@ -33,7 +33,8 @@ class Commits extends Log
                . $this->abbrev
                . $this->author
                . $this->merges
-               . $this->since;
+               . $this->date
+               . $this->revSelection;
     }
 
     /**

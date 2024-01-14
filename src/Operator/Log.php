@@ -14,7 +14,7 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Git\Command\Log\ChangedFiles;
 use SebastianFeldmann\Git\Command\Log\Commits;
 use SebastianFeldmann\Git\Command\Log\Commits\Xml;
-use SebastianFeldmann\Git\Repository;
+use SebastianFeldmann\Git\Command\RefLog\BranchRevs;
 
 /**
  * Class Log
@@ -34,10 +34,50 @@ class Log extends Base
      */
     public function getChangedFilesSince(string $revision): array
     {
-        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRevision($revision);
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRange($revision);
         $result = $this->runner->run($cmd);
 
         return $result->getBufferedOutput();
+    }
+
+    /**
+     * Get the list of files that changed since a given revision.
+     *
+     * @param  array<string> $revisions
+     * @return array<string>
+     */
+    public function getChangedFilesInRevisions(array $revisions): array
+    {
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRevisions(...$revisions);
+        $result = $this->runner->run($cmd);
+
+        return $result->getBufferedOutput();
+    }
+
+    /**
+     * Uses the reflog to return all commit hashes for a branch
+     *
+     * @param  string $branch
+     * @return array<string>
+     * @throws \Exception
+     */
+    public function getRefLogBranchRevs(string $branch): array
+    {
+        $cmd    = (new BranchRevs($this->repo->getRoot()))->format('%h<--<|>-->%gs')->fromBranch($branch);
+        $result = $this->runner->run($cmd);
+        $logs   = $result->getBufferedOutput();
+
+        if (empty($logs)) {
+            throw new \Exception('could not find any branch revs');
+        }
+        $revs = [];
+        foreach ($logs as $log) {
+            [$shortHash, $reflogSubject] = explode('<--<|>-->', $log);
+            if (stripos($reflogSubject, 'branch: Created from') === false) {
+                $revs[] = $shortHash;
+            }
+        }
+        return $revs;
     }
 
     /**
@@ -49,7 +89,7 @@ class Log extends Base
      */
     public function getCommitsSince(string $revision): array
     {
-        $cmd = (new Commits($this->repo->getRoot()))->byRevision($revision)
+        $cmd = (new Commits($this->repo->getRoot()))->byRange($revision)
                                                     ->prettyFormat(Commits\Xml::FORMAT);
 
         $result = $this->runner->run($cmd);
@@ -66,7 +106,7 @@ class Log extends Base
      */
     public function getCommitsBetween(string $from, string $to): array
     {
-        $cmd = (new Commits($this->repo->getRoot()))->byRevision($from, $to)
+        $cmd = (new Commits($this->repo->getRoot()))->byRange($from, $to)
                                                     ->prettyFormat(Commits\Xml::FORMAT);
 
         $result = $this->runner->run($cmd);

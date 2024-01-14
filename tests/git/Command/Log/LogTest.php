@@ -83,12 +83,12 @@ class LogTest extends TestCase
     }
 
     /**
-     * Tests Commits::byRevision
+     * Tests Commits::byRange
      */
     public function testSinceRevision()
     {
         $cmd = new Commits();
-        $cmd->byRevision('1.0.1');
+        $cmd->byRange('1.0.1');
 
         $exe = $cmd->getCommand();
 
@@ -99,12 +99,12 @@ class LogTest extends TestCase
     }
 
     /**
-     * Tests Commits::byRevision
+     * Tests Commits::byRange
      */
     public function testRevisionRange()
     {
         $cmd = new Commits();
-        $cmd->byRevision('1.0.1', '1.0.2');
+        $cmd->byRange('1.0.1', '1.0.2');
 
         $exe = $cmd->getCommand();
 
@@ -134,6 +134,23 @@ class LogTest extends TestCase
         );
     }
 
+    /**
+     * Tests Commits::byRevisions
+     */
+    public function testByRevisions()
+    {
+        $cmd = new Commits();
+        $cmd->byRevisions('11111111', '22222222', '33333333');
+
+        $exe = $cmd->getCommand();
+
+        $this->assertEquals(
+            'git log --pretty=\'format:%h -%d %s (%ci) <%an>\''
+            . ' --abbrev-commit --no-merges'
+            . '11111111 22222222 33333333',
+            $exe
+        );
+    }
 
     /**
      * Tests Commits::byDate
