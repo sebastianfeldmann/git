@@ -46,7 +46,7 @@ class Exploded implements OutputFormatter
      * Format the output
      *
      * @param  array<string> $output
-     * @return iterable<\SebastianFeldmann\Git\Diff\File>
+     * @return iterable<array<string, string>>
      */
     public function format(array $output): iterable
     {
