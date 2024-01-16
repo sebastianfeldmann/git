@@ -124,7 +124,7 @@ class LogTest extends OperatorTest
         $runner->method('run')->willReturn($result);
 
         $log = new Log($runner, $repo);
-        $this->assertEquals('b89f2f2',  $log->getBranchRevFromRefLog('demo'));
+        $this->assertEquals('b89f2f2', $log->getBranchRevFromRefLog('demo'));
     }
 
     /**
@@ -151,7 +151,7 @@ class LogTest extends OperatorTest
         $runner->method('run')->willReturn($result);
 
         $log = new Log($runner, $repo);
-        $this->assertEquals('',  $log->getBranchRevFromRefLog('demo'));
+        $this->assertEquals('', $log->getBranchRevFromRefLog('demo'));
     }
 
     /**
