@@ -14,6 +14,7 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Git\Command\Log\ChangedFiles;
 use SebastianFeldmann\Git\Command\Log\Commits;
 use SebastianFeldmann\Git\Command\Log\Commits\Xml;
+use SebastianFeldmann\Git\Command\Output\Exploded;
 use SebastianFeldmann\Git\Command\RefLog\BranchRevs;
 
 /**
@@ -61,23 +62,42 @@ class Log extends Base
      * @return array<string>
      * @throws \Exception
      */
-    public function getRefLogBranchRevs(string $branch): array
+    public function getBranchRevsFromRefLog(string $branch): array
     {
-        $cmd    = (new BranchRevs($this->repo->getRoot()))->format('%h<--<|>-->%gs')->fromBranch($branch);
-        $result = $this->runner->run($cmd);
-        $logs   = $result->getBufferedOutput();
-
-        if (empty($logs)) {
-            throw new \Exception('could not find any branch revs');
-        }
+        $result = $this->runner->run(
+            (new BranchRevs($this->repo->getRoot()))->format('%h<--<|>-->%gs')->fromBranch($branch),
+            new Exploded('<--<|>-->', ['shortHash', 'subject'])
+        );
+        $logs = $result->getFormattedOutput();
         $revs = [];
         foreach ($logs as $log) {
-            [$shortHash, $reflogSubject] = explode('<--<|>-->', $log);
-            if (stripos($reflogSubject, 'branch: Created from') === false) {
-                $revs[] = $shortHash;
+            if (stripos($log['subject'], 'branch: Created from') === false) {
+                $revs[] = $log['shortHash'];
             }
         }
         return $revs;
+    }
+
+    /**
+     * Uses the reflog to return the start hash of given branch
+     *
+     * @param  string $branch
+     * @return string
+     * @throws \Exception
+     */
+    public function getBranchRevFromRefLog(string $branch): string
+    {
+        $result = $this->runner->run(
+            (new BranchRevs($this->repo->getRoot()))->format('%h<--<|>-->%gs')->fromBranch($branch),
+            new Exploded('<--<|>-->', ['shortHash', 'subject'])
+        );
+        $logs   = $result->getFormattedOutput();
+        foreach ($logs as $log) {
+            if (stripos($log['subject'], 'branch: Created from') !== false) {
+                return $log['shortHash'];
+            }
+        }
+        return '';
     }
 
     /**
@@ -89,9 +109,7 @@ class Log extends Base
      */
     public function getCommitsSince(string $revision): array
     {
-        $cmd = (new Commits($this->repo->getRoot()))->byRange($revision)
-                                                    ->prettyFormat(Commits\Xml::FORMAT);
-
+        $cmd    = (new Commits($this->repo->getRoot()))->byRange($revision)->prettyFormat(Commits\Xml::FORMAT);
         $result = $this->runner->run($cmd);
         return Xml::parseLogOutput($result->getStdOut());
     }
@@ -106,9 +124,7 @@ class Log extends Base
      */
     public function getCommitsBetween(string $from, string $to): array
     {
-        $cmd = (new Commits($this->repo->getRoot()))->byRange($from, $to)
-                                                    ->prettyFormat(Commits\Xml::FORMAT);
-
+        $cmd    = (new Commits($this->repo->getRoot()))->byRange($from, $to)->prettyFormat(Commits\Xml::FORMAT);
         $result = $this->runner->run($cmd);
         return Xml::parseLogOutput($result->getStdOut());
     }

@@ -66,7 +66,7 @@ class LogTest extends OperatorTest
     }
 
     /**
-     * Tests Log::getRefLogBranchRevs
+     * Tests Log::getBranchRevsFromRefLog
      */
     public function testRefLogFeatureBranchRevs()
     {
@@ -75,16 +75,23 @@ class LogTest extends OperatorTest
                       . "ae8fa00<--<|>-->commit: Add baz\n"
                       . "b89f2f2<--<|>-->branch: Created from HEAD\n";
 
+        $formatted = [
+            ['shortHash' => '98b4c42', 'subject' => 'commit: Finish baz'],
+            ['shortHash' => 'b78325f', 'subject' => 'commit: Improve baz'],
+            ['shortHash' => 'ae8fa00', 'subject' => 'commit: Add baz'],
+            ['shortHash' => 'b89f2f2', 'subject' => 'branch: Created from HEAD'],
+        ];
+
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
         $cmd    = new CommandResult('git ...', 0, $reflogOutput);
-        $result = new RunnerResult($cmd);
+        $result = new RunnerResult($cmd, $formatted);
 
         $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $log   = new Log($runner, $repo);
-        $revs = $log->getRefLogBranchRevs('demo');
+        $revs = $log->getBranchRevsFromRefLog('demo');
 
         $this->assertCount(3, $revs);
         $this->assertEquals('98b4c42', $revs[0]);
@@ -92,7 +99,63 @@ class LogTest extends OperatorTest
     }
 
     /**
-     * Tests Log::getRefLogBranchRevs
+     * Tests Log::getBranchRevFromRefLog
+     */
+    public function testRefLogSourceBranchRev()
+    {
+        $reflogOutput = "98b4c42<--<|>-->commit: Finish baz\n"
+                        . "b78325f<--<|>-->commit: Improve baz\n"
+                        . "ae8fa00<--<|>-->commit: Add baz\n"
+                        . "b89f2f2<--<|>-->branch: Created from HEAD\n";
+
+        $formatted = [
+            ['shortHash' => '98b4c42', 'subject' => 'commit: Finish baz'],
+            ['shortHash' => 'b78325f', 'subject' => 'commit: Improve baz'],
+            ['shortHash' => 'ae8fa00', 'subject' => 'commit: Add baz'],
+            ['shortHash' => 'b89f2f2', 'subject' => 'branch: Created from HEAD'],
+        ];
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0, $reflogOutput);
+        $result = new RunnerResult($cmd, $formatted);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $log = new Log($runner, $repo);
+        $this->assertEquals('b89f2f2',  $log->getBranchRevFromRefLog('demo'));
+    }
+
+    /**
+     * Tests Log::getBranchRevFromRefLog
+     */
+    public function testRefLogSourceBranchNotFound()
+    {
+        $reflogOutput = "7279a97<--<|>-->commit: Add fiz\n"
+                        . "b89f2f2<--<|>-->commit: Add bar\n"
+                        . "b4e8b0b<--<|>-->commit (initial): Add foo\n";
+
+        $formatted = [
+            ['shortHash' => '7279a97', 'subject' => 'commit: Add fiz'],
+            ['shortHash' => 'b89f2f2', 'subject' => 'commit: Add bar'],
+            ['shortHash' => 'b4e8b0b', 'subject' => 'commit (initial): Add foo'],
+        ];
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0, $reflogOutput);
+        $result = new RunnerResult($cmd, $formatted);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $log = new Log($runner, $repo);
+        $this->assertEquals('',  $log->getBranchRevFromRefLog('demo'));
+    }
+
+    /**
+     * Tests Log::getBranchRevsFromRefLog
      */
     public function testRefLogInitialBranchRevs()
     {
@@ -100,16 +163,22 @@ class LogTest extends OperatorTest
                       . "b89f2f2<--<|>-->commit: Add bar\n"
                       . "b4e8b0b<--<|>-->commit (initial): Add foo\n";
 
+        $formatted = [
+            ['shortHash' => '7279a97', 'subject' => 'commit: Add fiz'],
+            ['shortHash' => 'b89f2f2', 'subject' => 'commit: Add bar'],
+            ['shortHash' => 'b4e8b0b', 'subject' => 'commit (initial): Add foo'],
+        ];
+
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
         $cmd    = new CommandResult('git ...', 0, $reflogOutput);
-        $result = new RunnerResult($cmd);
+        $result = new RunnerResult($cmd, $formatted);
 
         $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
         $runner->method('run')->willReturn($result);
 
         $log   = new Log($runner, $repo);
-        $revs = $log->getRefLogBranchRevs('demo');
+        $revs = $log->getBranchRevsFromRefLog('demo');
 
         $this->assertCount(3, $revs);
         $this->assertEquals('7279a97', $revs[0]);
