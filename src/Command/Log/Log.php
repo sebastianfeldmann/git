@@ -32,6 +32,14 @@ abstract class Log extends Base
     protected string $format = '%h -%d %s (%ci) <%an>';
 
     /**
+     * Diff filter types
+     * --diff-filter
+     *
+     * @var string
+     */
+    protected string $diffFilter = '';
+
+    /**
      * Include or hide merge commits.
      * --no-merges
      *
@@ -84,6 +92,18 @@ abstract class Log extends Base
     public function prettyFormat(string $format): Log
     {
         $this->format = $format;
+        return $this;
+    }
+
+    /**
+     * Set the diff filter
+     *
+     * @param array<string> $filter
+     * @return $this
+     */
+    public function withDiffFilter(array $filter): Log
+    {
+        $this->diffFilter = empty($filter) ? '' : ' --diff-filter=' . implode('', $filter);
         return $this;
     }
 

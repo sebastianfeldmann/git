@@ -30,12 +30,13 @@ class Log extends Base
     /**
      * Get the list of files that changed since a given revision.
      *
-     * @param  string $revision
+     * @param string        $revision
+     * @param array<string> $filter
      * @return array<string>
      */
-    public function getChangedFilesSince(string $revision): array
+    public function getChangedFilesSince(string $revision, array $filter = []): array
     {
-        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRange($revision);
+        $cmd    = (new ChangedFiles($this->repo->getRoot()))->byRange($revision)->withDiffFilter($filter);
         $result = $this->runner->run($cmd);
 
         return $result->getBufferedOutput();

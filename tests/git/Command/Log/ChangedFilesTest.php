@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 class ChangedFilesTest extends TestCase
 {
     /**
-     * Tests Commits::getCommand
+     * Tests ChangedFiles::getCommand
      */
     public function testDefault()
     {
@@ -33,6 +33,21 @@ class ChangedFilesTest extends TestCase
 
         $this->assertEquals(
             'git log --format=\'\' --name-only --no-merges',
+            $exe
+        );
+    }
+
+    /**
+     * Tests ChangedFiles::getCommand
+     */
+    public function testWithFilter()
+    {
+        $cmd = new ChangedFiles();
+        $cmd->withDiffFilter(['A']);
+        $exe = $cmd->getCommand();
+
+        $this->assertEquals(
+            'git log --format=\'\' --name-only --diff-filter=A --no-merges',
             $exe
         );
     }

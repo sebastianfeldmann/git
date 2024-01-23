@@ -31,6 +31,7 @@ class ChangedFiles extends Log
     {
         return 'log --format=' . escapeshellarg('')
                . ' --name-only'
+               . $this->diffFilter
                . $this->author
                . $this->merges
                . $this->date
