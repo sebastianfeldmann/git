@@ -65,7 +65,7 @@ class Repository
      * @param string                                $root
      * @param \SebastianFeldmann\Cli\Command\Runner $runner
      */
-    public function __construct(string $root = '', Runner $runner = null)
+    public function __construct(string $root = '', ?Runner $runner = null)
     {
         $path            = empty($root) ? getcwd() : $root;
         $this->root      = (string) $path;
@@ -249,7 +249,7 @@ class Repository
      * @param  \SebastianFeldmann\Cli\Command\Runner|null $runner
      * @return \SebastianFeldmann\Git\Repository
      */
-    public static function createVerified(string $root, Runner $runner = null): Repository
+    public static function createVerified(string $root, ?Runner $runner = null): Repository
     {
         if (!self::isGitRepository($root)) {
             throw new RuntimeException(sprintf('Invalid git repository: %s', $root));

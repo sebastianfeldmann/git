@@ -52,7 +52,7 @@ final class Cloner
      * @param string $root
      * @param Runner|null $runner
      */
-    public function __construct(string $root = '', Runner $runner = null)
+    public function __construct(string $root = '', ?Runner $runner = null)
     {
         $this->root   = empty($root) ? (string) getcwd() : $root;
         $this->runner = $runner ?? new Runner\Simple();
