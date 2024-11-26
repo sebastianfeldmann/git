@@ -62,8 +62,8 @@ class Repository
     /**
      * Repository constructor
      *
-     * @param string                                $root
-     * @param \SebastianFeldmann\Cli\Command\Runner $runner
+     * @param string                                     $root
+     * @param \SebastianFeldmann\Cli\Command\Runner|null $runner
      */
     public function __construct(string $root = '', ?Runner $runner = null)
     {
