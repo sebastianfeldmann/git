@@ -38,7 +38,7 @@
   },
   "scripts": {
     "test": "tools/phpunit",
-    "analyse": "tools/phpstan analyse",
+    "static": "tools/phpstan analyse",
     "style": "tools/phpcs --standard=psr12 src tests",
     "style-fix": "tools/phpcbf --standard=psr12 src tests"
   },
