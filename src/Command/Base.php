@@ -133,7 +133,7 @@ abstract class Base implements Command
     }
 
     /**
-     * Should a option be used or not.
+     * Should an option be used or not.
      *
      * @param  string $option
      * @param  bool   $switch
@@ -143,7 +143,6 @@ abstract class Base implements Command
     {
         return ($switch ? ' ' . $option : '');
     }
-
 
     /**
      * Auto cast method.
