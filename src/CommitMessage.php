@@ -242,6 +242,36 @@ class CommitMessage
     }
 
     /**
+     * Returns all comment lines as string
+     *
+     * @return string
+     */
+    public function getComments(): string
+    {
+        return implode(PHP_EOL, $this->getCommentLines());
+    }
+
+    /**
+     * Returns all comment lines in an array
+     *
+     * @return array<int, string>
+     */
+    public function getCommentLines(): array
+    {
+        $comments           = [];
+        $allCommentFromHere = false;
+        foreach ($this->getLines() as $line) {
+            if ($this->isCommentLine($line) || $allCommentFromHere) {
+                if (!$allCommentFromHere && $this->isScissorLine($line)) {
+                    $allCommentFromHere = true;
+                }
+                $comments[] = $line;
+            }
+        }
+        return $comments;
+    }
+
+    /**
      * Get the comment character
      *
      * Comment character defaults to '#'.
@@ -263,12 +293,11 @@ class CommitMessage
     private function getContentLines(array $rawLines, string $commentCharacter): array
     {
         $lines = [];
-
         foreach ($rawLines as $line) {
             // if we handle a comment line
-            if (isset($line[0]) && $line[0] === $commentCharacter) {
+            if ($this->isCommentLine($line)) {
                 // check if we should ignore all following lines
-                if (str_contains($line, '------------------------ >8 ------------------------')) {
+                if ($this->isScissorLine($line)) {
                     break;
                 }
                 // or only the current one
@@ -276,8 +305,41 @@ class CommitMessage
             }
             $lines[] = $line;
         }
-
         return $lines;
+    }
+
+    /**
+     * Is the line a comment line
+     *
+     * @param  string $line
+     * @return bool
+     */
+    private function isCommentLine(string $line): bool
+    {
+        return str_starts_with(trim($line), $this->commentCharacter);
+    }
+
+    /**
+     * Check if the scissor operator is used to mark all following lines as comment
+     *
+     * @param  string $line
+     * @return bool
+     */
+    public function isScissorLine(string $line): bool
+    {
+        return str_contains($line, '------------------------ >8 ------------------------');
+    }
+
+    /**
+     * Split message into separate lines
+     *
+     * @param  string $content
+     * @return array<int, string>
+     */
+    private function splitByLine(string $content): array
+    {
+        $lines = (array) preg_split("/\\r\\n|\\r|\\n/", $content);
+        return array_filter($lines, fn($line) => is_string($line));
     }
 
     /**
@@ -293,17 +355,5 @@ class CommitMessage
             throw new RuntimeException('Commit message file not found');
         }
         return new CommitMessage((string) file_get_contents($path), $commentCharacter);
-    }
-
-    /**
-     * Split message into separate lines
-     *
-     * @param  string $content
-     * @return array<int, string>
-     */
-    private function splitByLine(string $content): array
-    {
-        $lines = (array) preg_split("/\\r\\n|\\r|\\n/", $content);
-        return array_filter($lines, fn($line) => is_string($line));
     }
 }

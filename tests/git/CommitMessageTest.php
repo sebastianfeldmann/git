@@ -114,6 +114,33 @@ class CommitMessageTest extends TestCase
     }
 
     /**
+     * Tests CommitMessage::getComments
+     */
+    public function testGetCommentsExcludesContent()
+    {
+        $content = 'Foo' . PHP_EOL . '# Fiz' . PHP_EOL . 'Bar' . PHP_EOL . '# Baz';
+        $msg = new CommitMessage($content, '#');
+
+        $this->assertEquals('# Fiz' . PHP_EOL . '# Baz', $msg->getComments());
+    }
+
+    /**
+     * Tests CommitMessage::getComments
+     */
+    public function testGetCommentsWithScissors()
+    {
+        $content = 'Foo' . PHP_EOL . '# Bar' . PHP_EOL . 'Baz' . PHP_EOL .
+                   '# ------------------------ >8 ------------------------' . PHP_EOL .
+                   'fiz' . PHP_EOL . 'baz';
+        $expected = '# Bar' . PHP_EOL .
+                    '# ------------------------ >8 ------------------------' . PHP_EOL .
+                    'fiz' . PHP_EOL . 'baz';
+
+        $msg = new CommitMessage($content, '#');
+        $this->assertEquals($expected, $msg->getComments());
+    }
+
+    /**
      * Tests CommitMessage::getRawContent
      */
     public function testGetRawContentIncludesComments()
