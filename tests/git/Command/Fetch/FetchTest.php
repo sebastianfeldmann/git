@@ -28,7 +28,7 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->dryRun();
 
-        $this->assertSame('git fetchBranch --dry-run', $cmd->getCommand());
+        $this->assertSame('git fetch --dry-run', $cmd->getCommand());
     }
 
     public function testAll(): void
@@ -36,7 +36,7 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->all();
 
-        $this->assertSame('git fetchBranch --all', $cmd->getCommand());
+        $this->assertSame('git fetch --all', $cmd->getCommand());
     }
 
     public function testRemote(): void
@@ -44,7 +44,7 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->remote('origin');
 
-        $this->assertSame('git fetchBranch origin', $cmd->getCommand());
+        $this->assertSame('git fetch origin', $cmd->getCommand());
     }
 
     public function testForce(): void
@@ -52,7 +52,7 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->force();
 
-        $this->assertSame('git fetchBranch --force', $cmd->getCommand());
+        $this->assertSame('git fetch --force', $cmd->getCommand());
     }
 
     public function testBranch(): void
@@ -60,7 +60,7 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->remote('some')->branch('main');
 
-        $this->assertSame('git fetchBranch some main', $cmd->getCommand());
+        $this->assertSame('git fetch some main', $cmd->getCommand());
     }
 
     public function testBranchDefaultRemote(): void
@@ -68,6 +68,6 @@ class FetchTest extends TestCase
         $cmd = new Fetch();
         $cmd->branch('main');
 
-        $this->assertSame('git fetchBranch origin main', $cmd->getCommand());
+        $this->assertSame('git fetch origin main', $cmd->getCommand());
     }
 }

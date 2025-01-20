@@ -126,7 +126,7 @@ class Fetch extends Base
      */
     protected function getGitCommand(): string
     {
-        return 'fetchBranch'
+        return 'fetch'
             . $this->dryRun
             . $this->all
             . $this->force
