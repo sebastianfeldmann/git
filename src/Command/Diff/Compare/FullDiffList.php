@@ -104,30 +104,30 @@ class FullDiffList implements OutputFormatter
     /**
      * The currently processed file
      *
-     * @var \SebastianFeldmann\Git\Diff\File
+     * @var \SebastianFeldmann\Git\Diff\File|null
      */
-    private File $currentFile;
+    private ?File $currentFile = null;
 
     /**
      * The file name of the currently processed file
      *
-     * @var string
+     * @var string|null
      */
-    private string $currentFileName;
+    private ?string $currentFileName = null;
 
     /**
      * The change position of the currently processed file
      *
-     * @var string
+     * @var string|null
      */
-    private string $currentPosition;
+    private ?string $currentPosition = null;
 
     /**
      * The operation of the currently processed file
      *
-     * @var string
+     * @var string|null
      */
-    private string $currentOperation;
+    private ?string $currentOperation = null;
 
     /**
      * List of collected changes
