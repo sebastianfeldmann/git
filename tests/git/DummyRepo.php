@@ -24,23 +24,32 @@ class DummyRepo
     /**
      * @var string
      */
-    protected $path;
+    protected string $path = '';
 
     /**
      * @var string
      */
-    protected $gitDir;
+    protected string $gitDir = '';
+
+    /**
+     * Custom hook directory
+     *
+     * @var string
+     */
+    protected string $customHookDir = '';
 
     /**
      * DummyRepo constructor
      *
      * @param string $name
+     * @param string $customHookDir
      */
-    public function __construct(string $name = '')
+    public function __construct(string $name = '', string $customHookDir = '')
     {
-        $name         = empty($name) ? md5(mt_rand(0, 9999999)) : $name;
-        $this->path   = realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . $name;
-        $this->gitDir = $this->path . DIRECTORY_SEPARATOR . '.git';
+        $name                = empty($name) ? md5(mt_rand(0, 9999999)) : $name;
+        $this->path          = realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . $name;
+        $this->gitDir        = $this->path . DIRECTORY_SEPARATOR . '.git';
+        $this->customHookDir = $customHookDir;
     }
 
     /**
@@ -51,6 +60,11 @@ class DummyRepo
     public function setup(): void
     {
         mkdir($this->gitDir . DIRECTORY_SEPARATOR . 'hooks', 0777, true);
+        if (!empty($this->customHookDir)) {
+            if (!is_dir($this->customHookDir)) {
+                mkdir($this->path . DIRECTORY_SEPARATOR . $this->customHookDir, 0777, true);
+            }
+        }
     }
 
     /**
