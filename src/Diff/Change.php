@@ -25,28 +25,28 @@ class Change
      *
      * @var string
      */
-    private $header;
+    private string $header;
 
     /**
      * Pre range.
      *
      * @var array{from: int|null, to: int|null}
      */
-    private $pre;
+    private array $pre;
 
     /**
      * Post range.
      *
      * @var array{from: int|null, to: int|null}
      */
-    private $post;
+    private array $post;
 
     /**
      * List of changed lines.
      *
      * @var \SebastianFeldmann\Git\Diff\Line[]
      */
-    private $lines = [];
+    private array $lines = [];
 
     /**
      * Chan

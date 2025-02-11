@@ -28,7 +28,7 @@ class GetCommitHash extends Base
      *
      * @var string
      */
-    private $rev = 'HEAD';
+    private string $rev = 'HEAD';
 
     /**
      * Set revision to look up.

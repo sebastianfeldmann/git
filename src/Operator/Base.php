@@ -29,14 +29,14 @@ abstract class Base
      *
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
-    protected $runner;
+    protected Runner $runner;
 
     /**
      * Git repository to use.
      *
      * @var \SebastianFeldmann\Git\Repository
      */
-    protected $repo;
+    protected Repository $repo;
 
     /**
      * Base constructor.

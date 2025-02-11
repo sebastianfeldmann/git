@@ -26,17 +26,17 @@ class ChangedFiles extends Base
     /**
      * @var string
      */
-    private $from;
+    private string $from;
 
     /**
      * @var string
      */
-    private $to;
+    private string $to;
 
     /**
      * @var array<string>
      */
-    private $filter;
+    private array $filter;
 
     /**
      * @param  string $from

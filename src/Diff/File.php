@@ -32,21 +32,21 @@ class File
      *
      * @var \SebastianFeldmann\Git\Diff\Change[]
      */
-    private $changes = [];
+    private array $changes = [];
 
     /**
      * Filename
      *
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * Operation performed on the file.
      *
      * @var string
      */
-    private $operation;
+    private string $operation;
 
     /**
      * File constructor.

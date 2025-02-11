@@ -28,7 +28,7 @@ class FilterByStatus implements OutputFormatter
      *
      * @var array<string>
      */
-    private $status;
+    private array $status;
 
     /**
      * FilterByStatus constructor

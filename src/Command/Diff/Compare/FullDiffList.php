@@ -47,7 +47,7 @@ class FullDiffList implements OutputFormatter
      *
      * @var array<string, array<string>>
      */
-    private static $lineTypesToCheck = [
+    private static array $lineTypesToCheck = [
         self::LINE_TYPE_START => [
             self::LINE_TYPE_HEADER
         ],
@@ -86,7 +86,7 @@ class FullDiffList implements OutputFormatter
      *
      * @var array<string, string>
      */
-    private static $opsMap = [
+    private static array $opsMap = [
         'old'     => File::OP_MODIFIED,
         'new'     => File::OP_CREATED,
         'deleted' => File::OP_DELETED,
@@ -99,42 +99,42 @@ class FullDiffList implements OutputFormatter
      *
      * @var array<\SebastianFeldmann\Git\Diff\File>
      */
-    private $files = [];
+    private array $files = [];
 
     /**
      * The currently processed file
      *
      * @var \SebastianFeldmann\Git\Diff\File
      */
-    private $currentFile;
+    private File $currentFile;
 
     /**
      * The file name of the currently processed file
      *
      * @var string
      */
-    private $currentFileName;
+    private string $currentFileName;
 
     /**
      * The change position of the currently processed file
      *
      * @var string
      */
-    private $currentPosition;
+    private string $currentPosition;
 
     /**
      * The operation of the currently processed file
      *
      * @var string
      */
-    private $currentOperation;
+    private string $currentOperation;
 
     /**
      * List of collected changes
      *
      * @var \SebastianFeldmann\Git\Diff\Change[]
      */
-    private $currentChanges = [];
+    private array $currentChanges = [];
 
     /**
      * Format the output

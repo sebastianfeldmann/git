@@ -29,7 +29,7 @@ class GetUnstagedPatch extends Base
      *
      * @var string|null
      */
-    private $treeId = null;
+    private ?string $treeId = null;
 
     /**
      * Return list of acceptable exit codes.

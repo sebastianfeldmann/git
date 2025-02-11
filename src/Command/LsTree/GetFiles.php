@@ -27,14 +27,14 @@ class GetFiles extends Base
      * Tree to check head by default
      * @var string
      */
-    private $tree = 'HEAD';
+    private string $tree = 'HEAD';
 
     /**
      * Path to check for files
      *
      * @var string
      */
-    private $path = '';
+    private string $path = '';
 
     /**
      * Define the tree to search through

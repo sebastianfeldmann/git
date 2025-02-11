@@ -28,35 +28,35 @@ class Pull extends Base
      *
      * @var string
      */
-    private $dryRun = '';
+    private string $dryRun = '';
 
     /**
      * --ff, --no-ff
      *
      * @var string
      */
-    private $mergeFastForward = '';
+    private string $mergeFastForward = '';
 
     /**
      * --ff-only
      *
      * @var string
      */
-    private $fastForwardOnly = '';
+    private string $fastForwardOnly = '';
 
     /**
      * Remote to pullBranch refs from
      *
      * @var string
      */
-    private $remote = '';
+    private string $remote = '';
 
     /**
      * Branch name to pullBranch
      *
      * @var string
      */
-    private $refSpec = '';
+    private string $refSpec = '';
 
     /**
      * Set dry run.

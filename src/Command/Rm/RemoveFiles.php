@@ -28,28 +28,28 @@ class RemoveFiles extends Base
      *
      * @var string
      */
-    private $dryRun = '';
+    private string $dryRun = '';
 
     /**
      * Cached.
      *
      * @var string
      */
-    private $cached = '';
+    private string $cached = '';
 
     /**
      * Recursive removal.
      *
      * @var string
      */
-    private $recursive = '';
+    private string $recursive = '';
 
     /**
      * Files to remove.
      *
      * @var string[]
      */
-    private $files = [];
+    private array $files = [];
 
     /**
      * Set dry run.

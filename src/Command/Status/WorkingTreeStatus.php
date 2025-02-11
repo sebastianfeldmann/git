@@ -28,7 +28,7 @@ class WorkingTreeStatus extends Base
      *
      * @var string
      */
-    private $ignoreSubmodules = '';
+    private string $ignoreSubmodules = '';
 
     /**
      * Set ignore submodules.

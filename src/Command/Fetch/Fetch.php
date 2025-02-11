@@ -28,21 +28,21 @@ class Fetch extends Base
      *
      * @var string
      */
-    private $dryRun = '';
+    private string $dryRun = '';
 
     /**
      * --all
      *
      * @var string
      */
-    private $all = '';
+    private string $all = '';
 
     /**
      * --force
      *
      * @var string
      */
-    private $force = '';
+    private string $force = '';
 
     /**
      * Remote to fetchBranch refs from

@@ -28,7 +28,7 @@ class GetTags extends Base
      *
      * @var string
      */
-    private $hash = 'HEAD';
+    private string $hash = 'HEAD';
 
     /**
      * Set the hash you want to check for tags, HEAD by default

@@ -34,7 +34,7 @@ class Diff extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
      */
-    public function compare(string $from, string $to): array
+    public function compare(string $from, string $to): iterable
     {
         $compare = (new Compare($this->repo->getRoot()))->revisions($from, $to)
                                                         ->ignoreWhitespacesAtEndOfLine();
@@ -50,7 +50,7 @@ class Diff extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
      */
-    public function compareIndexTo(string $to = 'head'): array
+    public function compareIndexTo(string $to = 'head'): iterable
     {
         $compare = (new Compare($this->repo->getRoot()))->indexTo($to)
                                                         ->withContextLines(0)

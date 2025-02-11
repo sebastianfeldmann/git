@@ -28,49 +28,49 @@ class Compare extends Base
      *
      * @var string
      */
-    protected $compare = '';
+    protected string $compare = '';
 
     /**
      * Ignore line endings.
      *
      * @var string
      */
-    protected $ignoreEOL = '';
+    protected string $ignoreEOL = '';
 
     /**
      * Show statistics only.
      *
      * @var string
      */
-    protected $stats = '';
+    protected string $stats = '';
 
     /**
      * Ignore all whitespaces.
      *
      * @var string
      */
-    private $ignoreWhitespaces = '';
+    private string $ignoreWhitespaces = '';
 
     /**
      * Ignore submodules.
      *
      * @var string
      */
-    private $ignoreSubmodules = '';
+    private string $ignoreSubmodules = '';
 
     /**
      * Number of context lines before and after the diff
      *
      * @var string
      */
-    private $unified = '';
+    private string $unified = '';
 
     /**
      * View the changes staged for the next commit.
      *
      * @var string
      */
-    private $staged = '';
+    private string $staged = '';
 
     /**
      * Compare two given revisions.

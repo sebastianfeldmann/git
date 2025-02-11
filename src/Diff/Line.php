@@ -40,12 +40,12 @@ class Line
     /**
      * @var string
      */
-    private $operation;
+    private string $operation;
 
     /**
      * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * Line constructor.

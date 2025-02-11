@@ -26,13 +26,13 @@ class GetMostRecentTag extends Base
     /**
      * @var string
      */
-    private $before;
+    private string $before = '';
 
     /**
      * Glob to define excluded tags e.g **-RC* to exclude release candidate tags
      * @var string
      */
-    private $exclude;
+    private string $exclude = '';
 
     /**
      * Sets the start point to search for a tag
