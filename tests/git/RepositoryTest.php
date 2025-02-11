@@ -98,7 +98,8 @@ class RepositoryTest extends TestCase
         $this->assertEquals($message, $repo->getCommitMsg());
     }
 
-    public function testHooksDirNow() {
+    public function testHooksDirNow()
+    {
         $repository = new Repository(realpath('./../..'));
         $this->assertEquals(realpath('./../..') . '/.git/hooks', $repository->getHooksDir());
     }
