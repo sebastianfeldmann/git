@@ -28,14 +28,14 @@ class RestoreWorkingTree extends Base
      *
      * @var array<string>
      */
-    private $files = ['.'];
+    private array $files = ['.'];
 
     /**
      * Skip the checkout hooks?
      *
      * @var bool
      */
-    private $noMoreHooks = false;
+    private bool $noMoreHooks = false;
 
     /**
      * Do not trigger git hooks while restoring

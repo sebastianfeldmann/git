@@ -28,7 +28,7 @@ class Get extends Base
      *
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * The name of the configuration key to get.

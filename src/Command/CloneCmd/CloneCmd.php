@@ -30,17 +30,17 @@ final class CloneCmd extends Base
     /**
      * @var Url
      */
-    private $url;
+    private Url $url;
 
     /**
      * @var string
      */
-    private $dir = '';
+    private string $dir = '';
 
     /**
      * @var string
      */
-    private $depth = '';
+    private string $depth = '';
 
     public function __construct(Url $url)
     {

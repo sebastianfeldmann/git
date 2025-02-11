@@ -28,42 +28,42 @@ class AddFiles extends Base
      *
      * @var string
      */
-    private $dryRun = '';
+    private string $dryRun = '';
 
     /**
      * Update.
      *
      * @var string
      */
-    private $update = '';
+    private string $update = '';
 
     /**
      * All.
      *
      * @var string
      */
-    private $all = '';
+    private string $all = '';
 
     /**
      * No all.
      *
      * @var string
      */
-    private $noAll = '';
+    private string $noAll = '';
 
     /**
      * Intent to add.
      *
      * @var string
      */
-    private $intentToAdd = '';
+    private string $intentToAdd = '';
 
     /**
      * Files to add content from to the index.
      *
      * @var string[]
      */
-    private $files = [];
+    private array $files = [];
 
     /**
      * Set dry run.

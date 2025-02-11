@@ -28,28 +28,28 @@ class ApplyPatch extends Base
      *
      * @var string[]
      */
-    private $patchFiles = [];
+    private array $patchFiles = [];
 
     /**
      * Action to take when encountering whitespace.
      *
      * @var string
      */
-    private $whitespace = ' --whitespace=\'warn\'';
+    private string $whitespace = ' --whitespace=\'warn\'';
 
     /**
      * Number of leading path components to remove from the diff paths.
      *
      * @var string
      */
-    private $pathComponents = ' -p1';
+    private string $pathComponents = ' -p1';
 
     /**
      * Ignore changes in whitespace in context lines.
      *
      * @var string
      */
-    private $ignoreSpaceChange = '';
+    private string $ignoreSpaceChange = '';
 
     /**
      * Patch files to apply.
