@@ -29,35 +29,42 @@ class Repository
      *
      * @var string
      */
-    private $root;
+    private string $root = '';
 
     /**
      * Path to .git directory
      *
      * @var string
      */
-    private $dotGitDir;
+    private string $dotGitDir = '';
+
+    /**
+     * Path to the configured hooks directory
+     *
+     * @var string
+     */
+    private string $hooksDir = '';
 
     /**
      * Commit message.
      *
-     * @var \SebastianFeldmann\Git\CommitMessage
+     * @var \SebastianFeldmann\Git\CommitMessage|null
      */
-    private $commitMsg;
+    private ?CommitMessage $commitMsg = null;
 
     /**
      * Executes cli commands
      *
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
-    private $runner;
+    private Runner $runner;
 
     /**
      * Map of operators
      *
      * @var array<string, object>
      */
-    private $operator = [];
+    private array $operator = [];
 
     /**
      * Repository constructor
@@ -69,16 +76,27 @@ class Repository
     {
         $path            = empty($root) ? getcwd() : $root;
         $this->root      = (string) $path;
-        $this->dotGitDir = $this->root . '/.git';
+        $this->dotGitDir = $this->detectDotGitDir();
         $this->runner    = null == $runner ? new Runner\Simple() : $runner;
+    }
 
-        if (self::isGitSubmodule($this->dotGitDir)) {
+    /**
+     * Detect the real .git directory because of submodules and multi worktree
+     *
+     * @return string
+     */
+    private function detectDotGitDir(): string
+    {
+        $dotGitDir = $this->root . '/.git';
+        if (self::isGitSubmodule($dotGitDir)) {
             // For submodules hooks are stored in the parents .git/modules directory
-            $dotGitContents = (string) file_get_contents($root . '/.git');
+            $dotGitContents = (string) file_get_contents($dotGitDir);
+            $matches        = [];
             if (preg_match('/^gitdir:\s*(.+)$/m', $dotGitContents, $matches)) {
-                $this->dotGitDir = $root . '/' . $matches[1];
+                $dotGitDir = $this->root . '/' . $matches[1];
             }
         }
+        return $dotGitDir;
     }
 
     /**
@@ -98,7 +116,22 @@ class Repository
      */
     public function getHooksDir(): string
     {
-        return $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks';
+        if (empty($this->hooksDir)) {
+            $this->hooksDir = $this->detectHooksDir();
+        }
+        return $this->hooksDir;
+    }
+
+    /**
+     * Checks if the hooks dir is set to a custom path
+     *
+     * @return string
+     */
+    private function detectHooksDir(): string
+    {
+        $hookPathConfig = $this->getConfigOperator()->getSafely('core.hooksPath');
+        return empty($hookPathConfig) ? $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks'
+                                      : $this->root . DIRECTORY_SEPARATOR . $hookPathConfig;
     }
 
     /**

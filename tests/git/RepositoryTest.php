@@ -11,7 +11,11 @@
 
 namespace SebastianFeldmann\Git;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use SebastianFeldmann\Cli\Command\Result as CommandResult;
+use SebastianFeldmann\Cli\Command\Runner;
+use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Operator\Config;
 use SebastianFeldmann\Git\Operator\Diff;
 use SebastianFeldmann\Git\Operator\Index;
@@ -94,6 +98,31 @@ class RepositoryTest extends TestCase
         $this->assertEquals($message, $repo->getCommitMsg());
     }
 
+    public function testHooksDirNow() {
+        $repository = new Repository(realpath('./../..'));
+        $this->assertEquals(realpath('./../..') . '/.git/hooks', $repository->getHooksDir());
+    }
+
+
+    /**
+     * Tests Repository::getHooks
+     *
+     * @dataProvider repoProvider
+     * @param DummyRepo $repo
+     */
+    public function testGetHooksDirWithConfiguredHooksPath(DummyRepo $repo)
+    {
+        $repository = new Repository(
+            $repo->getPath(),
+            $this->getHookDirRunnerMock(new CommandResult('git config...', 0, '.githooks'))
+        );
+
+        $expectedHooksDir = $repo->getPath() . '/.githooks';
+
+        $this->assertEquals($expectedHooksDir, $repository->getHooksDir());
+        $this->assertEquals($repo->getPath(), $repository->getRoot());
+    }
+
     /**
      * Tests Repository::getHooks
      *
@@ -102,7 +131,10 @@ class RepositoryTest extends TestCase
      */
     public function testGetHooksDir(DummyRepo $repo)
     {
-        $repository = new Repository($repo->getPath());
+        $repository = new Repository(
+            $repo->getPath(),
+            $this->getHookDirRunnerMock(new CommandResult('git config...', 0, ''))
+        );
 
         if ($repo instanceof DummySubmoduleRepo) {
             $name = basename($repo->getPath());
@@ -124,7 +156,10 @@ class RepositoryTest extends TestCase
     {
         $repo->touchHook('pre-commit');
 
-        $repository = new Repository($repo->getPath());
+        $repository = new Repository(
+            $repo->getPath(),
+            $this->getHookDirRunnerMock(new CommandResult('git config...', 0, ''))
+        );
 
         $this->assertTrue($repository->hookExists('pre-commit'));
         $this->assertFalse($repository->hookExists('pre-push'));
@@ -266,5 +301,22 @@ class RepositoryTest extends TestCase
         $operator   = $repository->getRemoteOperator();
 
         $this->assertInstanceOf(Remote::class, $operator);
+    }
+
+    /**
+     * Return runner mock.
+     *
+     * @return \SebastianFeldmann\Cli\Command\Runner|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getHookDirRunnerMock(CommandResult $res): Runner|MockObject
+    {
+        $runner = $this->getMockBuilder(Runner::class)
+                       ->disableOriginalConstructor()
+                       ->getMock();
+
+        $result = new RunnerResult($res);
+        $runner->method('run')->willReturn($result);
+
+        return $runner;
     }
 }
