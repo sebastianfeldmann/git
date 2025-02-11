@@ -53,7 +53,7 @@ class Config extends Base
     {
         $result = $this->configCommand($name);
 
-        return $result->getBufferedOutput()[0];
+        return $result->getBufferedOutput()[0] ?? '';
     }
 
     /**
@@ -66,7 +66,7 @@ class Config extends Base
      * @param  string $default Value to return if config value is not set, empty string by default
      * @return string
      */
-    public function getSafely(string $name, string $default = '')
+    public function getSafely(string $name, string $default = ''): string
     {
         return $this->has($name) ? $this->get($name) : $default;
     }
@@ -78,7 +78,7 @@ class Config extends Base
      *
      * @return array<string, string>
      */
-    public function getSettings(): array
+    public function getSettings(): iterable
     {
         $cmd = new ListSettings($this->repo->getRoot());
         $res = $this->runner->run($cmd, new ListSettings\MapSettings());
