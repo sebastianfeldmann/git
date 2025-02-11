@@ -34,7 +34,7 @@ class Diff extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
      */
-    public function compare(string $from, string $to): iterable
+    public function compare(string $from, string $to): array
     {
         $compare = (new Compare($this->repo->getRoot()))->revisions($from, $to)
                                                         ->ignoreWhitespacesAtEndOfLine();
@@ -50,7 +50,7 @@ class Diff extends Base
      * @param  string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
      */
-    public function compareIndexTo(string $to = 'head'): iterable
+    public function compareIndexTo(string $to = 'head'): array
     {
         $compare = (new Compare($this->repo->getRoot()))->indexTo($to)
                                                         ->withContextLines(0)
@@ -67,7 +67,7 @@ class Diff extends Base
      * @param string $to
      * @return \SebastianFeldmann\Git\Diff\File[]
      */
-    public function compareTo(string $to = 'HEAD'): iterable
+    public function compareTo(string $to = 'HEAD'): array
     {
         $compare = (new Compare($this->repo->getRoot()))->to($to)
                                                         ->ignoreSubmodules()
@@ -139,7 +139,7 @@ class Diff extends Base
         $cmd = (new GetUnstagedPatch($this->repo->getRoot()))->tree($treeId);
         $result = $this->runner->run($cmd);
 
-        // A status code of 1 means there were differences and we have a patch.
+        // A status code of 1 means there were differences, and we have a patch.
         if ($result->getCode() === 1) {
             return $result->getStdOut();
         }
