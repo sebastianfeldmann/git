@@ -24,32 +24,32 @@ class Commit
     /**
      * @var string
      */
-    private $hash;
+    private string $hash;
 
     /**
      * @var array<string>
      */
-    private $names;
+    private array $names;
 
     /**
      * @var string
      */
-    private $subject;
+    private string $subject;
 
     /**
      * @var string
      */
-    private $body;
+    private string $body;
 
     /**
      * @var \DateTimeImmutable
      */
-    private $date;
+    private \DateTimeImmutable $date;
 
     /**
      * @var string
      */
-    private $author;
+    private string $author;
 
     /**
      * Commit constructor

@@ -41,21 +41,21 @@ class Path
      *
      * @var array{0: string, 1: string}
      */
-    private $statusCode = [self::UNMODIFIED, self::UNMODIFIED];
+    private array $statusCode = [self::UNMODIFIED, self::UNMODIFIED];
 
     /**
      * Path.
      *
      * @var string
      */
-    private $path = '';
+    private string $path = '';
 
     /**
      * Original path, if this is a copied or renamed path.
      *
      * @var string|null
      */
-    private $originalPath = null;
+    private ?string $originalPath = null;
 
     /**
      * Path constructor.

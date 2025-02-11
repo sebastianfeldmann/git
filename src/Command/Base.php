@@ -28,14 +28,14 @@ abstract class Base implements Command
      *
      * @var string
      */
-    protected $repositoryRoot;
+    protected string $repositoryRoot;
 
     /**
      * Configuration parameters to pass along with the command.
      *
      * @var array<string, string>
      */
-    private $configParameters = [];
+    private array $configParameters = [];
 
     /**
      * Base constructor.
@@ -54,12 +54,11 @@ abstract class Base implements Command
      */
     public function getCommand(): string
     {
-        $command = 'git'
-                 . $this->getRootOption()
-                 . $this->getConfigParameterOptions()
-                 . ' '
-                 . $this->getGitCommand();
-        return $command;
+        return 'git'
+            . $this->getRootOption()
+            . $this->getConfigParameterOptions()
+            . ' '
+            . $this->getGitCommand();
     }
 
     /**

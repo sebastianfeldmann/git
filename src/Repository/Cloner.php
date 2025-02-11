@@ -34,17 +34,17 @@ final class Cloner
     /**
      * @var string
      */
-    private $root;
+    private string $root;
 
     /**
      * @var int
      */
-    private $depth = 0;
+    private int $depth = 0;
 
     /**
      * @var \SebastianFeldmann\Cli\Command\Runner
      */
-    private $runner;
+    private Runner $runner;
 
     /**
      * Cloner constructor
