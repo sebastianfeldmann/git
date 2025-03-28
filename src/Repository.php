@@ -129,7 +129,7 @@ class Repository
      */
     private function detectHooksDir(): string
     {
-        $hookPathConfig = $this->getConfigOperator()->getSafely('core.hooksPath');
+        $hookPathConfig = $this->getConfigOperator()->getSettingSafely('core.hooksPath');
         return empty($hookPathConfig) ? $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks'
                                       : $this->root . DIRECTORY_SEPARATOR . $hookPathConfig;
     }
