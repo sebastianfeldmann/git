@@ -33,10 +33,11 @@ class Config extends Base
     private const TYPE_VAR    = 'var';
 
     /**
-     * @deprectaed replaced by `hasSetting`
+     * @deprectaed since 3.14.0 replaced by `hasSetting`
      */
     public function has(string $name): bool
     {
+        trigger_error('\'has\' should be replaced by \'hasSetting\'', E_USER_DEPRECATED);
         return $this->hasSetting($name);
     }
 
@@ -82,10 +83,11 @@ class Config extends Base
     }
 
     /**
-     * @deprecated replaced by `getSetting`
+     * @deprecated since 3.14.0 replaced by `getSetting`
      */
     public function get(string $name): string
     {
+        trigger_error('\'get\' should be replaced by \'getSetting\'', E_USER_DEPRECATED);
         return $this->getSetting($name);
     }
 
@@ -114,10 +116,11 @@ class Config extends Base
     }
 
     /**
-     * @deprecated replaced by `getSettingSafely`
+     * @deprecated since 3.14.0 replaced by `getSettingSafely`
      */
     public function getSafely(string $name, string $default = ''): string
     {
+        trigger_error('\'getSafely\' should be replaced by \'getSettingSafely\'', E_USER_DEPRECATED);
         return $this->getSettingSafely($name, $default);
     }
 
@@ -133,7 +136,7 @@ class Config extends Base
      */
     public function getSettingSafely(string $name, string $default = ''): string
     {
-        return $this->has($name) ? $this->getSetting($name) : $default;
+        return $this->hasSetting($name) ? $this->getSetting($name) : $default;
     }
 
     /**
