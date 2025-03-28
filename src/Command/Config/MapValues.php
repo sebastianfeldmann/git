@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace SebastianFeldmann\Git\Command\Config\ListSettings;
+namespace SebastianFeldmann\Git\Command\Config;
 
 use SebastianFeldmann\Cli\Command\OutputFormatter;
 
@@ -21,7 +21,7 @@ use SebastianFeldmann\Cli\Command\OutputFormatter;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.8
  */
-class MapSettings implements OutputFormatter
+class MapValues implements OutputFormatter
 {
     /**
      * Format the output

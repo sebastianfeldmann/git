@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace SebastianFeldmann\Git\Command\Config\ListSettings;
+namespace SebastianFeldmann\Git\Command\Config;
 
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  * @link    https://github.com/sebastianfeldmann/git
  * @since   Class available since Release 1.0.8
  */
-class MapSettingsTest extends TestCase
+class MapValuesTest extends TestCase
 {
     /**
      * Tests MapSettings::format
@@ -40,7 +40,7 @@ alias.l=log --color --graph --pretty=format:\'%Cred%h%Creset ' .
 alias.b=branch';
 
         $output    = explode("\n", $string);
-        $formatter = new MapSettings();
+        $formatter = new MapValues();
         $formatted = $formatter->format($output);
 
         $this->assertEquals('false', $formatted['core.autocrlf']);

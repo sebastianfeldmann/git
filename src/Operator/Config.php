@@ -14,7 +14,10 @@ namespace SebastianFeldmann\Git\Operator;
 use RuntimeException;
 use SebastianFeldmann\Cli\Command\Runner\Result;
 use SebastianFeldmann\Git\Command\Config\Get;
+use SebastianFeldmann\Git\Command\Config\GetVar;
 use SebastianFeldmann\Git\Command\Config\ListSettings;
+use SebastianFeldmann\Git\Command\Config\ListVars;
+use SebastianFeldmann\Git\Command\Config\MapValues;
 
 /**
  * Class Config
@@ -26,16 +29,51 @@ use SebastianFeldmann\Git\Command\Config\ListSettings;
  */
 class Config extends Base
 {
+    private const TYPE_CONFIG = 'config';
+    private const TYPE_VAR    = 'var';
+
     /**
-     * Does git have a configuration key.
+     * @deprectaed replaced by `hasSetting`
+     */
+    public function has(string $name): bool
+    {
+        return $this->hasSetting($name);
+    }
+
+    /**
+     * Does git have a config value set
      *
      * @param  string $name
      * @return boolean
      */
-    public function has(string $name): bool
+    public function hasSetting(string $name): bool
     {
+        return $this->hasIt(self::TYPE_CONFIG, $name);
+    }
+
+    /**
+     * Does git have a var set
+     *
+     * @param  string $name
+     * @return boolean
+     */
+    public function hasVar(string $name): bool
+    {
+        return $this->hasIt(self::TYPE_VAR, $name);
+    }
+
+    /**
+     * Use the `config` or `var` method to check
+     *
+     * @param  string $type
+     * @param  string $name
+     * @return bool
+     */
+    private function hasIt(string $type, string $name): bool
+    {
+        $method = $type . 'Command';
         try {
-            $result = $this->configCommand($name);
+            $result = $this->{$method}($name);
         } catch (RuntimeException $exception) {
             return false;
         }
@@ -44,45 +82,98 @@ class Config extends Base
     }
 
     /**
-     * Get a configuration key value.
+     * @deprecated replaced by `getSetting`
+     */
+    public function get(string $name): string
+    {
+        return $this->getSetting($name);
+    }
+
+    /**
+     * Get a configuration value
      *
      * @param  string $name
      * @return string
      */
-    public function get(string $name): string
+    public function getSetting(string $name): string
     {
         $result = $this->configCommand($name);
-
         return $result->getBufferedOutput()[0] ?? '';
+    }
+
+    /**
+     * Get a var value
+     *
+     * @param  string $name
+     * @return string
+     */
+    public function getVar(string $name): string
+    {
+        $result = $this->varCommand($name);
+        return $result->getBufferedOutput()[0] ?? '';
+    }
+
+    /**
+     * @deprecated replaced by `getSettingSafely`
+     */
+    public function getSafely(string $name, string $default = ''): string
+    {
+        return $this->getSettingSafely($name, $default);
     }
 
     /**
      * Get config values without throwing exceptions.
      *
      * You can provide a default value to return.
-     * By default the return value on unset config values is the empty string.
+     * By default, the return value on unset config values is the empty string.
      *
      * @param  string $name    Name of the config value to retrieve
      * @param  string $default Value to return if config value is not set, empty string by default
      * @return string
      */
-    public function getSafely(string $name, string $default = ''): string
+    public function getSettingSafely(string $name, string $default = ''): string
     {
-        return $this->has($name) ? $this->get($name) : $default;
+        return $this->has($name) ? $this->getSetting($name) : $default;
+    }
+
+    /**
+     * Get var value without throwing an exception if it does not exist
+     *
+     * @param  string $name
+     * @param  string $default
+     * @return string
+     */
+    public function getVarSafely(string $name, string $default = ''): string
+    {
+        return $this->hasVar($name) ? $this->getVar($name) : $default;
     }
 
     /**
      * Return a map of all configuration settings.
      *
-     * For example: ['color.branch' => 'auto', 'color.diff' => 'auto]
+     * For example: ['color.branch' => 'auto', 'color.diff' => 'auto']
      *
      * @return array<string, string>
      */
     public function getSettings(): iterable
     {
         $cmd = new ListSettings($this->repo->getRoot());
-        $res = $this->runner->run($cmd, new ListSettings\MapSettings());
+        $res = $this->runner->run($cmd, new MapValues());
+        return $res->getFormattedOutput();
+    }
 
+
+    /**
+     * Return a map of all defined git vars
+     *
+     * For example: ['color.branch' => 'auto', 'color.diff' => 'auto']
+     *
+     * @return array<string, string>
+     */
+    public function getVars(): iterable
+    {
+        $cmd = new ListVars($this->repo->getRoot());
+        $res = $this->runner->run($cmd, new MapValues());
         return $res->getFormattedOutput();
     }
 
@@ -96,7 +187,19 @@ class Config extends Base
     {
         $cmd = (new Get($this->repo->getRoot()));
         $cmd->name($name);
+        return $this->runner->run($cmd);
+    }
 
+    /**
+     * Return the var command
+     *
+     * @param  string $name
+     * @return \SebastianFeldmann\Cli\Command\Runner\Result
+     */
+    private function varCommand(string $name): Result
+    {
+        $cmd = (new GetVar($this->repo->getRoot()));
+        $cmd->name($name);
         return $this->runner->run($cmd);
     }
 }

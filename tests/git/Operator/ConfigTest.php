@@ -45,6 +45,24 @@ class ConfigTest extends OperatorTest
     }
 
     /**
+     * Tests Config::hasVar
+     */
+    public function testHasVar()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0, '#');
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config = new Config($runner, $repo);
+        $hasVar = $config->hasVar('core.commentchar');
+        $this->assertTrue($hasVar);
+    }
+
+    /**
      * Tests Config::has
      */
     public function testHasNot()
@@ -69,6 +87,30 @@ class ConfigTest extends OperatorTest
     }
 
     /**
+     * @tests Config::hasVar
+     */
+    public function testHasVarNot()
+    {
+        $repo      = $this->getRepoMock();
+        $runner    = $this->getRunnerMock();
+        $exception = new RuntimeException(
+            'Command failed: git config \'core.commentchar\'' . PHP_EOL
+            . '  exit-code: 1' . PHP_EOL
+            . '  message:   ' . PHP_EOL,
+            1
+        );
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')
+            ->will($this->throwException($exception));
+
+        $config = new Config($runner, $repo);
+        $hasKey = $config->hasVar('core.commentchar');
+
+        $this->assertFalse($hasKey);
+    }
+
+    /**
      * Tests Config::get
      */
     public function testGet()
@@ -83,6 +125,25 @@ class ConfigTest extends OperatorTest
 
         $config = new Config($runner, $repo);
         $value = $config->get('core.commentchar');
+
+        $this->assertEquals('#', $value);
+    }
+
+    /**
+     * Tests Config::getVar
+     */
+    public function testGetVar()
+    {
+        $repo = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd = new CommandResult('git ...', 0, '#');
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config = new Config($runner, $repo);
+        $value = $config->getVar('core.commentchar');
 
         $this->assertEquals('#', $value);
     }
@@ -113,9 +174,33 @@ class ConfigTest extends OperatorTest
     }
 
     /**
+     * Tests Config::getVarSafely
+     */
+    public function testGetVarSafelyNotSet()
+    {
+        $repo      = $this->getRepoMock();
+        $runner    = $this->getRunnerMock();
+        $exception = new RuntimeException(
+            'Command failed: git config \'core.commentchar\'' . PHP_EOL
+            . '  exit-code: 1' . PHP_EOL
+            . '  message:   ' . PHP_EOL,
+            1
+        );
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')
+            ->will($this->throwException($exception));
+
+        $config = new Config($runner, $repo);
+        $getKey = $config->getVarSafely('core.invalid', 'valid');
+
+        $this->assertEquals('valid', $getKey);
+    }
+
+    /**
      * Tests Config::getSafely
      */
-    public function testGetSafelySet()
+    public function testGetSettingSafelySet()
     {
         $repo   = $this->getRepoMock();
         $runner = $this->getRunnerMock();
@@ -127,6 +212,25 @@ class ConfigTest extends OperatorTest
 
         $config = new Config($runner, $repo);
         $getKey = $config->getSafely('core.commentchar', '#');
+
+        $this->assertEquals('#', $getKey);
+    }
+
+    /**
+     * Tests Config::getSafely
+     */
+    public function testGetVarSafelySet()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git ...', 0, '#');
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config = new Config($runner, $repo);
+        $getKey = $config->getVarSafely('core.commentchar', '#');
 
         $this->assertEquals('#', $getKey);
     }
@@ -151,5 +255,27 @@ class ConfigTest extends OperatorTest
         $this->assertEquals('false', $settings['core.autocrlf']);
         $this->assertEquals('auto', $settings['color.branch']);
         $this->assertEquals('auto', $settings['color.diff']);
+    }
+
+    /**
+     * Tests Config::getVars
+     */
+    public function testGetVars()
+    {
+        $out    = ['core.autocrlf' => 'false', 'color.branch' => 'auto', 'color.diff' => 'auto'];
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git config --list', 0, '');
+        $result = new RunnerResult($cmd, $out);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+        $runner->method('run')->willReturn($result);
+
+        $config = new Config($runner, $repo);
+        $vars   = $config->getVars();
+
+        $this->assertEquals('false', $vars['core.autocrlf']);
+        $this->assertEquals('auto', $vars['color.branch']);
+        $this->assertEquals('auto', $vars['color.diff']);
     }
 }
