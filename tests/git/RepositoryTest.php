@@ -130,6 +130,25 @@ class RepositoryTest extends TestCase
      * @dataProvider repoProvider
      * @param DummyRepo $repo
      */
+    public function testGetHooksDirWithConfiguredAbsoluteHooksPath(DummyRepo $repo)
+    {
+        $repository = new Repository(
+            $repo->getPath(),
+            $this->getHookDirRunnerMock(new CommandResult('git config...', 0, '/dev/null'))
+        );
+
+        $expectedHooksDir = '/dev/null';
+
+        $this->assertEquals($expectedHooksDir, $repository->getHooksDir());
+        $this->assertEquals($repo->getPath(), $repository->getRoot());
+    }
+
+    /**
+     * Tests Repository::getHooks
+     *
+     * @dataProvider repoProvider
+     * @param DummyRepo $repo
+     */
     public function testGetHooksDir(DummyRepo $repo)
     {
         $repository = new Repository(

@@ -130,8 +130,30 @@ class Repository
     private function detectHooksDir(): string
     {
         $hookPathConfig = $this->getConfigOperator()->getSettingSafely('core.hooksPath');
-        return empty($hookPathConfig) ? $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks'
-                                      : $this->root . DIRECTORY_SEPARATOR . $hookPathConfig;
+        return empty($hookPathConfig) ? $this->defaultHooksDir() : $this->customHooksDir($hookPathConfig);
+    }
+
+    /**
+     * Returns the path to the default hook directory .git/hooks
+     *
+     * @return string
+     */
+    private function defaultHooksDir(): string
+    {
+        return $this->dotGitDir . DIRECTORY_SEPARATOR . 'hooks';
+    }
+
+    /**
+     * Returns the path to the custom hook directory (might be absolute)
+     *
+     * @param  string $hooksPath
+     * @return string
+     */
+    private function customHooksDir(string $hooksPath): string
+    {
+        return substr($hooksPath, 0, 1) === DIRECTORY_SEPARATOR
+            ? $hooksPath
+            : $this->root . DIRECTORY_SEPARATOR . $hooksPath;
     }
 
     /**
