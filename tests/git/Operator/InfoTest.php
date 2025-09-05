@@ -180,6 +180,28 @@ class InfoTest extends OperatorTest
     }
 
     /**
+     * Tests Info::getMergeBase
+     */
+    public function testGetMergeBase()
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmd    = new CommandResult('git merge-base main HEAD', 0, 'hd43a23' . PHP_EOL);
+        $result = new RunnerResult($cmd);
+
+        $repo->method('getRoot')->willReturn((string) realpath(__FILE__ . '/../../..'));
+
+        $runner->expects($this->once())
+            ->method('run')
+            ->willReturn($result);
+
+        $operator = new Info($runner, $repo);
+        $base     = $operator->getMergeBase('main', 'HEAD');
+
+        $this->assertEquals('hd43a23', $base);
+    }
+
+    /**
      * Tests Info::getFilesInTree
      */
     public function testGetFilesInTree()

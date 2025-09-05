@@ -15,6 +15,7 @@ use SebastianFeldmann\Git\Command\Branch\ListRemote;
 use SebastianFeldmann\Git\Command\Describe\GetCurrentTag;
 use SebastianFeldmann\Git\Command\Describe\GetMostRecentTag;
 use SebastianFeldmann\Git\Command\LsTree\GetFiles;
+use SebastianFeldmann\Git\Command\MergeBase\MergeBase;
 use SebastianFeldmann\Git\Command\RevParse\GetBranch;
 use SebastianFeldmann\Git\Command\RevParse\GetCommitHash;
 use SebastianFeldmann\Git\Command\Tag\GetTags;
@@ -113,6 +114,14 @@ class Info extends Base
     public function getCurrentBranch(): string
     {
         $cmd    = new GetBranch($this->repo->getRoot());
+        $result = $this->runner->run($cmd);
+
+        return trim($result->getStdOut());
+    }
+
+    public function getMergeBase(string $base, string $branch): string
+    {
+        $cmd    = (new MergeBase($this->repo->getRoot()))->ofBranch($branch)->relativeTo($base);
         $result = $this->runner->run($cmd);
 
         return trim($result->getStdOut());
