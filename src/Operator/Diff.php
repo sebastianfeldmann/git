@@ -14,7 +14,8 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Git\Command\Apply\ApplyPatch;
 use SebastianFeldmann\Git\Command\Diff\Compare;
 use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
-use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
+use SebastianFeldmann\Git\Command\Diff\ChangedFiles as DiffChangedFiles;
+use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles as DiffTreeChangedFiles;
 use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
 
 /**
@@ -88,7 +89,31 @@ class Diff extends Base
      */
     public function getChangedFiles(string $from, string $to, array $filter = []): array
     {
-        $cmd    = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)->toRevision($to)->useFilter($filter);
+        $cmd    = (new DiffTreeChangedFiles($this->repo->getRoot()))->fromRevision($from)
+                                                                    ->toRevision($to)
+                                                                    ->useFilter($filter);
+        $result = $this->runner->run($cmd);
+
+        return $result->getBufferedOutput();
+    }
+
+    /**
+     * Uses 'diff' to list the files that changed
+     *
+     * List files that changed in a branch (to) since it diverged (branched of) from another branch (from).
+     * Does not include changes that are not reachable from to.
+     *
+     * @param  string        $from   Base branch
+     * @param  string        $to     Diverged (feature) branch
+     * @param  array<string> $filter A|C|D|M|R|T|U|X|B Added, Copied, Deleted, Modified, Renamed, Type changed...
+     * @return string[]
+     */
+    public function getChangedFilesSinceBranch(string $from, string $to, array $filter = []): array
+    {
+        $cmd    = (new DiffChangedFiles($this->repo->getRoot()))->mergeBase()
+                                                                ->fromRevision($from)
+                                                                ->toRevision($to)
+                                                                ->useFilter($filter);
         $result = $this->runner->run($cmd);
 
         return $result->getBufferedOutput();
@@ -106,7 +131,7 @@ class Diff extends Base
     public function getChangedFilesOfType(string $from, string $to, string $suffix, array $filter = []): array
     {
         $suffix      = strtolower($suffix);
-        $cmd         = (new ChangedFiles($this->repo->getRoot()))->fromRevision($from)
+        $cmd         = (new DiffTreeChangedFiles($this->repo->getRoot()))->fromRevision($from)
                                                                  ->toRevision($to)
                                                                  ->useFilter($filter);
         $result      = $this->runner->run($cmd);

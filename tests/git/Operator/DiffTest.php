@@ -14,10 +14,11 @@ namespace SebastianFeldmann\Git\Operator;
 use SebastianFeldmann\Cli\Command\Result as CommandResult;
 use SebastianFeldmann\Cli\Command\Runner\Result as RunnerResult;
 use SebastianFeldmann\Git\Command\Apply\ApplyPatch;
+use SebastianFeldmann\Git\Command\Diff\ChangedFiles as DiffChangedFiles;
 use SebastianFeldmann\Git\Command\Diff\Compare;
 use SebastianFeldmann\Git\Command\Diff\Compare\FullDiffList;
 use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
-use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
+use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles as DiffTreeChangedFiles;
 use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
 use SebastianFeldmann\Git\Diff\File;
 
@@ -104,7 +105,7 @@ class DiffTest extends OperatorTest
         $runner = $this->getRunnerMock();
         $cmdRes = new CommandResult('git ...', 0, $out);
         $runRes = new RunnerResult($cmdRes);
-        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
+        $gitCmd = (new DiffTreeChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())
@@ -122,6 +123,35 @@ class DiffTest extends OperatorTest
     }
 
     /**
+     * Tests Diff::changedFilesSinceBranch
+     */
+    public function testChangedFilesSinceBranch()
+    {
+        $root = (string) realpath(__FILE__ . '/../../..');
+        $out  = 'foo.php' . PHP_EOL . 'bar.php' . PHP_EOL;
+
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $cmdRes = new CommandResult('git ...', 0, $out);
+        $runRes = new RunnerResult($cmdRes);
+        $gitCmd = (new DiffChangedFiles($root))->mergeBase()->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
+
+        $repo->method('getRoot')->willReturn($root);
+        $runner->expects($this->once())
+            ->method('run')
+            ->with(
+                $this->equalTo($gitCmd)
+            )
+            ->willReturn($runRes);
+
+        $diff  = new Diff($runner, $repo);
+        $files = $diff->getChangedFilesSinceBranch('1.0.0', '1.1.0');
+
+        $this->assertIsArray($files);
+        $this->assertCount(2, $files);
+    }
+
+    /**
      * Tests Diff::changedFilesOfType
      */
     public function testChangedFilesOfType()
@@ -133,7 +163,7 @@ class DiffTest extends OperatorTest
         $runner = $this->getRunnerMock();
         $cmdRes = new CommandResult('git ...', 0, $out);
         $runRes = new RunnerResult($cmdRes);
-        $gitCmd = (new ChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
+        $gitCmd = (new DiffTreeChangedFiles($root))->fromRevision('1.0.0')->toRevision('1.1.0')->useFilter([]);
 
         $repo->method('getRoot')->willReturn($root);
         $runner->expects($this->once())

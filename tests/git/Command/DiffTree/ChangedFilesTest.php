@@ -9,10 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace SebastianFeldmann\Git\Command\Diff;
+namespace SebastianFeldmann\Git\Command\DiffTree;
 
 use PHPUnit\Framework\TestCase;
-use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles;
 
 /**
  * Class CompareTest
