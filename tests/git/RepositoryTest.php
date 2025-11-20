@@ -98,29 +98,6 @@ class RepositoryTest extends TestCase
         $this->assertEquals($message, $repo->getCommitMsg());
     }
 
-    /**
-     * @dataProvider repoProvider
-     * @return void
-     */
-    public function testHasToRememberCommitMessageChange(DummyRepo $repo)
-    {
-        $message = new CommitMessage('Foo bar baz');
-        $repo    = Repository::createVerified($repo->getPath());
-        $repo->setCommitMsg($message);
-
-        $this->assertFalse(
-            $repo->hasCommitMessageChanged(),
-            'initial setting should not trigger change'
-        );
-
-        $repo->setCommitMsg($message);
-
-        $this->assertTrue(
-            $repo->hasCommitMessageChanged(),
-            'changing the initially set message should be recognized as change'
-        );
-    }
-
     public function testHooksDirNow()
     {
         $repository = new Repository(realpath('./../..'));

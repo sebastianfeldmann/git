@@ -53,13 +53,6 @@ class Repository
     private ?CommitMessage $commitMsg = null;
 
     /**
-     * Indicates if the commit message was changed during runtime
-     *
-     * @var bool
-     */
-    private bool $commitMsgHasChanged = false;
-
-    /**
      * Executes cli commands
      *
      * @var \SebastianFeldmann\Cli\Command\Runner
@@ -182,20 +175,7 @@ class Repository
      */
     public function setCommitMsg(CommitMessage $commitMsg): void
     {
-        if ($this->commitMsg !== null) {
-            $this->commitMsgHasChanged = true;
-        }
         $this->commitMsg = $commitMsg;
-    }
-
-    /**
-     * Answers if the commit message was changed during runtime
-     *
-     * @return bool
-     */
-    public function hasCommitMessageChanged(): bool
-    {
-        return $this->commitMsgHasChanged;
     }
 
     /**
