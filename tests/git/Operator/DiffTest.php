@@ -122,6 +122,16 @@ class DiffTest extends OperatorTest
         $this->assertCount(2, $files);
     }
 
+    public function testChangedFilesBlocksZeroHashes(): void
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $diff   = new Diff($runner, $repo);
+        $files  = $diff->getChangedFiles('0000000000000000000000', '1.1.0');
+
+        $this->assertCount(0, $files);
+    }
+
     /**
      * Tests Diff::changedFilesSinceBranch
      */
@@ -151,6 +161,16 @@ class DiffTest extends OperatorTest
         $this->assertCount(2, $files);
     }
 
+    public function testChangedFilesSinceBranchBlocksZeroHashes(): void
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $diff   = new Diff($runner, $repo);
+        $files  = $diff->getChangedFilesSinceBranch('0000000000000000000000', '1.1.0');
+
+        $this->assertCount(0, $files);
+    }
+
     /**
      * Tests Diff::changedFilesOfType
      */
@@ -178,6 +198,16 @@ class DiffTest extends OperatorTest
 
         $this->assertIsArray($files);
         $this->assertCount(1, $files);
+    }
+
+    public function testChangedFilesOfTypeBlocksZeroHashes(): void
+    {
+        $repo   = $this->getRepoMock();
+        $runner = $this->getRunnerMock();
+        $diff   = new Diff($runner, $repo);
+        $files  = $diff->getChangedFilesOfType('0000000000000000000000', '1.1.0', 'php');
+
+        $this->assertCount(0, $files);
     }
 
     public function testGetUnstagedPatchWithNoChangesReturnsNull(): void

@@ -28,7 +28,7 @@ abstract class OperatorTest extends TestCase
     /**
      * Return repository mock.
      *
-     * @return \SebastianFeldmann\Git\Repository
+     * @return \SebastianFeldmann\Git\Repository|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getRepoMock()
     {
@@ -42,7 +42,7 @@ abstract class OperatorTest extends TestCase
     /**
      * Return runner mock.
      *
-     * @return \SebastianFeldmann\Cli\Command\Runner
+     * @return \SebastianFeldmann\Cli\Command\Runner|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getRunnerMock()
     {

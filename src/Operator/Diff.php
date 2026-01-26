@@ -17,6 +17,7 @@ use SebastianFeldmann\Git\Command\DiffIndex\GetUnstagedPatch;
 use SebastianFeldmann\Git\Command\Diff\ChangedFiles as DiffChangedFiles;
 use SebastianFeldmann\Git\Command\DiffTree\ChangedFiles as DiffTreeChangedFiles;
 use SebastianFeldmann\Git\Command\WriteTree\CreateTreeObject;
+use SebastianFeldmann\Git\Rev\Util;
 
 /**
  * Diff operator
@@ -89,6 +90,10 @@ class Diff extends Base
      */
     public function getChangedFiles(string $from, string $to, array $filter = []): array
     {
+        if (Util::isZeroHash($from) || Util::isZeroHash($to)) {
+            return [];
+        }
+
         $cmd    = (new DiffTreeChangedFiles($this->repo->getRoot()))->fromRevision($from)
                                                                     ->toRevision($to)
                                                                     ->useFilter($filter);
@@ -110,6 +115,10 @@ class Diff extends Base
      */
     public function getChangedFilesSinceBranch(string $from, string $to, array $filter = []): array
     {
+        if (Util::isZeroHash($from) || Util::isZeroHash($to)) {
+            return [];
+        }
+
         $cmd    = (new DiffChangedFiles($this->repo->getRoot()))->mergeBase()
                                                                 ->fromRevision($from)
                                                                 ->toRevision($to)
@@ -130,6 +139,10 @@ class Diff extends Base
      */
     public function getChangedFilesOfType(string $from, string $to, string $suffix, array $filter = []): array
     {
+        if (Util::isZeroHash($from) || Util::isZeroHash($to)) {
+            return [];
+        }
+
         $suffix      = strtolower($suffix);
         $cmd         = (new DiffTreeChangedFiles($this->repo->getRoot()))->fromRevision($from)
                                                                  ->toRevision($to)
